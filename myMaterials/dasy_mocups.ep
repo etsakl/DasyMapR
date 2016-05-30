@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<Document xmlns="http://www.evolus.vn/Namespace/Pencil"><Properties/><Pages><Page><Properties><Property name="name">1_page</Property><Property name="id">1441645312988_7534</Property><Property name="width">1243</Property><Property name="height">1416</Property><Property name="dimBackground"/><Property name="transparentBackground">true</Property><Property name="backgroundColor">#FFFFFFFF</Property><Property name="background">transparent</Property></Properties><Content><g xmlns="http://www.w3.org/2000/svg" p:type="Shape" xmlns:p="http://www.evolus.vn/Namespace/Pencil" p:def="Evolus.Sketchy.GUI:htmlText" id="aeef34a065254aea8f7daa12569f131c" transform="matrix(1,0,0,1,295.9996643066406,118.00033569335938)"><p:metadata><p:property name="width"><![CDATA[200,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="textContent"><![CDATA[<big><big><big><big><big>Dasymetric-R</big></big></big></big></big>]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="customStyle"><![CDATA[]]></p:property></p:metadata>
+            <foreignObject x="0" y="0" width="295" height="52" p:name="htmlObject1" id="5afd7417140e40448f117d876ba6a3fc" style="color: rgb(0, 0, 0); opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;">
+                <div xmlns="http://www.w3.org/1999/xhtml" p:name="textDiv1" id="378663fd1abf4c44a1ece151cc31b6f7" style="display: inline-block; white-space: nowrap; text-decoration: none;"><div xmlns="http://www.w3.org/1999/xhtml"><big><big><big><big><big>Dasymetric-R</big></big></big></big></big></div></div>
+            </foreignObject>
+        </g><g xmlns="http://www.w3.org/2000/svg" p:type="Shape" xmlns:p="http://www.evolus.vn/Namespace/Pencil" p:def="Evolus.Sketchy.GUI:breadCrumb" id="bcaad7f570ac4b408ca0f16d40881700" transform="matrix(1,0,0,1,1023,27)"><p:metadata><p:property name="textContent"><![CDATA[Home > Products > Pencil]]></p:property><p:property name="textColor"><![CDATA[#0000FFFF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="customStyle"><![CDATA[]]></p:property><p:property name="homeColor"><![CDATA[#0000FFFF]]></p:property><p:property name="homeCustomStyle"><![CDATA[]]></p:property><p:property name="sepColor"><![CDATA[#00000080]]></p:property><p:property name="spaceSize"><![CDATA[0.5]]></p:property><p:property name="sepCustomStyle"><![CDATA[]]></p:property><p:property name="endColor"><![CDATA[#000000FF]]></p:property><p:property name="endCustomStyle"><![CDATA[]]></p:property></p:metadata>
+            <foreignObject x="0" y="0" width="162" height="14" p:name="htmlObject" id="fc5278bdbc494985b05fd37b21a1b40e">
+                <div xmlns="http://www.w3.org/1999/xhtml" p:name="textDiv" id="a15a942663c84df2965164a673d3d641" style="display: inline-block; white-space: nowrap; color: rgb(0, 0, 255); opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"><div xmlns="http://www.w3.org/1999/xhtml"><span style="color: rgba(0, 0, 255, 1); text-decoration: none;;">Home</span><span style="color: rgba(0, 0, 0, 0.5); margin: 0px 0.5ex; ">&gt;</span><span style="text-decoration: none;;">Products</span><span style="color: rgba(0, 0, 0, 0.5); margin: 0px 0.5ex; ">&gt;</span><span style="color: rgba(0, 0, 0, 1); ;">Pencil</span></div></div>
+            </foreignObject>
+        </g><g xmlns="http://www.w3.org/2000/svg" p:type="Shape" xmlns:p="http://www.evolus.vn/Namespace/Pencil" p:def="Evolus.Sketchy.GUI:line" id="ed2365b3225349b69f1e97c5f247c2ec" transform="matrix(1,0,0,1,294.9999084472656,174.00045776367188)"><p:metadata><p:property name="a"><![CDATA[0,0]]></p:property><p:property name="b"><![CDATA[664,-1]]></p:property><p:property name="mode"><![CDATA[free]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[1|]]></p:property></p:metadata>
+            <g p:name="rect" id="a5e9ec146857402b8cc65d62745861e9" transform="translate(0.5,0.5)" style="stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 1;">
+    			<path style="stroke: #FFFFFF; stroke-opacity: 0; stroke-width: 8px; fill: none;" p:name="bg" id="e589e0abf629455094b2b062e36c83c9" transform="translate(0.5,0.5)" d="M 0 0 C 221 0 443 0 664 -1"/>
+    			<path style="stroke-linejoin: round; fill: none;" p:name="line1" id="16bf8427199f46d587608df0be52018b" transform="translate(0.5,0.5)" d="M 0 0 C 221 0 443 -1 664 -1"/>
+    		</g>
+        </g><g xmlns="http://www.w3.org/2000/svg" p:type="Shape" xmlns:p="http://www.evolus.vn/Namespace/Pencil" p:def="Evolus.Sketchy.GUI:htmlText" id="b36102856da14b28a4364baf28386246" transform="matrix(1,-5.4353739287194e-9,5.4353739287194e-9,1,295.0014343261719,197.0009002685547)"><p:metadata><p:property name="width"><![CDATA[200,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="textContent"><![CDATA[<div style="text-align: left;"><span style="font-family: Bitstream Charter;"> χρήστης φορτώνει την Επιφάνεια Πηγή (SourceSurface) σε ένα από τα υποστηριζόμενα</span><br /><span style="font-family: Bitstream Charter;">format τόσο για τα πηγαία δεδομένα όσο και τα βοηθητικά εάν διαθέτει βοηθητικά δεδομένα</span><br /><span style="font-family: Bitstream Charter;">(Βοηθητική Επιφάνεια) AncillarySurface και δεν επιθυμεί να χρησιμοποιήσει δεδομένα που</span><br /><span style="font-family: Bitstream Charter;">υπάρχουν ήδη στην Βάση Δεδομένων του συστήματος. Ο χρήστης επιλεγεί τα επιθυμητά</span><br /><span style="font-family: Bitstream Charter;">κατηγορικά βοηθητικά δεδομένα από αυτά που ήδη είναι διαθέσιμα. Το Σύστημα δέχεται ως</span><br /><span style="font-family: Bitstream Charter;">είσοδο δεδομένα που έχουν απεικονισθεί σε ένα σύνολο χωρικών επιφανειών και κατηγορικά</span><br /><span style="font-family: Bitstream Charter;">βοηθητικά σύνολα δεδομένων και τα ανακατανέμει σε ένα σύνολο επιφανειών στόχων1 (με</span><br /><span style="font-family: Bitstream Charter;">την μορφή διατεταγμένων Σημείων ή Κελιών) που προκύπτουν από την τομή των επιφανειών</span><br /><span style="font-family: Bitstream Charter;">εισόδου και των βοηθητικών επιφανειών. Ο Χρήστης επιλέγει τον διαμοιρασμό των αποτελε-</span><br /><span style="font-family: Bitstream Charter;">σμάτων και το σύστημα τα διαμοιράζει μέσω του Server συστήματος που είναι επιφορτισμένος</span><br /><span style="font-family: Bitstream Charter;">για αυτό.</span></div>]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="customStyle"><![CDATA[]]></p:property></p:metadata>
+            <foreignObject x="0" y="0" width="565" height="165" p:name="htmlObject1" id="340635e0d69448429dba5b6c41109832" style="color: rgb(0, 0, 0); opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;">
+                <div xmlns="http://www.w3.org/1999/xhtml" p:name="textDiv1" id="54c735595f66430d9a17b020ca4b7fd5" style="display: inline-block; white-space: nowrap; text-decoration: none;"><div xmlns="http://www.w3.org/1999/xhtml"><div style="text-align: left;"><span style="font-family: Bitstream Charter;"> χρήστης φορτώνει την Επιφάνεια Πηγή (SourceSurface) σε ένα από τα υποστηριζόμενα</span><br /><span style="font-family: Bitstream Charter;">format τόσο για τα πηγαία δεδομένα όσο και τα βοηθητικά εάν διαθέτει βοηθητικά δεδομένα</span><br /><span style="font-family: Bitstream Charter;">(Βοηθητική Επιφάνεια) AncillarySurface και δεν επιθυμεί να χρησιμοποιήσει δεδομένα που</span><br /><span style="font-family: Bitstream Charter;">υπάρχουν ήδη στην Βάση Δεδομένων του συστήματος. Ο χρήστης επιλεγεί τα επιθυμητά</span><br /><span style="font-family: Bitstream Charter;">κατηγορικά βοηθητικά δεδομένα από αυτά που ήδη είναι διαθέσιμα. Το Σύστημα δέχεται ως</span><br /><span style="font-family: Bitstream Charter;">είσοδο δεδομένα που έχουν απεικονισθεί σε ένα σύνολο χωρικών επιφανειών και κατηγορικά</span><br /><span style="font-family: Bitstream Charter;">βοηθητικά σύνολα δεδομένων και τα ανακατανέμει σε ένα σύνολο επιφανειών στόχων1 (με</span><br /><span style="font-family: Bitstream Charter;">την μορφή διατεταγμένων Σημείων ή Κελιών) που προκύπτουν από την τομή των επιφανειών</span><br /><span style="font-family: Bitstream Charter;">εισόδου και των βοηθητικών επιφανειών. Ο Χρήστης επιλέγει τον διαμοιρασμό των αποτελε-</span><br /><span style="font-family: Bitstream Charter;">σμάτων και το σύστημα τα διαμοιράζει μέσω του Server συστήματος που είναι επιφορτισμένος</span><br /><span style="font-family: Bitstream Charter;">για αυτό.</span></div></div></div>
+            </foreignObject>
+        </g><g xmlns="http://www.w3.org/2000/svg" p:type="Group" xmlns:p="http://www.evolus.vn/Namespace/Pencil" transform="matrix(1,0,0,1,481.0010070800781,388.99920654296875)" id="1071a73c030540f8a04c3bd169a7d6ac" p:sizing-gow="292" p:sizing-goh="932.75"><g xmlns="http://www.w3.org/2000/svg" p:type="Group" xmlns:p="http://www.evolus.vn/Namespace/Pencil" transform="matrix(1,0,0,1,0.9998990297317505,-7.450580596923828e-7)" id="16da9930367a4932aaa13fa11d18da46" p:sizing-gow="290" p:sizing-goh="213" p:sizing-ox="0.999908447265625" p:sizing-oy="0" p:sizing-ow="290" p:sizing-oh="215"><g p:type="Shape" p:def="Evolus.Common:Bitmap" id="e1ce08729da843de89e80390608bbef2" transform="matrix(1,0,0,1,0,0)" p:sizing-ox="0" p:sizing-oy="0" p:sizing-ow="290" p:sizing-oh="163"><p:metadata><p:property name="box"><![CDATA[290,163]]></p:property><p:property name="imageData"><![CDATA[1597,896,../tex/shp/cloroplethe_orange_non.png]]></p:property><p:property name="withBlur"><![CDATA[false]]></p:property><p:property name="fillColor"><![CDATA[#FFFFFF00]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[0|]]></p:property></p:metadata>
+            <defs>
+                <filter height="1.2558399" y="-0.12792" width="1.06396" x="-0.03198" p:name="imageShading" id="c0861ff153664c3fa7ee9be0542dd8df">
+                    <feGaussianBlur stdDeviation="1.3325" in="SourceAlpha"/>
+                </filter>
+                <g p:name="container" id="2b91b3b726ba4b75817fe22014ac4c42">
+                    <rect style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 0; fill-opacity: 0;" p:name="bgRect" id="6f6f95caa13149a2b4cb9df52213ed8e" width="290" height="163" transform="translate(0,0)"/>
+                    <g p:name="imageContainer" id="1309b627bd76456088898beae47d35fe" transform="scale(0.18159048215403883,0.18191964285714285)">
+                        <image x="0" y="0" p:name="image" id="87b3f42bdbc8451ca1197a024a39a59d" xlink:href="../tex/shp/cloroplethe_orange_non.png" xmlns:xlink="http://www.w3.org/1999/xlink" width="1597" height="896"/>
+                    </g>
+                </g>
+            </defs>
+            <use xlink:href="#2b91b3b726ba4b75817fe22014ac4c42" xmlns:xlink="http://www.w3.org/1999/xlink" transform="translate(1, 1)" p:filter="url(#c0861ff153664c3fa7ee9be0542dd8df)" style="opacity: 0.6; visibility: hidden; display: none;" p:name="bgCopy" id="3ce81e532b594c5e8a938a8f2af50bb2"/>
+            <use xlink:href="#2b91b3b726ba4b75817fe22014ac4c42" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g><g p:type="Shape" p:def="Evolus.Common:SVGImage" id="f4e41901df4a421182f05fe4ca199018" transform="matrix(1,0,0,1,152,62)" p:sizing-ox="152" p:sizing-oy="62" p:sizing-ow="6" p:sizing-oh="60"><p:metadata><p:property name="box"><![CDATA[6,60]]></p:property><p:property name="originalDim"><![CDATA[0,0]]></p:property><p:property name="svgXML"><![CDATA[<g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+<path d="m69.271 42.085c-5.941-7.138-11.883-14.276-17.824-21.414-0.437-0.524-0.951-0.715-1.447-0.681-0.496-0.034-1.011 0.157-1.447 0.681-5.941 7.137-11.883 14.276-17.824 21.414-1.1 1.319-0.461 3.494 1.446 3.494h7.479v32.386c0 1.116 0.931 2.047 2.047 2.047h16.598c1.116 0 2.047-0.931 2.047-2.047v-32.386h7.479c1.907 0 2.546-2.175 1.446-3.494z"/>
+<path d="m50 0c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 92c-23.196 0-42-18.805-42-42 0-23.196 18.804-42 42-42 23.195 0 42 18.804 42 42 0 23.195-18.805 42-42 42z"/>
+<metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><cc:Work xmlns:cc="http://web.resource.org/cc/"><dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format><dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/><dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/"><cc:Agent rdf:about="http://openclipart.org/"><dc:title>Openclipart</dc:title></cc:Agent></dc:publisher></cc:Work><cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/"><cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/><cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/><cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/></cc:License></rdf:RDF></metadata></g>]]></p:property></p:metadata>
+            <g p:name="container" id="db4c801b0de2436fa11b2c6cb123bd91" transform="scale(Infinity,Infinity)"><g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+<path d="m69.271 42.085c-5.941-7.138-11.883-14.276-17.824-21.414-0.437-0.524-0.951-0.715-1.447-0.681-0.496-0.034-1.011 0.157-1.447 0.681-5.941 7.137-11.883 14.276-17.824 21.414-1.1 1.319-0.461 3.494 1.446 3.494h7.479v32.386c0 1.116 0.931 2.047 2.047 2.047h16.598c1.116 0 2.047-0.931 2.047-2.047v-32.386h7.479c1.907 0 2.546-2.175 1.446-3.494z"/>
+<path d="m50 0c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 92c-23.196 0-42-18.805-42-42 0-23.196 18.804-42 42-42 23.195 0 42 18.804 42 42 0 23.195-18.805 42-42 42z"/>
+<metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><cc:Work xmlns:cc="http://web.resource.org/cc/"><dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format><dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/><dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/"><cc:Agent rdf:about="http://openclipart.org/"><dc:title>Openclipart</dc:title></cc:Agent></dc:publisher></cc:Work><cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/"><cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/><cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/><cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/></cc:License></rdf:RDF></metadata></g></g>
+        </g><g p:type="Shape" p:def="Evolus.Common:PlainTextV2" p:sc="Label" id="4aeec939b436474fb6de09352656efc2" transform="matrix(1,0,0,1,30,210)" p:sizing-ox="30" p:sizing-oy="199" p:sizing-ow="173" p:sizing-oh="14"><p:metadata><p:property name="disabled"><![CDATA[false]]></p:property><p:property name="width"><![CDATA[100,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="label"><![CDATA[Φόρτωση Επιφάνειας Πηγής]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textAlign"><![CDATA[0,0]]></p:property></p:metadata>
+            <rect x="0" y="0" style="fill: none; stroke: none; visibility: hidden; display: none;" p:name="bgRect" id="f6b94b4e887e40dba5f32a637808e44f" width="0" height="0"/>
+            <text xml:space="preserve" p:name="text" id="566e1610cfc94b9fa1e5d87f02de43e2" style="fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"><tspan x="0" y="0">Φόρτωση Επιφάνειας Πηγής</tspan></text>
+        </g></g><g xmlns="http://www.w3.org/2000/svg" p:type="Group" xmlns:p="http://www.evolus.vn/Namespace/Pencil" transform="matrix(1,0,0,1,1.9999600648880005,261)" id="8bc1d09f547347c7b44d2a280d5f3edb" p:sizing-gow="267" p:sizing-goh="200" p:sizing-ox="1.999969482421875" p:sizing-oy="261" p:sizing-ow="267" p:sizing-oh="202"><g p:type="Group" transform="matrix(1,0,0,1,0,0)" id="5b191e92f9984f82ab9ea0e959525520" p:sizing-gow="267" p:sizing-goh="200" p:sizing-ox="0" p:sizing-oy="0" p:sizing-ow="267" p:sizing-oh="200"><g p:type="Shape" p:def="Evolus.Common:PlainTextV2" p:sc="Label" id="4d85c87d195c4d988bcd4f3c2b664ebe" transform="matrix(1,0,0,1,78,197)" p:sizing-ox="78" p:sizing-oy="186" p:sizing-ow="128" p:sizing-oh="14"><p:metadata><p:property name="disabled"><![CDATA[false]]></p:property><p:property name="width"><![CDATA[100,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="label"><![CDATA[Βοιθιτική Επιφάνεια]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textAlign"><![CDATA[0,0]]></p:property></p:metadata>
+            <rect x="0" y="0" style="fill: none; stroke: none; visibility: hidden; display: none;" p:name="bgRect" id="2cb18cd1d979477d9fac3d171fa43cf5" width="0" height="0"/>
+            <text xml:space="preserve" p:name="text" id="2fa9dffcaaba494b939bbbcb14932a4d" style="fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"><tspan x="0" y="0">Βοιθιτική Επιφάνεια</tspan></text>
+        </g><g p:type="Shape" p:def="Evolus.Common:PlainTextV2" p:sc="Label" id="31b101b754994b709a4fbfbcfee8909b" transform="matrix(1,0,0,1,238,202)" p:sizing-ox="238" p:sizing-oy="202" p:sizing-ow="0" p:sizing-oh="0"><p:metadata><p:property name="disabled"><![CDATA[false]]></p:property><p:property name="width"><![CDATA[100,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="label"><![CDATA[]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textAlign"><![CDATA[0,0]]></p:property></p:metadata>
+            <rect x="0" y="0" style="fill: none; stroke: none; visibility: hidden; display: none;" p:name="bgRect" id="70a219ac41f74dc0af29f1011c3559df" width="0" height="0"/>
+            <text xml:space="preserve" p:name="text" id="1845d11e03154c0e966a7a59b4d0ce22" style="fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"/>
+        </g><g p:type="Shape" p:def="Evolus.Common:PlainTextV2" p:sc="Label" id="93ae4316883a4748b9a8724a3c4d04cc" transform="matrix(1,0,0,1,235,202)" p:sizing-ox="235" p:sizing-oy="202" p:sizing-ow="0" p:sizing-oh="0"><p:metadata><p:property name="disabled"><![CDATA[false]]></p:property><p:property name="width"><![CDATA[100,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="label"><![CDATA[]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textAlign"><![CDATA[0,0]]></p:property></p:metadata>
+            <rect x="0" y="0" style="fill: none; stroke: none; visibility: hidden; display: none;" p:name="bgRect" id="9a43d20c2fef45bbae7c2d1ee9aeecb9" width="0" height="0"/>
+            <text xml:space="preserve" p:name="text" id="f746ef17a4814c47a27992a1a18ec1ea" style="fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"/>
+        </g><g p:type="Shape" p:def="Evolus.Common:Bitmap" id="38f2738beb574e2cba34bb8180a5d1ef" transform="matrix(1,0,0,1,0,0)" p:sizing-ox="0" p:sizing-oy="0" p:sizing-ow="267" p:sizing-oh="150"><p:metadata><p:property name="box"><![CDATA[267,150]]></p:property><p:property name="imageData"><![CDATA[1597,896,../tex/shp/corine_fruittree.png]]></p:property><p:property name="withBlur"><![CDATA[false]]></p:property><p:property name="fillColor"><![CDATA[#FFFFFF00]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[0|]]></p:property></p:metadata>
+            <defs>
+                <filter height="1.2558399" y="-0.12792" width="1.06396" x="-0.03198" p:name="imageShading" id="7cf99a3684eb4230abcc94db36862fd6">
+                    <feGaussianBlur stdDeviation="1.3325" in="SourceAlpha"/>
+                </filter>
+                <g p:name="container" id="eef30d47a6e547a88f484ee6c3eaff93">
+                    <rect style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 0; fill-opacity: 0;" p:name="bgRect" id="357ec894503543d2941c9c42052ceba3" width="267" height="150" transform="translate(0,0)"/>
+                    <g p:name="imageContainer" id="871264cea8fc4be7ae61d67fe860b013" transform="scale(0.16718847839699436,0.16741071428571427)">
+                        <image x="0" y="0" p:name="image" id="3aabd3544e054069bc72f105ee1a238b" xlink:href="../tex/shp/corine_fruittree.png" xmlns:xlink="http://www.w3.org/1999/xlink" width="1597" height="896"/>
+                    </g>
+                </g>
+            </defs>
+            <use xlink:href="#eef30d47a6e547a88f484ee6c3eaff93" xmlns:xlink="http://www.w3.org/1999/xlink" transform="translate(1, 1)" p:filter="url(#7cf99a3684eb4230abcc94db36862fd6)" style="opacity: 0.6; visibility: hidden; display: none;" p:name="bgCopy" id="2483ce851cb54207a3b5202ff149f83d"/>
+            <use xlink:href="#eef30d47a6e547a88f484ee6c3eaff93" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g></g><g p:type="Shape" p:def="Evolus.Common:SVGImage" id="79edca4b1de24804b588c72cae11a23c" transform="matrix(1,0,0,1,117,77)" p:sizing-ox="124.5703125" p:sizing-oy="82.625" p:sizing-ow="0" p:sizing-oh="0"><p:metadata><p:property name="box"><![CDATA[0,0]]></p:property><p:property name="originalDim"><![CDATA[0,0]]></p:property><p:property name="svgXML"><![CDATA[<g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+  <sodipodi:namedview xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" id="2af8b7965cb44d3dbe342f84388f8f36" bordercolor="#666666" inkscape:pageshadow="2" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:window-y="0" pagecolor="#ffffff" inkscape:window-height="699" inkscape:zoom="4.6454945" inkscape:window-x="0" borderopacity="1.0" inkscape:current-layer="svg1" inkscape:cx="69.099211" inkscape:cy="9.2132255" inkscape:window-width="1024" inkscape:pageopacity="0.0"/>
+  <path id="695eda9866884d9889a826ae56564faf" style="stroke-linejoin:round;stroke:#ffffff;stroke-linecap:round;stroke-width:10;fill:none" d="m46.649 30.018l-39.079-24.394 22.199 41.636 5.583-5.44 11.693 12.556 5.385-5.248-11.78-12.867 5.999-6.243z"/>
+  <path id="f6f1a546b8e3403ab3488411b29ed74d" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:5;fill:#ffffff" d="m46.649 30.018l-39.079-24.394 22.199 41.636 5.583-5.44 11.693 12.556 5.385-5.248-11.78-12.867 5.999-6.243z"/>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <cc:Work xmlns:cc="http://web.resource.org/cc/">
+        <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+        <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</g>]]></p:property></p:metadata>
+            <g p:name="container" id="bceed6f5bd8140a1a333c932e32a25da" transform="scale(NaN,NaN)"><g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+  <sodipodi:namedview xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" id="2af8b7965cb44d3dbe342f84388f8f36" bordercolor="#666666" inkscape:pageshadow="2" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:window-y="0" pagecolor="#ffffff" inkscape:window-height="699" inkscape:zoom="4.6454945" inkscape:window-x="0" borderopacity="1.0" inkscape:current-layer="svg1" inkscape:cx="69.099211" inkscape:cy="9.2132255" inkscape:window-width="1024" inkscape:pageopacity="0.0"/>
+  <path id="695eda9866884d9889a826ae56564faf" style="stroke-linejoin:round;stroke:#ffffff;stroke-linecap:round;stroke-width:10;fill:none" d="m46.649 30.018l-39.079-24.394 22.199 41.636 5.583-5.44 11.693 12.556 5.385-5.248-11.78-12.867 5.999-6.243z"/>
+  <path id="f6f1a546b8e3403ab3488411b29ed74d" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-width:5;fill:#ffffff" d="m46.649 30.018l-39.079-24.394 22.199 41.636 5.583-5.44 11.693 12.556 5.385-5.248-11.78-12.867 5.999-6.243z"/>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <cc:Work xmlns:cc="http://web.resource.org/cc/">
+        <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+        <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</g></g>
+        </g></g><g xmlns="http://www.w3.org/2000/svg" p:type="Group" xmlns:p="http://www.evolus.vn/Namespace/Pencil" transform="matrix(1,0,0,1,-0.000009402633622812573,504.00006103515625)" id="fe64d4535ca54fa787947276faef34e8" p:sizing-gow="292" p:sizing-goh="203" p:sizing-ox="0" p:sizing-oy="504.00006103515625" p:sizing-ow="292" p:sizing-oh="205"><g p:type="Group" transform="matrix(1,0,0,1,0,0)" id="65c574a1796d4e3ca525de2ac69ee034" p:sizing-gow="292" p:sizing-goh="203" p:sizing-ox="0" p:sizing-oy="0" p:sizing-ow="292" p:sizing-oh="203"><g p:type="Shape" p:def="Evolus.Common:PlainTextV2" p:sc="Label" id="05eb5fe6ccbd44e0a7cc39e44093e8d1" transform="matrix(1,0,0,1,54,200)" p:sizing-ox="54" p:sizing-oy="189" p:sizing-ow="167" p:sizing-oh="14"><p:metadata><p:property name="disabled"><![CDATA[false]]></p:property><p:property name="width"><![CDATA[100,0]]></p:property><p:property name="fixedWidth"><![CDATA[false]]></p:property><p:property name="label"><![CDATA[Δασυμετρικοι Υπολογισμοί]]></p:property><p:property name="textColor"><![CDATA[#000000FF]]></p:property><p:property name="textFont"><![CDATA['Comic Sans MS'|normal|normal|12px|none]]></p:property><p:property name="textAlign"><![CDATA[0,0]]></p:property></p:metadata>
+            <rect x="0" y="0" style="fill: none; stroke: none; visibility: hidden; display: none;" p:name="bgRect" id="ffec6bf6de1645119736dfef8384bf72" width="0" height="0"/>
+            <text xml:space="preserve" p:name="text" id="b5cb549337544c58b78ce4f55c108e3e" style="fill: rgb(0, 0, 0); fill-opacity: 1; font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none;"><tspan x="0" y="0">Δασυμετρικοι Υπολογισμοί</tspan></text>
+        </g><g p:type="Shape" p:def="Evolus.Common:Bitmap" id="934ac9973b0444a7b39d1cffeeca11e5" transform="matrix(1,0,0,1,0,0)" p:sizing-ox="0" p:sizing-oy="0" p:sizing-ow="292" p:sizing-oh="164"><p:metadata><p:property name="box"><![CDATA[292,164]]></p:property><p:property name="imageData"><![CDATA[1597,896,../tex/shp/cloroplethe_orange_grid.png]]></p:property><p:property name="withBlur"><![CDATA[false]]></p:property><p:property name="fillColor"><![CDATA[#FFFFFF00]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[0|]]></p:property></p:metadata>
+            <defs>
+                <filter height="1.2558399" y="-0.12792" width="1.06396" x="-0.03198" p:name="imageShading" id="f4599e96f4254d5e9d83072bea6e151b">
+                    <feGaussianBlur stdDeviation="1.3325" in="SourceAlpha"/>
+                </filter>
+                <g p:name="container" id="a1d37a98b6df4306b45ac6d63e2df525">
+                    <rect style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 0; fill-opacity: 0;" p:name="bgRect" id="b1640b7ec8a147b6b490bd6d32941ce5" width="292" height="164" transform="translate(0,0)"/>
+                    <g p:name="imageContainer" id="437597c3c2aa49a1a4df0b5bf7510b0e" transform="scale(0.1828428303068253,0.18303571428571427)">
+                        <image x="0" y="0" p:name="image" id="8111cf7d8995465583dbf3e7e1e3e226" xlink:href="../tex/shp/cloroplethe_orange_grid.png" xmlns:xlink="http://www.w3.org/1999/xlink" width="1597" height="896"/>
+                    </g>
+                </g>
+            </defs>
+            <use xlink:href="#a1d37a98b6df4306b45ac6d63e2df525" xmlns:xlink="http://www.w3.org/1999/xlink" transform="translate(1, 1)" p:filter="url(#f4599e96f4254d5e9d83072bea6e151b)" style="opacity: 0.6; visibility: hidden; display: none;" p:name="bgCopy" id="779a061d3c82461ba77b33f7fb896705"/>
+            <use xlink:href="#a1d37a98b6df4306b45ac6d63e2df525" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g></g><g p:type="Shape" p:def="Evolus.Common:SVGImage" id="c73299fa62324ca68bc1ff46baa28572" transform="matrix(1,0,0,1,152,86)" p:sizing-ox="156.6875" p:sizing-oy="90.9375" p:sizing-ow="0" p:sizing-oh="0"><p:metadata><p:property name="box"><![CDATA[0,0]]></p:property><p:property name="originalDim"><![CDATA[0,0]]></p:property><p:property name="svgXML"><![CDATA[<g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+  <sodipodi:namedview xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" id="36bc3f77756344c4ad5c786fdc9577d7" bordercolor="#666666" inkscape:pageshadow="2" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:window-y="0" pagecolor="#ffffff" inkscape:window-height="698" inkscape:zoom="4.9257562" inkscape:window-x="0" borderopacity="1.0" inkscape:current-layer="svg1" inkscape:cx="37.266093" inkscape:cy="1.5369700" inkscape:window-width="1024" inkscape:pageopacity="0.0000000"/>
+  <path id="61d85d2013114433808705e22fd103b5" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;stroke:#ffffff;stroke-width:8.125;fill:none" d="m6.6926 4.9383c-1.1107 0-2.0049 0.8942-2.0049 2.005v46.114c0 1.11 0.8942 2.005 2.0049 2.005h46.614c1.111 0 2.005-0.895 2.005-2.005v-46.114c0-1.1105-0.894-2.0047-2.005-2.0047h-46.614z"/>
+  <path id="639c80a0c0d544d3a545675af9183f60" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-width:3.1173;fill:#000000" transform="matrix(1.0025 0 0 1.0025 -.12509 -.022925)" d="m6.801 4.949c-1.108 0-2 0.892-2 2v46c0 1.108 0.892 2 2 2h46.5c1.108 0 2-0.892 2-2v-46c0-1.108-0.892-2-2-2h-46.5z"/>
+  <g id="b313b8a28a894389821c937ce3a8df3f" transform="translate(-2.8661e-7 -.065598)">
+    <g id="5abbba6ac43f48c79c557b98ea4ae285" transform="translate(.66496)">
+      <path id="619326299e8a49bbb5ed4a00be020e97" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 24.732v5.003h8.985v-5.003h-8.985z"/>
+      <path id="de9fbcc5e65f40f8bff820a06565c827" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 24.732v5.003h8.985v-5.003h-8.985z"/>
+      <path id="05725bad64e6478a848140584b4dbf84" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 24.732v5.003h8.984v-5.003h-8.984z"/>
+      <path id="eda2b6e1d3054a378d6a1a650a994f1b" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 35v5.003h8.985v-5.003h-8.985z"/>
+      <path id="74ddfca90b534275b170957ac9cea35f" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 35v5.003h8.985v-5.003h-8.985z"/>
+      <path id="f2ba3bf536f447c0b2b0456fe03f377e" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 35v5.003h8.984v-5.003h-8.984z"/>
+      <path id="a59be548d6fc4a5ca74096db9d1d77c1" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 45.271v5.001h8.98v-5.001h-8.98z"/>
+      <path id="4a1f1868e97945c794f26f23cbb94112" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 45.268v5.004h8.985v-5.004h-8.985z"/>
+      <path id="ac66e076e47048ffa6aeda34178b4909" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 45.268v5.004h8.984v-5.004h-8.984z"/>
+    </g>
+    <path id="c0e27dc92787457e813e6054311da247" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;fill-rule:evenodd;color:#000000;stroke:#ffffff;stroke-linecap:round;stroke-width:2.5;fill:#ffffff" d="m13.237 11.187h33.526c1.059 0 1.911 0.832 1.911 1.867v2.521c0 1.034-0.852 1.866-1.911 1.866h-33.526c-1.059 0-1.911-0.832-1.911-1.866v-2.521c0-1.035 0.852-1.867 1.911-1.867z"/>
+  </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <cc:Work xmlns:cc="http://web.resource.org/cc/">
+        <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+        <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</g>]]></p:property></p:metadata>
+            <g p:name="container" id="1f9bffdc678445bfaa381a835f1a435c" transform="scale(NaN,NaN)"><g xmlns="http://www.w3.org/2000/svg" p:ImageSource="OpenClipart.org" xmlns:p="http://www.evolus.vn/Namespace/Pencil">
+  <sodipodi:namedview xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" id="36bc3f77756344c4ad5c786fdc9577d7" bordercolor="#666666" inkscape:pageshadow="2" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:window-y="0" pagecolor="#ffffff" inkscape:window-height="698" inkscape:zoom="4.9257562" inkscape:window-x="0" borderopacity="1.0" inkscape:current-layer="svg1" inkscape:cx="37.266093" inkscape:cy="1.5369700" inkscape:window-width="1024" inkscape:pageopacity="0.0000000"/>
+  <path id="61d85d2013114433808705e22fd103b5" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;stroke:#ffffff;stroke-width:8.125;fill:none" d="m6.6926 4.9383c-1.1107 0-2.0049 0.8942-2.0049 2.005v46.114c0 1.11 0.8942 2.005 2.0049 2.005h46.614c1.111 0 2.005-0.895 2.005-2.005v-46.114c0-1.1105-0.894-2.0047-2.005-2.0047h-46.614z"/>
+  <path id="639c80a0c0d544d3a545675af9183f60" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000000;stroke-width:3.1173;fill:#000000" transform="matrix(1.0025 0 0 1.0025 -.12509 -.022925)" d="m6.801 4.949c-1.108 0-2 0.892-2 2v46c0 1.108 0.892 2 2 2h46.5c1.108 0 2-0.892 2-2v-46c0-1.108-0.892-2-2-2h-46.5z"/>
+  <g id="b313b8a28a894389821c937ce3a8df3f" transform="translate(-2.8661e-7 -.065598)">
+    <g id="5abbba6ac43f48c79c557b98ea4ae285" transform="translate(.66496)">
+      <path id="619326299e8a49bbb5ed4a00be020e97" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 24.732v5.003h8.985v-5.003h-8.985z"/>
+      <path id="de9fbcc5e65f40f8bff820a06565c827" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 24.732v5.003h8.985v-5.003h-8.985z"/>
+      <path id="05725bad64e6478a848140584b4dbf84" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 24.732v5.003h8.984v-5.003h-8.984z"/>
+      <path id="eda2b6e1d3054a378d6a1a650a994f1b" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 35v5.003h8.985v-5.003h-8.985z"/>
+      <path id="74ddfca90b534275b170957ac9cea35f" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 35v5.003h8.985v-5.003h-8.985z"/>
+      <path id="f2ba3bf536f447c0b2b0456fe03f377e" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 35v5.003h8.984v-5.003h-8.984z"/>
+      <path id="a59be548d6fc4a5ca74096db9d1d77c1" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m10.35 45.271v5.001h8.98v-5.001h-8.98z"/>
+      <path id="4a1f1868e97945c794f26f23cbb94112" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m24.843 45.268v5.004h8.985v-5.004h-8.985z"/>
+      <path id="ac66e076e47048ffa6aeda34178b4909" style="stroke-linejoin:round;fill-rule:evenodd;stroke:#ffffff;stroke-linecap:round;stroke-width:1.875;fill:#ffffff" d="m39.336 45.268v5.004h8.984v-5.004h-8.984z"/>
+    </g>
+    <path id="c0e27dc92787457e813e6054311da247" sodipodi:nodetypes="ccccccccc" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" style="stroke-linejoin:round;fill-rule:evenodd;color:#000000;stroke:#ffffff;stroke-linecap:round;stroke-width:2.5;fill:#ffffff" d="m13.237 11.187h33.526c1.059 0 1.911 0.832 1.911 1.867v2.521c0 1.034-0.852 1.866-1.911 1.866h-33.526c-1.059 0-1.911-0.832-1.911-1.866v-2.521c0-1.035 0.852-1.867 1.911-1.867z"/>
+  </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <cc:Work xmlns:cc="http://web.resource.org/cc/">
+        <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+        <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License xmlns:cc="http://web.resource.org/cc/" rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</g></g>
+        </g></g><g p:type="Shape" p:def="Evolus.Common:Bitmap" id="2da0b0ccc29049ddaafb83454de479bb" transform="matrix(1,0,0,1,25.000905990600586,767.7500610351562)" p:sizing-ox="25.00091552734375" p:sizing-oy="767.7500610351562" p:sizing-ow="245" p:sizing-oh="121"><p:metadata><p:property name="box"><![CDATA[245,121]]></p:property><p:property name="imageData"><![CDATA[245,121,geotrellis.png]]></p:property><p:property name="withBlur"><![CDATA[false]]></p:property><p:property name="fillColor"><![CDATA[#FFFFFF00]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[0|]]></p:property></p:metadata>
+            <defs>
+                <filter height="1.2558399" y="-0.12792" width="1.06396" x="-0.03198" p:name="imageShading" id="d8848775a5f4459ab2ef233005646535">
+                    <feGaussianBlur stdDeviation="1.3325" in="SourceAlpha"/>
+                </filter>
+                <g p:name="container" id="850997341fb1432fa42054b7de0ae7d4">
+                    <rect style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 0; fill-opacity: 0;" p:name="bgRect" id="5e9f145f6f644cb4b4c9d595df18374d" width="245" height="121" transform="translate(0,0)"/>
+                    <g p:name="imageContainer" id="2b78eb3bc0934ea58de7b978f90fdbfa" transform="scale(1,1)">
+                        <image x="0" y="0" p:name="image" id="7a4f25cc20144d8d91785871954d047a" xlink:href="geotrellis.png" xmlns:xlink="http://www.w3.org/1999/xlink" width="245" height="121"/>
+                    </g>
+                </g>
+            </defs>
+            <use xlink:href="#850997341fb1432fa42054b7de0ae7d4" xmlns:xlink="http://www.w3.org/1999/xlink" transform="translate(1, 1)" p:filter="url(#d8848775a5f4459ab2ef233005646535)" style="opacity: 0.6; visibility: hidden; display: none;" p:name="bgCopy" id="0ae7aefc88d54452a596145af9f8b857"/>
+            <use xlink:href="#850997341fb1432fa42054b7de0ae7d4" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g><g p:type="Shape" p:def="Evolus.Common:Bitmap" id="df7df7e9cd644e029d61df3380092c3c" transform="matrix(1,0,0,1,61.4996223449707,874.75)" p:sizing-ox="61.4996337890625" p:sizing-oy="874.75" p:sizing-ow="186" p:sizing-oh="58"><p:metadata><p:property name="box"><![CDATA[186,58]]></p:property><p:property name="imageData"><![CDATA[186,58,Geotrellis.png]]></p:property><p:property name="withBlur"><![CDATA[false]]></p:property><p:property name="fillColor"><![CDATA[#FFFFFF00]]></p:property><p:property name="strokeColor"><![CDATA[#000000FF]]></p:property><p:property name="strokeStyle"><![CDATA[0|]]></p:property></p:metadata>
+            <defs>
+                <filter height="1.2558399" y="-0.12792" width="1.06396" x="-0.03198" p:name="imageShading" id="585e80c95ccc4a7ca5ed2517ce046b14">
+                    <feGaussianBlur stdDeviation="1.3325" in="SourceAlpha"/>
+                </filter>
+                <g p:name="container" id="3daadb0a92b24778b5a1a45e3a3d0c55">
+                    <rect style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-opacity: 1; stroke-width: 0; fill-opacity: 0;" p:name="bgRect" id="b016bbcdc5474a2e9f03a85779c6639e" width="186" height="58" transform="translate(0,0)"/>
+                    <g p:name="imageContainer" id="99518d324d1d45d9858e020e96fea010" transform="scale(1,1)">
+                        <image x="0" y="0" p:name="image" id="4e445c3746744815a68dae931fe3ac9e" xlink:href="Geotrellis.png" xmlns:xlink="http://www.w3.org/1999/xlink" width="186" height="58"/>
+                    </g>
+                </g>
+            </defs>
+            <use xlink:href="#3daadb0a92b24778b5a1a45e3a3d0c55" xmlns:xlink="http://www.w3.org/1999/xlink" transform="translate(1, 1)" p:filter="url(#585e80c95ccc4a7ca5ed2517ce046b14)" style="opacity: 0.6; visibility: hidden; display: none;" p:name="bgCopy" id="e891cf590b6346f69fd5a9b7d58922c4"/>
+            <use xlink:href="#3daadb0a92b24778b5a1a45e3a3d0c55" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g></g></Content></Page></Pages></Document>

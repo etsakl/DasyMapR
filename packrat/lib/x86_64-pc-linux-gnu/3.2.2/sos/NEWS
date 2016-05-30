@@ -1,0 +1,22 @@
+
+1.0-5:  RSiteSearch package name changed to 'sos'
+
+1.0-4:  Make PackageSum2 generic to easily obtain an enhanced summary
+adding information from installed packages
+
+1.0-3:  Add binary operators & and | as shorthands for unionRSiteSearch
+and intersetRSiteSearch
+
+1.0-2:  Add hits function
+
+1.0-1:  Fix a minor bug in unionRSiteSearch.
+
+1.0-0:  Add unionRSiteSearch, intersectRSiteSearch and PackageSum2
+
+0.1-6:  Add function PackageSummary to compute the summary
+previously done inside RSiteSearch.function, convertinng it
+to a data.frame and adding the Date.
+
+0.1-5:  With zero hits, RSiteSearch.function still returns
+an object of class c('RSiteSearch', 'data.frame');
+previously, it returned only a data.frame with zero rows.

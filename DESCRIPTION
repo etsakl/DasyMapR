@@ -1,0 +1,43 @@
+Package: DasyMapR
+Type: Package
+Title: Geographical ETRS-LAEA Grid Based Dasymetric Mapping
+Version: 0.0.0.9000
+Author: Evangelos Tsaklanos
+Maintainer: <etsakla@gmail.com>
+Description: The process of dasymetric mapping is the transformation of data
+    from a set of arbitrary source zones to a dasymetric map via the overlay of
+    the source zones with an ancillary data set.This package contains a number of
+    fucntions that assist preparing vector and raster source and ancillary datasets
+    for intelligent dasymetric mapping, performs the dasymetric calculations,
+    and then generates a floating point output raster of revised density. TO BE
+    NOTICED : It uses the ETRS89-LAEA geographic grid to do the job. Depends: R (>=
+    3.2.3)
+License: GPLv3
+LazyData: true
+Depends:
+    rgdal,
+    rgeos,
+    methods,
+    sp,
+    doParallel,
+    foreach,
+    raster,
+   eurostat
+URL: https://github.com/etsakl/DasyMapR.git
+RoxygenNote: 5.0.1
+Collate:
+    'Class-ETRS.R'
+    'Class-EtrsSurface.R'
+    'Class-EtrsGrid.R'
+    'Class-EtrsCells.R'
+    'Class-EtrsAncillarySurface.R'
+    'Class-EtrsSourceSurface.R'
+    'Class-DasymetricSurface.R'
+    'Class-EtrsPoint.R'
+    'CreateEtrsVectorGrid.R'
+    'DasyMapR-data-documentation.R'
+    'DasyMapR-package.R'
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

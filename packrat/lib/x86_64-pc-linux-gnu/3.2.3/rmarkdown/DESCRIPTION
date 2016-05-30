@@ -1,0 +1,66 @@
+Package: rmarkdown
+Type: Package
+Title: Dynamic Documents for R
+Version: 0.9.2
+Date: 2015-12-30
+Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email =
+    "jj@rstudio.com"), person("Joe", "Cheng", role = "aut", email =
+    "joe@rstudio.com"), person("Yihui", "Xie", role = "aut", email =
+    "yihui@rstudio.com"), person("Jonathan", "McPherson", role = "aut",
+    email = "jonathan@rstudio.com"), person("Winston", "Chang", role =
+    "aut", email = "winston@rstudio.com"), person("Jeff", "Allen", role
+    = "aut", email = "jeff@rstudio.com"), person("Hadley", "Wickham",
+    role = "aut", email = "hadley@rstudio.com"), person("Aron",
+    "Atkins", role = "aut", email = "aron@rstudio.com"), person("Rob",
+    "Hyndman", role = "aut", email = "robjhyndman@gmail.com"),
+    person(family = "RStudio, Inc.", role = "cph"), person(family =
+    "jQuery Foundation", role = "cph", comment = "jQuery library"),
+    person(family = "jQuery contributors", role = c("ctb", "cph"),
+    comment = "jQuery library; authors listed in
+    inst/rmd/h/jquery-AUTHORS.txt"), person("Mark", "Otto", role =
+    "ctb", comment = "Bootstrap library"), person("Jacob", "Thornton",
+    role = "ctb", comment = "Bootstrap library"), person(family =
+    "Bootstrap contributors", role = "ctb", comment = "Bootstrap
+    library"), person(family = "Twitter, Inc", role = "cph", comment =
+    "Bootstrap library"), person("Alexander", "Farkas", role = c("ctb",
+    "cph"), comment = "html5shiv library"), person("Scott", "Jehl",
+    role = c("ctb", "cph"), comment = "Respond.js library"),
+    person("Ivan", "Sagalaev", role = c("ctb", "cph"), comment =
+    "highlight.js library"), person("John", "MacFarlane", role =
+    c("ctb", "cph"), comment = "Pandoc templates"), person(family =
+    "Google, Inc.", role = c("ctb", "cph"), comment = "ioslides
+    library"), person("Dave", "Raggett", role = "ctb", comment = "slidy
+    library"), person(family = "W3C", role = "cph", comment = "slidy
+    library") )
+Description: Convert R Markdown documents into a variety of formats.
+Depends: R (>= 3.0)
+Imports: tools, utils, grDevices, knitr (>= 1.11), yaml (>= 2.1.5),
+    htmltools (>= 0.2.4), caTools
+Suggests: shiny (>= 0.11), testthat, digest
+SystemRequirements: pandoc (>= 1.12.3) -
+    http://johnmacfarlane.net/pandoc
+URL: http://rmarkdown.rstudio.com
+License: GPL-3
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-01-01 11:59:09 UTC; jjallaire
+Author: JJ Allaire [aut, cre], Joe Cheng [aut], Yihui Xie [aut],
+    Jonathan McPherson [aut], Winston Chang [aut], Jeff Allen [aut],
+    Hadley Wickham [aut], Aron Atkins [aut], Rob Hyndman [aut],
+    RStudio, Inc. [cph], jQuery Foundation [cph] (jQuery library),
+    jQuery contributors [ctb, cph] (jQuery library; authors listed in
+    inst/rmd/h/jquery-AUTHORS.txt), Mark Otto [ctb] (Bootstrap
+    library), Jacob Thornton [ctb] (Bootstrap library), Bootstrap
+    contributors [ctb] (Bootstrap library), Twitter, Inc [cph]
+    (Bootstrap library), Alexander Farkas [ctb, cph] (html5shiv
+    library), Scott Jehl [ctb, cph] (Respond.js library), Ivan Sagalaev
+    [ctb, cph] (highlight.js library), John MacFarlane [ctb, cph]
+    (Pandoc templates), Google, Inc. [ctb, cph] (ioslides library),
+    Dave Raggett [ctb] (slidy library), W3C [cph] (slidy library)
+Maintainer: JJ Allaire <jj@rstudio.com>
+Repository: CRAN
+Date/Publication: 2016-01-01 20:58:19
+Built: R 3.2.3; ; 2016-02-14 10:22:15 UTC; unix
+InstallAgent: packrat 0.4.6.1
+InstallSource: CRAN
+Hash: 62ef7e7066b3e768f7684feb9bf9d693

@@ -1,0 +1,15 @@
+export("?", back2ForwardSlash, findFn, findFn2xls, grepFn,
+       hits, installPackages, intersectFindFn, matches,
+       Ops.findFn, PackageSum2, PackageSummary, sortFindFn,
+       unionFindFn, writeFindFn2xls)
+
+#importFrom(WriteXLS, testPerl, WriteXLS)
+#importFrom(RODBC, odbcConnectExcel)
+
+S3method("[", findFn)
+S3method(PackageSum2, data.frame)
+S3method(PackageSum2, findFn)
+S3method(PackageSum2, list)
+S3method(print, findFn)
+S3method(print, summary.findFn)
+S3method(summary, findFn)

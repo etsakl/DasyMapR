@@ -1,0 +1,110 @@
+<html>
+	<head>
+	<title><%= title %></title>
+	<script src="sorttable.js" type="text/javascript"></script>
+	<style type="text/css">
+table.sortable thead {
+  font: normal 10pt Tahoma, Verdana, Arial;
+  background: #eee;
+  color: #666666;
+  font-weight: bold;
+  cursor: hand;
+}
+table.sortable th {
+  width: 75px;
+  color: #800;
+  border: 1px solid black;
+}
+table.sortable th:hover {
+  background: #eea;
+}
+table.sortable td {
+  font: normal 10pt Tahoma, Verdana, Arial;
+  text-align: center;
+  border: 1px solid blue;
+}
+.link {
+  padding: 2px;
+  width: 600px;
+}
+.link:hover {
+  background: #eeb;
+}
+a {
+  color: darkblue;
+  text-decoration: none;
+  border-bottom: 1px dashed darkblue;
+}
+a:visited {
+  color: black;
+}
+a:hover {
+  border-bottom: none;
+}
+h1 {
+  font: normal bold 20pt Tahoma, Verdana, Arial;
+  color: #00a;
+  text-decoration: underline;
+}
+h2 {
+  font: normal bold 12pt Tahoma, Verdana, Arial;
+  color: #00a;
+}
+table.sortable .empty {
+  background: white;
+  border: 1px solid white;
+  cursor: default;
+}
+</style>
+</head>
+<body>
+
+<h1>findFunction Results</h1>
+
+<h2>call: <font color='#800'><%= paste( deparse( ocall ) ) %></font></h2>
+
+<table class='sortable'>
+	<thead>
+		<tr>
+		  <th style='width:40px'>Id</th>
+		  <th>Count</th>
+		  <th>MaxScore</th>
+		  <th>TotalScore</th>
+		  <th>Package</th>
+		  <th>Function</th>
+		  <th>Date</th>
+		  <th>Score</th>
+		  <th>Description and Link</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%
+		rnames <- row.names( x )
+
+		with( x, {
+			for( i in 1:nrow(x) ){
+			%>
+				<tr>
+				  <td><%= rnames[i] %></td>
+				  <td><%= Count[i] %></td>
+				  <td><%= MaxScore[i] %></td>
+				  <td><%= TotalScore[i] %></td>
+				  <td><%= Package [i] %></td>
+				  <td><%= Function[i] %></td>
+				  <td><%= Date [i]  %></td>
+				  <td><%= Score[i] %></td>
+				  <td class="link">
+				  	<a href="<%= Link[i] %>" target="_blank">
+						<%= Description[i] %>
+					</a>
+				  </td>
+				</tr>
+			<%
+			}
+		} )
+		%>
+	</tbody>
+</table>
+</body>
+</html>
+

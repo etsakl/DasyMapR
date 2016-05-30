@@ -1,0 +1,11 @@
+base
+knitr
+sp
+rgdal
+rgeos
+foreach
+iterators
+doParallel
+DasyMapR
+eurostat
+raster

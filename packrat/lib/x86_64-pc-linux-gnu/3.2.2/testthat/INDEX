@@ -1,0 +1,58 @@
+CheckReporter-class     Check reporter: 13 line summary of problems
+ListReporter-class      List reporter: gather all test results along
+                        with elapsed time and file information.
+MinimalReporter-class   Test reporter: minimal.
+MultiReporter-class     Multi reporter: combine several reporters in
+                        one.
+Reporter-class          Stub object for managing a reporter of tests.
+RstudioReporter-class   Test reporter: RStudio
+SilentReporter-class    Test reporter: gather all errors silently.
+StopReporter-class      Test reporter: stop on error.
+SummaryReporter-class   Test reporter: summary of errors.
+TapReporter-class       Test reporter: TAP format.
+TeamcityReporter-class
+                        Test reporter: Teamcity format.
+auto_test               Watches code and tests for changes, rerunning
+                        tests as appropriate.
+auto_test_package       Watches a package for changes, rerunning tests
+                        as appropriate.
+compare                 Provide human-readable comparison of two
+                        objects
+context                 Describe the context of a set of tests.
+describe                describe: a BDD testing language
+equivalence             Expectation: is the object equal to a value?
+evaluate_promise        Evaluate a promise, capturing all types of
+                        output.
+expect-compare          Expectation: is returned value less or greater
+                        than specified value?
+expect_equal_to_reference
+                        Expectation: is the object equal to a reference
+                        value stored in a file?
+expect_is               Expectation: does the object inherit from a
+                        class?
+expect_named            Expectation: does object have names?
+expect_null             Expectation: is the object NULL?
+expect_silent           Expect that code has no output, messages, or
+                        warnings.
+expect_true             Expectation: is the object true/false?
+fail                    A default expectation that always fails.
+make_expectation        Make an equality test.
+matching-expectations   Expectation: does
+                        string/output/message/warning/error match a
+                        regular expression?
+setup_test_dir          Take care or finding the test files and
+                        sourcing the helpers.
+skip                    Skip a test.
+succeed                 A default expectation that always succeeds.
+test_dir                Run all of the tests in a directory.
+test_examples           Test package examples
+test_file               Run all tests in specified file.
+test_package            Run all tests in an installed package.
+test_that               Create a test.
+testthat                R package to make testing fun!
+testthat_results        Create a 'testthat_results' object from the
+                        test results as stored in the ListReporter
+                        results field.
+watch                   Watch a directory for changes (additions,
+                        deletions & modifications).
+with_mock               Mock functions in a package.

@@ -1,0 +1,16 @@
+Extract.findFn          Subset a findFn object
+PackageSum2             Add Info from Installed Packages to
+                        PackageSummary
+PackageSummary          Summarize findFn Results by Package
+back2ForwardSlash       Replace backslash with forward slash in a
+                        character string
+findFn                  Search Help Pages
+grepFn                  Match pattern in a column of a matrix or
+                        data.frame
+hits                    matches attribute of a findFn object
+installPackages         install packages with minimum count
+print.findFn            print a findFn object
+sortFindFn              Sort a findFn Object
+summary.findFn          Summary Method for findFn
+unionFindFn             Combine findFn Objects
+writeFindFn2xls         Write a findFn object to an Excel file

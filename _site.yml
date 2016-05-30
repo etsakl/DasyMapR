@@ -1,0 +1,9 @@
+name: "DasyMapR"
+navbar:
+  title: "DasyMapR - Ένας οδηγός για την χρήση του πακέτου"
+  left:
+    - text: "Vignette"
+      href: /DasyMapR/vignettes/DasyMapR-vignette.html
+    - text: "About"
+      href: about.html
+output_dir:"."
