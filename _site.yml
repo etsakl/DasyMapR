@@ -6,6 +6,4 @@ navbar:
       href: index.html
     - text: "Vignette"
       href: DasyMapR-vignette.html
-    - text: "About"
-      href: about.html
 output_dir:  "."
