@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Τσακλάνος Βαγγέλης" />
+
+<meta name="date" content="2016-05-31" />
+
+<title>DasyMapR - Ένας οδηγός για την χρήση του πακέτου</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link rel="stylesheet" href="/home/etsakl/R/x86_64-pc-linux-gnu-library/3.3/rmarkdown/rmarkdown/templates/html_vignette/resources/vignette.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">DasyMapR - Ένας οδηγός για την χρήση του πακέτου</h1>
+<h4 class="author"><em>Τσακλάνος Βαγγέλης</em></h4>
+<h4 class="date"><em>2016-05-31</em></h4>
+
+
+
+<div id="--dasymapr" class="section level2">
+<h2>Το πακέτο DasyMapR</h2>
+<p>Το πακέτο της R που αναπτύχθηκε περιέχει μία σειρά εργαλείων με σκοπό την υλοποίηση δασυμετρικών χαρτών με την μέθοδο του επιμερισμού των δεδομένων στον κανονικό ETRS-LAEA κάναβο. Πληροφορίες για τον γεωγραφικό κανάβο μπορούν να βρεθούν <a href="http://inspire.ec.europa.eu/index.cfm/pageid/241/documentid/3390">INSPIRE Specification on Geographical Grid Systems</a></p>
+</div>
+<div id="-----" class="section level2">
+<h2>Τι περιέχεται σε αυτό το κείμενο</h2>
+<ul>
+<li>Εγκατάσταση του πακέτου</li>
+<li>Τι υπάρχει στο πακέτο</li>
+<li>Φόρτωση Δεδομένων</li>
+<li>Απόδοση τιμής στο κελί - Κατηγορικά(ποιοτικά) Δεδομένα - MaxArea</li>
+<li>Απόδοση τιμής στο κελί - Αριθμητικά (ποσοτικά) Δεδομένα - PropCal</li>
+<li>Επιφάνεια Πηγή</li>
+<li>Βοηθητική Επιφάνεια</li>
+<li>Οι δασυμετρικοί υπολογισμοί</li>
+<li>Η Δασυμετρική επιφάνεια σε Βοηθητική</li>
+</ul>
+</div>
+<div class="section level2">
+<h2>Εγκατάσταση</h2>
+<p>Το πακέτο δεν φιλοξενείται στο CRAN (θα χρειαστεί πολλή δουλειά ακόμη για αυτό) αλλά στο προσωπικό αποθετήριο του σπουδαστή στο github. Για να εγκατασταθεί το <code>DasyMapR</code> θα πρέπει καταρχήν να εγκατασταθεί το πακέτο <code>devtools</code> και στην συνέχεια με την χρήση της συνάρτησης <code>install_github()</code> να γίνει η εγκατάσταση του πακέτου</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
+<span class="kw">library</span>(devtools)
+<span class="kw">install_github</span>(<span class="st">&quot;etsakl/DasyMapR&quot;</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)
+<span class="kw">library</span>(DasyMapR)</code></pre></div>
+</div>
+<div id="dasymapr--" class="section level2">
+<h2>DasyMapR τι περιέχεται</h2>
+<p>Το πακέτο αποτελείται αποτελείται από από <code>S4 - Classes</code> από τις μεθόδους τους <code>methods</code>, την τεκμηρίωσή τους <code>files.Rd</code> και τα δεδομένα <code>data</code> που θα χρησιμοποιηθούν σε αυτό το κείμενο με την τεκμηρίωσή τους και το ίδιο το κείμενο ως <code>vignette</code> που επίσης συνοδεύει το πακέτο.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DasyMapR)
+<span class="kw">library</span>(knitr)
+DasyMapR.contains &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">ls</span>(<span class="st">&quot;package:DasyMapR&quot;</span>))
+<span class="kw">kable</span>(<span class="kw">as.data.frame</span>(DasyMapR.contains))</code></pre></div>
+</div>
+<div id="dasymapr.contains" class="section level2">
+<h2>DasyMapR.contains</h2>
+<p>ActuallVal2Density<br />
+CheckEtrsResolution<br />
+CheckEtrsValidity<br />
+CLC2000.ARGOLIDA.RES<br />
+CLC2000_CODES<br />
+CLC2000_GEO_CODES<br />
+CORINE2000_CODES<br />
+CreateEtrsVectorGrid<br />
+DASY_GPD<br />
+ETRS<br />
+etrsAncillarySurface<br />
+EtrsAncillarySurface<br />
+etrsAncillarySurface.default<br />
+etrsCellCenter<br />
+EtrsCellCodes<br />
+etrsCells<br />
+EtrsCells<br />
+EtrsCheckCodeColumns<br />
+etrsDasymetric2Ancillary<br />
+etrsDasymetric2Raster<br />
+EtrsDasymetricSurface<br />
+etrsGrid<br />
+etrsGrid2Spdf<br />
+etrsGrid.default<br />
+etrsMaxArea<br />
+etrsPoint2Grid<br />
+etrsPoints<br />
+EtrsPoints<br />
+etrsPropValue<br />
+etrsPropWeightedValue<br />
+etrsReverseCellCode<br />
+etrsSourceSurface<br />
+EtrsSourceSurface<br />
+etrsSurface<br />
+EtrsSurface<br />
+etrsSurface2Spdf<br />
+etrsSurface.default<br />
+etrsSurfacePar<br />
+EtrsTableCodes<br />
+EtrsTransform<br />
+GEOSTAT_grid_EU_POP_2006_1k_V1_1_1 GEOSTAT_grid_POP_1K_2011_V2_0<br />
+joinMaxAreaSurfaceDataFrames<br />
+nama_10r_3gdp<br />
+NUTS_2013_01M_EL<br />
+NUTS3_OCMG<br />
+NUTSV9_LEAC<br />
+NUTSV9_LEAC_GR_1km_grided<br />
+oikismoi</p>
+<p>Περισσότερες πληροφορίες για το πακέτο θα μπορούσε να βρει κάποιος στα file του πακέτου <code>help(&quot;DasyMapR&quot;)</code> ή στο <a href="https://github.com/etsakl/DasyMapR.git">github</a></p>
+</div>
+<div id="-" class="section level2">
+<h2>Φόρτωση Δεδομένων</h2>
+<p>Το πακέτο συνοδεύεται από κάποια δεδομένα κατά κανόνα <em>ανοικτά δημόσια δεδομένα</em> που η προσπάθεια για να συμβάλλουμε στην αξιοποίηση τους έγινε και η αφορμή για ανάπτυξη του συγκεκριμένου πακέτου που σκοπεύει να συμβάλει στην οπτικοποίηση και ανάλυσή τους. Προφανώς για λόγους οικονομίας χρόνου μεταφόρτωσης και αποθηκευτικού χώρου τα δεδομένα αυτά είναι υποσύνολα των δεδομένων που προσφέρονται από τους οργανισμούς που τα διαθέτουν. Τεκμηρίωση και πληροφορίες υπάρχουν στα help files του πακέτου help(“DasyMapR”)` ή στο <a href="https://github.com/etsakl/DasyMapR.git">github</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Αν τρέξει ο κώδικας παρουσιάζονται τα διαθέσιμα δεδομένα</span>
+DasyMapR.data &lt;-<span class="st"> </span><span class="kw">data</span>(<span class="dt">package =</span> <span class="st">&quot;DasyMapR&quot;</span>)
+<span class="kw">print</span>(DasyMapR.data)</code></pre></div>
+<p>Θα φορτώσουμε τα δεδομένα που μεταμορφώθηκαν από το <a href="http://geodata.gov.gr/dataset/oria-nomon-okkhe">GeoData.open.gov</a> και θα επιλέξουμε τους νομούς της περιφέρειας Πελοποννήσου για τους δασυμετρικούς μας υπολογισμούς.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Φόρτωσε τα δεδομένα</span>
+<span class="kw">data</span>(<span class="st">&quot;NUTS3_OCMG&quot;</span>)
+<span class="co"># Δίάλεξε κάποια</span>
+pp &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Ν. ΑΡΓΟΛΙΔΟΣ&quot;</span>, <span class="st">&quot;Ν. ΚΟΡΙΝΘΙΑΣ&quot;</span>, <span class="st">&quot;Ν. ΑΡΚΑΔΙΑΣ&quot;</span>, 
+    <span class="st">&quot;Ν. ΜΕΣΣΗΝΙΑΣ&quot;</span>, <span class="st">&quot;Ν. ΛΑΚΩΝΙΑΣ&quot;</span>)
+Π.ΠΕΛΟΠΟΝΝΗΣΟΥ &lt;-<span class="st"> </span>NUTS3_OCMG[<span class="kw">which</span>(!<span class="kw">is.na</span>(<span class="kw">match</span>(NUTS3_OCMG[[<span class="st">&quot;NAME&quot;</span>]], 
+    pp))), ]
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+<span class="co"># και σχεδίασε τα</span>
+<span class="kw">plot</span>(NUTS3_OCMG)
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add =</span> T)
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-5-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-5-2.png" alt="" /></p>
+<p>ας δούμε και τα περιγραφικά δεδομένα των νομών που περιέχει το αρχείο.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Τα περιγράφικά σε πίνακα</span>
+<span class="kw">kable</span>(<span class="kw">head</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ@data[, <span class="dv">3</span>:<span class="dv">10</span>]))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NAME</th>
+<th align="right">POP91</th>
+<th align="right">EKTASH</th>
+<th align="right">PYKNOTHTA</th>
+<th align="right">pl2001</th>
+<th align="right">Plwomen01</th>
+<th align="right">Plman01</th>
+<th align="right">metaboli</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+<td align="right">84010</td>
+<td align="right">-0.0023838</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Ν. ΛΑΚΩΝΙΑΣ</td>
+<td align="right">95696</td>
+<td align="right">3631.73</td>
+<td align="right">26.3500</td>
+<td align="right">92811</td>
+<td align="right">45310</td>
+<td align="right">47501</td>
+<td align="right">-0.0301476</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">Ν. ΑΡΓΟΛΙΔΟΣ</td>
+<td align="right">97636</td>
+<td align="right">2157.00</td>
+<td align="right">45.2647</td>
+<td align="right">102392</td>
+<td align="right">50308</td>
+<td align="right">52084</td>
+<td align="right">0.0487115</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="left">Ν. ΑΡΚΑΔΙΑΣ</td>
+<td align="right">105309</td>
+<td align="right">4423.48</td>
+<td align="right">23.8068</td>
+<td align="right">91326</td>
+<td align="right">43826</td>
+<td align="right">47500</td>
+<td align="right">-0.1327810</td>
+</tr>
+<tr class="odd">
+<td align="left">41</td>
+<td align="left">Ν. ΚΟΡΙΝΘΙΑΣ</td>
+<td align="right">141823</td>
+<td align="right">2297.75</td>
+<td align="right">61.7226</td>
+<td align="right">144527</td>
+<td align="right">71771</td>
+<td align="right">72756</td>
+<td align="right">0.0190660</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="-------maxarea" class="section level2">
+<h2>Κατηγορικά Δεδομένα - Η χρήση της MaxArea</h2>
+<p>Η Νομοί έχουν ένα ποιοτικό χαρακτηριστικό αυτό της “Ονομασίας” <code>Π.ΠΕΛΟΠΟΝΝΗΣΟΥ[[&quot;ΝΑΜΕ&quot;]]</code> που τους προσδίδει την ιδιότητα του Νομού (περιοχή διοικητικής διαίρεσης). Θα ήταν χρήσιμο αυτή η ιδιότητα να αποδοθεί στα κελιά του κανάβου αφού με βάση αυτή την ιδιότητα στη συνέχεια θα μπορούσαν να του π.χ. αποδοθούν και άλλα χαρακτηριστικά που έχουν ως επιφάνεια απαρίθμησης, αυτή ακριβώς την ιδιότητα δηλαδή του νόμου. Το κελί σε αυτήν την περίπτωση των κατηγορικών δεδομένων παίρνει την τιμή της επιφάνειας που καταλαμβάνει το μεγαλύτερο μέρος του κελιού. Η μέθοδος <code>etrsSurface</code> που δέχεται ορίσματα την επιφάνεια <code>input.surface</code> την μέθοδο <code>Max.Area</code> και το μέγεθος του κελιού <code>cell.size</code>. Θα πρέπει να αναφερθεί εδώ ότι η επιφάνεια <code>NUTS3_OCMG</code> είναι σε σύστημα συντεταγμένων <a href="http://spatialreference.org/ref/epsg/2100/">ΕΓΣΑ87</a>(GGRS’87 (EPSG:2100)) όμως τα αποτελέσματα δηλαδή η τελικά υπολογιζόμενη etrsSurface θα έχει πλέον σύστημα αναφοράς το <a href="http://spatialreference.org/ref/epsg/etrs89-etrs-laea/">ETRS-LAEA</a> καλώντας κατά τους υπολογισμούς την <code>DasyMapR::etsrTransform()</code> του πακέτου και στέλνει μήνυμα <code>warning</code> ενημερώνοντας για την μετατροπή.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DasyMapR)
+<span class="co"># Καλεί την EtrsTransForm</span>
+srf.grd.max &lt;-<span class="st"> </span><span class="kw">etrsSurface</span>(<span class="dt">input.surface =</span> Π.ΠΕΛΟΠΟΝΝΗΣΟΥ, <span class="dt">over.method.type =</span> <span class="st">&quot;MaxArea&quot;</span>, 
+    <span class="dt">cell.size =</span> <span class="dv">10000</span>)
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
+<span class="kw">plot</span>(srf.grd.max)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-7-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-7-2.png" alt="" /></p>
+<p>Το αντικείμενο που δημιουργήθηκε δηλαδή <code>srf.grd.max</code> είναι αντικείμενο κλάσης <code>EtrsSurface</code> και τα περιγραφικά δεδομένα στο <code>slot</code> (<code>@data</code>) είναι σε μορφή πίνακα :</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(srf.grd.max@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="left">FEATURE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">10kmE543N158</td>
+<td align="left">10kmE543N158</td>
+<td align="left">5430000</td>
+<td align="left">1580000</td>
+<td align="left">16</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE543N159</td>
+<td align="left">10kmE543N159</td>
+<td align="left">5430000</td>
+<td align="left">1590000</td>
+<td align="left">16</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE549N159</td>
+<td align="left">10kmE549N159</td>
+<td align="left">5490000</td>
+<td align="left">1590000</td>
+<td align="left">16</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE538N160</td>
+<td align="left">10kmE538N160</td>
+<td align="left">5380000</td>
+<td align="left">1600000</td>
+<td align="left">13</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE543N160</td>
+<td align="left">10kmE543N160</td>
+<td align="left">5430000</td>
+<td align="left">1600000</td>
+<td align="left">16</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE548N160</td>
+<td align="left">10kmE548N160</td>
+<td align="left">5480000</td>
+<td align="left">1600000</td>
+<td align="left">16</td>
+</tr>
+</tbody>
+</table>
+<p>Όπως φαίνεται στο πίνακα τα στοιχεία που περιέχονται είναι ο κωδικός <code>$CELLCODE</code>του κελιού οι συντεταγμένες του κάτω άκρου του κελιού <code>$EASTOFORIGIN,$NORTHOFORIGIN&quot;</code> και ο αριθμός αναγνώρισης της επιφάνειας <code>$FEATURE</code> από την οποία έχει πάρει την ιδιότητα το κελί. Ο κωδικός του κελιού που επαναλαμβάνεται στην αρχή είναι η ιδιότητα <code>row.names()</code> του <code>data.frame</code> <code>@data</code> και χρησιμεύει ως αναγνωριστικό σύνδεσης με το γεωμετρικό μέρος του αντικείμενου. (<code>@polygons</code>). Περισσότερες πληροφορίες για την δομή του αντικειμένου <code>EtrsSurface</code> αλλά και του <code>SpatialPolygonsDataFrame</code> παρέχονται στο κυρίως κείμενο και στα help files.</p>
+<p>Θα ήταν χρήσιμο να συμπεριλάβει κάποιος ιδιότητες από τα περιγραφικά δεδομένα της επιφάνειας πηγής στο πίνακα δεδομένων των κελιών. H μέθοδος <code>DasyMapR::joinMaxAreaSurfaceDataFrame</code> μπορεί να κληθεί και να συνενώσει τα χαρακτηριστικά που δεν έχουν συμπεριληφθεί αρχικά ως ιδιότητες της νέας επιφάνειας (του κανάβου).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">srf.grd.max.full &lt;-<span class="st"> </span><span class="kw">joinMaxAreaSurfaceDataFrames</span>(<span class="dt">the.surface =</span> NUTS3_OCMG, <span class="dt">the.EtrsSurface =</span> srf.grd.max)
+<span class="kw">kable</span>(<span class="kw">head</span>(srf.grd.max.full@data[, <span class="kw">c</span>(<span class="dv">7</span>:<span class="dv">12</span>)]))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NAME</th>
+<th align="right">POP91</th>
+<th align="right">EKTASH</th>
+<th align="right">PYKNOTHTA</th>
+<th align="right">pl2001</th>
+<th align="right">Plwomen01</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">10kmE538N162</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE538N160</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE538N163</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE539N163</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE536N162</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE537N162</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166964</td>
+<td align="right">2995.27</td>
+<td align="right">55.7426</td>
+<td align="right">166566</td>
+<td align="right">82556</td>
+</tr>
+</tbody>
+</table>
+<p>Κάτι που πρέπει να επισημανθεί εδώ είναι ότι ο χρήστης πρέπει πάντα να έχει υπόψη του τι δεδομένα έχει και τι αναγωγές πρέπει να κάνει για να έχει ορθά αποτελέσματα. Για παράδειγμα στον τελευταίο πίνακα στο κελί ως τιμές του πληθυσμού εμφανίζονται οι <code>$POP91</code> ή <code>$pl2001</code>. Αυτό είναι λάθος διότι η τιμές αυτές αναφέρονται στις αρχικές επιφάνειες απαριθμήσεις δηλαδή στους νομούς. Ακόμη και η τιμή της πυκνότητας ανά κελί είναι εσφαλμένη αφού δεν έχουν γίνει κατάλληλες αναγωγές.</p>
+<p>Ο χρόνος που χρειάζεται για να γίνουν οι υπολογισμοί μπορούν να μειωθεί με την χρήση της μεθόδου <code>DasyMapR::etrsSurfacePar()</code> όπου γίνεται χρήση περισσοτέρων πόρων του συστήματος (επεξεργαστών και πυρήνων) με την χρήση των πακέτων <code>foreach</code> και <code>doParaller</code> της R. Περισσότερες πληροφορίες για αυτό μπορούν να βρεθούν στο κυρίως κείμενο.</p>
+</div>
+<div id="--------propcal" class="section level2">
+<h2>Αριθμητικά (ποσοτικά) Δεδομένα - Η χρήση της PropCal</h2>
+<p>Για την καλύτερη παρακολούθηση του παραδείγματος και κάνοντας χρίση των ίδιων δεδομένων που αντλήσαμε από το <a href="http://geodata.gov.gr/dataset/oria-nomon-okkhe">GeoData.open.gov</a> θα κρατήσουμε μόνο τις στήλες που είναι χρήσιμες για το τρέχον παράδειγμά.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Θα κρατήσουμε μόνο τον πλυθισμό του 2001</span>
+Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span> &lt;-<span class="st"> </span>Π.ΠΕΛΟΠΟΝΝΗΣΟΥ[, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">7</span>)]
+<span class="kw">kable</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span>@data)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NAME</th>
+<th align="right">pl2001</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166566</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Ν. ΛΑΚΩΝΙΑΣ</td>
+<td align="right">92811</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">Ν. ΑΡΓΟΛΙΔΟΣ</td>
+<td align="right">102392</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="left">Ν. ΑΡΚΑΔΙΑΣ</td>
+<td align="right">91326</td>
+</tr>
+<tr class="odd">
+<td align="left">41</td>
+<td align="left">Ν. ΚΟΡΙΝΘΙΑΣ</td>
+<td align="right">144527</td>
+</tr>
+</tbody>
+</table>
+<p>Η τιμή στόχος που θέλουμε να επιμερίσουμε στον κάναβο είναι αυτή του πληθυσμού. Αν επιμερίσουμε αυτή την τιμή του χαρακτηριστικού <code>pl$2001</code> θα αποδώσουμε στο κελί λανθασμένη τιμή (όπως προαναφέρθηκε) . Θα πρέπει να μετατραπεί από απόλυτη τιμή σε πυκνότητα πληθυσμού. Στο πακέτο έχει αναπτυχθεί η μέθοδος ():<code>DasyMapR::ActullVal2Density()</code> που θα κάνει την μετατροπή</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span> &lt;-<span class="st"> </span><span class="kw">ActuallVal2Density</span>(<span class="dt">input.surface =</span> Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span>, 
+    <span class="dt">surface.value.col =</span> <span class="dv">2</span>, <span class="dt">area.unit =</span> <span class="fl">1e+06</span>)
+<span class="kw">kable</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span>@data)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NAME</th>
+<th align="right">pl2001</th>
+<th align="right">AREA</th>
+<th align="right">VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Ν. ΜΕΣΣΗΝΙΑΣ</td>
+<td align="right">166566</td>
+<td align="right">2995.265</td>
+<td align="right">55.6098</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Ν. ΛΑΚΩΝΙΑΣ</td>
+<td align="right">92811</td>
+<td align="right">3631.734</td>
+<td align="right">25.5556</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">Ν. ΑΡΓΟΛΙΔΟΣ</td>
+<td align="right">102392</td>
+<td align="right">2157.004</td>
+<td align="right">47.4696</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="left">Ν. ΑΡΚΑΔΙΑΣ</td>
+<td align="right">91326</td>
+<td align="right">4423.483</td>
+<td align="right">20.6457</td>
+</tr>
+<tr class="odd">
+<td align="left">41</td>
+<td align="left">Ν. ΚΟΡΙΝΘΙΑΣ</td>
+<td align="right">144527</td>
+<td align="right">2297.754</td>
+<td align="right">62.8993</td>
+</tr>
+</tbody>
+</table>
+<p>Η τιμή <code>$VALUE</code> πλέον αναφέρεται σε κατοίκους/km<sup>2</sup> και εκφράζει πυκνότητα. Το <code>@data$VALUE</code> (slot) πλέον περιέχει και την τιμή του εμβαδού σε km<sup>2</sup>.</p>
+<p>Θα επιμερίσουμε την τιμή με την χρήση της μεθόδου <code>etrsSourceSurface()</code> για την τιμή (<code>VALUE</code>) της πυκνότητας Η μέθοδος που είναι καταλληλότερη για τον υπολογισμό της τιμής του κελιού μετά την προβολή της επιφάνειας θα είναι αυτή του αναλογικού υπολογισμού σε σχέση με την επιφάνεια <span class="math inline">\(CELLVALUE = (V~i~ ∗ Share~i~)\)</span> όπου V<sub>i</sub>, η τιμή της επιφάνειας και Share<sub>i</sub>, το μερίδιο της επιφάνειας i μέσα στο κελί</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">srf.grd.prop &lt;-<span class="st"> </span><span class="kw">etrsSourceSurface</span>(<span class="dt">input.surface =</span> Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span>, 
+    <span class="dt">over.method.type =</span> <span class="st">&quot;PropCal&quot;</span>, <span class="dt">surface.value.col =</span> <span class="dv">4</span>, <span class="dt">cell.size =</span> <span class="dv">10000</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
+<span class="kw">plot</span>(srf.grd.prop)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-12-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-12-2.png" alt="" /></p>
+<p>Το αντικείμενο που δημιουργήθηκε είναι αντικείμενο της κλάσης <code>EtrsSourceSurface</code> και ο πίνακας που είναι συσχετισμένος με την επιφάνεια περιεχέι τα χαρακτηριστικά</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(srf.grd.prop@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">CELLVALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">10kmE543N157</td>
+<td align="left">10kmE543N157</td>
+<td align="left">5430000</td>
+<td align="left">1570000</td>
+<td align="right">0.7308902</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE544N157</td>
+<td align="left">10kmE544N157</td>
+<td align="left">5440000</td>
+<td align="left">1570000</td>
+<td align="right">5.8726769</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE543N158</td>
+<td align="left">10kmE543N158</td>
+<td align="left">5430000</td>
+<td align="left">1580000</td>
+<td align="right">18.1751427</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE544N158</td>
+<td align="left">10kmE544N158</td>
+<td align="left">5440000</td>
+<td align="left">1580000</td>
+<td align="right">10.2094622</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE548N158</td>
+<td align="left">10kmE548N158</td>
+<td align="left">5480000</td>
+<td align="left">1580000</td>
+<td align="right">3.1382277</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE549N158</td>
+<td align="left">10kmE549N158</td>
+<td align="left">5490000</td>
+<td align="left">1580000</td>
+<td align="right">3.0538942</td>
+</tr>
+</tbody>
+</table>
+<p>Λεπτομέρειες για τον υπολογισμό της <code>$CELLVALUE</code> μπορεί κάποιος να βρει αν φορτώσει το <strong>προσωρινό αρχείο</strong> με όνομα <strong>“.surface.detailed.table.rds”</strong> που αποθηκεύετε στο working directory. Για το παράδειγμα της συγκεκριμένης εργασίας φορτώνουμε το εν λόγω αρχείο (.rds) και εμφανίζουμε ορισμένες γραμμές του.Σε αυτές εμφανίζονται οι τιμές για τμήμα του κελιού πριν την άθροιση και τον τελικό υπολογισμό (για αυτό και εμφανίζονται <code>row.names(srf.grd.prop@data)</code> με την προσθήκη αριθμού ώστε να είναι μοναδικός ο κωδικός αριθμός <code>ID</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
+<span class="kw">setwd</span>(wd)
+surface.detailed.table &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;.surface.detailed.table.rds&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(surface.detailed.table, <span class="dv">5</span>))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Row.names</th>
+<th align="left">CELLCODE</th>
+<th align="left">FEATURE</th>
+<th align="left">AREA</th>
+<th align="left">CELLSHARE</th>
+<th align="left">SURVALUE</th>
+<th align="left">CELLVALUE</th>
+<th align="right">SUMsΗAREi*Vi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">10kmE535N162</td>
+<td align="left">10kmE535N162</td>
+<td align="left">13</td>
+<td align="left">4397492.7219</td>
+<td align="left">0.044</td>
+<td align="left">55.6098</td>
+<td align="left">2.4468312</td>
+<td align="right">2.4468312</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE535N163</td>
+<td align="left">10kmE535N163</td>
+<td align="left">13</td>
+<td align="left">56497430.9614</td>
+<td align="left">0.565</td>
+<td align="left">55.6098</td>
+<td align="left">31.419537</td>
+<td align="right">31.4195370</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE535N164</td>
+<td align="left">10kmE535N164</td>
+<td align="left">13</td>
+<td align="left">70146605.3695</td>
+<td align="left">0.7015</td>
+<td align="left">55.6098</td>
+<td align="left">39.0102747</td>
+<td align="right">39.0102747</td>
+</tr>
+<tr class="even">
+<td align="left">10kmE535N165</td>
+<td align="left">10kmE535N165</td>
+<td align="left">13</td>
+<td align="left">12837374.7196</td>
+<td align="left">0.1284</td>
+<td align="left">55.6098</td>
+<td align="left">7.14029832</td>
+<td align="right">7.1402983</td>
+</tr>
+<tr class="odd">
+<td align="left">10kmE535N166</td>
+<td align="left">10kmE535N166</td>
+<td align="left">13</td>
+<td align="left">1388355.6794</td>
+<td align="left">0.0139</td>
+<td align="left">55.6098</td>
+<td align="left">0.77297622</td>
+<td align="right">0.7729762</td>
+</tr>
+</tbody>
+</table>
+<p>Για πολλά δεδομένα προτείνεται να γίνει χρήση των προσφερόμενων <code>parallel computing</code> μεθόδων</p>
+</div>
+<div id="-----" class="section level2">
+<h2>Ανακεφαλαιώνοντας - Η επιφάνεια Εισόδου</h2>
+<p>Ίσως να μην έχει γίνει κατανοητό πως οι διαφορετικές μέθοδοι επηρεάζουν την γεωγραφική απεικόνιση της επιφάνειας πηγής για αυτό στο επόμενο σχήμα απεικονίζονται οι δύο περιπτώσεις εφαρμογής των δύο μεθόδων.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Η κλήση της EtrsTrasnform για αλλαγη του CRS</span>
+Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS &lt;-<span class="st"> </span><span class="kw">EtrsTransform</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(srf.grd.max, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.1</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(srf.grd.prop, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.1</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-15-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-15-2.png" alt="" /></p>
+<p>Στην πρώτη περίπτωση η επιφάνεια μπορεί να μην καλύπτεται ή υπερκαλύπτεται ενώ στην δεύτερη πάντα υπερκαλύπτεται. Είναι διακριτό ότι η μέθοδος που επιλέγεται είναι σημαντική για την απόκρυψη ή μη πληροφορίας και την παραγωγή σφαλμάτων (στην πρώτη εικόνα τμήματα ξηράς εξαιρούνται από την ανάλυση μας στην δεύτερη τμήματα της λογίζονται πλέον ως ξηρά). Περισσότερα σχετικά με τα σφάλματα της μεθόδου μπορεί να αναζητηθούν <a href="http://www.google.gr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjz843QpsrMAhVkI8AKHSNTA54QFggaMAA&amp;url=http%3A%2F%2Fwww.colorado.edu%2Fgeography%2Fleyk%2Fdata%2FHamid%2Fdasy%2520lit%2FeicherBrewerDasy.pdf&amp;usg=AFQjCNGXOXkB2-hbrbFCZcQ5BadCPTWYUw&amp;sig2=JOZyGXYCkmnEz_nQ0-QFjg&amp;bvm=bv.121421273,d.ZGg">εδω</a> Για να είναι “ρεαλιστικότερο” το παράδειγμα μας θα αλλάξουμε επίπεδο αναφοράς και από το επίπεδο της περιφέρειας θα περάσουμε στο επίπεδο της περιφερειακής ενότητας (νομού ή NUTS3) και της ανάλυσης από τον κάναβο του 10km στον κάναβο 1km. Επιλέγεται εδώ ο νόμος Αργολίδας</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+ΑΡΓΟΛΙΔΑ &lt;-<span class="st"> </span>NUTS3_OCMG[<span class="kw">which</span>(!<span class="kw">is.na</span>(<span class="kw">match</span>(NUTS3_OCMG[[<span class="st">&quot;NAME&quot;</span>]], <span class="st">&quot;Ν. ΑΡΓΟΛΙΔΟΣ&quot;</span>))), 
+    ]
+<span class="kw">plot</span>(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="dv">2</span>)
+<span class="co"># Εδώ καλείται η EtrsTransform απευθείας</span>
+ΑΡΓΟΛΙΔΑ.ETRS &lt;-<span class="st"> </span><span class="kw">EtrsTransform</span>(ΑΡΓΟΛΙΔΑ)
+<span class="co"># Με την κλήση της etrsSourceSurface παράγεται η επιφανεια πηγή</span>
+source.surface &lt;-<span class="st"> </span><span class="kw">etrsSourceSurface</span>(<span class="dt">input.surface =</span> Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.<span class="dv">2001</span>[<span class="dv">3</span>, 
+    ], <span class="dt">over.method.type =</span> <span class="st">&quot;PropCal&quot;</span>, <span class="dt">surface.value.col =</span> <span class="dv">4</span>, <span class="dt">cell.size =</span> <span class="dv">1000</span>)
+<span class="kw">plot</span>(source.surface, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.01</span>), <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">border =</span> <span class="st">&quot;lightgrey&quot;</span>)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-16-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-16-2.png" alt="" /></p>
+</div>
+<div id="--" class="section level2">
+<h2>Η Βοηθιτική επιφάνεια</h2>
+<p>Θα γίνει χρήση των δεδομένων CORINE 2000 δηλαδή των δεδομένων κάλυψη γης για την Ελλάδα και το έτος 2000, όπως διατίθενται από Ευρωπαϊκή Υπηρεσία Περιβάλλοντος . Τα δεδομένα αυτά μπορούν να μεταμορφωθούν από τον ισότοπο της <a href="http://www.eea.europa.eu/data-and-maps/data/corine-land-cover-2000-clc2000-seamless-vector-database-1#tab-interactive-maps-produced">ΕΕΑ</a> και επιλέχθηκαν ως κατάλληλα από την άποψη της χρονικής κατανομής σε σχέση με το φαινόμενο (πληθυσμό 2001) που θέλουμε να ανακατανείμουμε. Για την προετοιμασία της επιφάνειας επίσης θα γίνει η χρήση της <code>etrsAncillarySurface</code>. Εδώ κρίνεται σκόπιμο να γίνουν ορισμένες επισημάνσεις στο χρήστη του πακέτου. Παρόλο που οι τρεις μέθοδοι δημιουργίας των επιφανειών <code>etrsSurface</code>, <code>etsrSourceSurface</code>, <code>etrsAncillarySurface</code> επί της ουσίας κάνουν ακριβώς τους ίδιους υπολογισμούς, και οι κλάσεις περιέχουν τα ίδια <code>@slots</code> και θα μπορούσε ο χρήστης να αποφασίζει για την “ορθή” χρήση τους η επιλογή αυτή έγινε για να καθοδηγήσει τον χρήστη για το πώς θα πρέπει να ενεργήσει. Θα γίνουμε πιο συγκεκριμένη στην πορεία ολοκλήρωσης του τρέχοντος παραδείγματος.</p>
+<div id="--" class="section level3">
+<h3>Προετοιμασία των Δεδομένων</h3>
+<p>Εδώ ο χρήστης θα πρέπει να κάνει τις επιλογές <em>που στηρίζονται στην εμπιρεία του η/και την γνώση του</em> για το θέμα (Ως εκ τούτου η μέθοδος συχνά αναφέρεται ως <a href="http://www.google.gr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwih8LubqMrMAhXFCsAKHeXuDS4QFggeMAA&amp;url=http%3A%2F%2Fastro.temple.edu%2F~jmennis%2Fpubs%2Fmennis_cagis06.pdf&amp;usg=AFQjCNFJdc_Q5xwRIQXjKwAWSXSKri_Q3g&amp;sig2=tC3fEvdfjV04htuDlgPMeg">Intelligent Dasymetric Maping</a>. Ας δούμε τις κατηγορίες καλύψεων που περιέχονται στην Corine DB:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;CLC2000_CODES&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(CLC2000_CODES))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Code_00</th>
+<th align="left">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">111</td>
+<td align="left">Συνεχής αστική οικοδόμηση</td>
+</tr>
+<tr class="even">
+<td align="right">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+</tr>
+<tr class="odd">
+<td align="right">121</td>
+<td align="left">Βιομηχανικές ή εμπορικές ζώνες</td>
+</tr>
+<tr class="even">
+<td align="right">122</td>
+<td align="left">Οδικά σιδηροδρομικά δίκτυα και γειτνιάζουσα γη</td>
+</tr>
+<tr class="odd">
+<td align="right">123</td>
+<td align="left">Ζώνες λιμένων</td>
+</tr>
+<tr class="even">
+<td align="right">124</td>
+<td align="left">Αεροδρόμια</td>
+</tr>
+<tr class="odd">
+<td align="right">…</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Είναι προφανές ότι για το παράδειγμα, ενδιαφέρουν μόνο οι δύο κατηγορίες 111 και 112 που σχετίζονται με την κατοικία. Αυτές θα μεταφορτώνουν από την ΕΕΑ αφού διατίθενται για μεταφόρτωση σε αρχεία .shp κατα τις προαναφερόμενες κατηγόρίες.</p>
+<p>Με τον παρακάτω κώδικα θα μπορούσε κάποιος να δημιουργησει αν dataset με κάλυψη για όποια κατηγορία ή έτος απαιτείται για την ανάλυσή του. Παρατίθεται εδώ για να αποτελέσει οδηγό σε ενδεχομένη προετοιμασία άλλων δεδομένων από τον χρήστη.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Τα δύο .shp files περιέχονται στο folder corine</span>
+<span class="kw">setwd</span>(<span class="kw">system.file</span>(<span class="st">&quot;data/corine&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;DasyMapR&quot;</span>))
+<span class="co"># Με βάση τα όρια της περιοχής ...</span>
+bb &lt;-<span class="st"> </span><span class="kw">bbox</span>(ΑΡΓΟΛΙΔΑ.ETRS)
+<span class="co"># διμιουργησε νέα .shp files που περιέχουν όσα δεδομένα χρειάζομαι</span>
+<span class="kw">ogr2ogr</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;clc_cliped&quot;</span>, <span class="dt">spat =</span> <span class="kw">c</span>(bb[, <span class="dv">1</span>], bb[, <span class="dv">2</span>]))
+dsn &lt;-<span class="st"> </span><span class="kw">setwd</span>(<span class="st">&quot;clc_cliped/&quot;</span>)
+<span class="co"># φόρτωσε τα ως SpatialPolygonsDataFrames</span>
+CLC2000_POLY_ARGOLIDA111 &lt;-<span class="st"> </span><span class="kw">readOGR</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;clc00_v2_code_111&quot;</span>)
+CLC2000_POLY_ARGOLIDA112 &lt;-<span class="st"> </span><span class="kw">readOGR</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;clc00_v2_code_112&quot;</span>)
+<span class="co"># και ένωσε τα</span>
+CLC2000.ARGOLIDA.RES &lt;-<span class="st"> </span><span class="kw">rbind.SpatialPolygonsDataFrame</span>(CLC2000_POLY_ARGOLIDA111, 
+    CLC2000_POLY_ARGOLIDA112, <span class="dt">makeUniqueIDs =</span> T)
+<span class="co"># τέλος σώστα στο δίσκο ως dataset</span>
+<span class="kw">setwd</span>(<span class="kw">system.file</span>(<span class="st">&quot;data&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;DasyMapR&quot;</span>))
+<span class="co"># Αφαιρέθηκαν 2 πολύγωνα με πρόβλημα στην γεωμετρία</span>
+CLC2000.ARGOLIDA.RES &lt;-<span class="st"> </span>CLC2000.ARGOLIDA.RES[-<span class="kw">which</span>(<span class="kw">row.names</span>(CLC2000.ARGOLIDA.RES) ==<span class="st"> </span>
+<span class="st">    </span><span class="dv">8</span>), ]
+CLC2000.ARGOLIDA.RES &lt;-<span class="st"> </span>CLC2000.ARGOLIDA.RES[-<span class="kw">which</span>(<span class="kw">row.names</span>(CLC2000.ARGOLIDA.RES) %in%<span class="st"> </span>
+<span class="st">    &quot;01&quot;</span>), ]
+devtools::<span class="kw">use_data</span>(CLC2000.ARGOLIDA.RES, <span class="dt">overwrite =</span> T)</code></pre></div>
+<p>Στο πακέτο <code>DasyMapR</code> υπάρχουν ήδη τα δεδομένα αυτά στο φάκελο <code>.\data</code> ως <code>datasets</code> που το συνοδεύουν.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Φορτώνουμε τα δεδομένα</span>
+<span class="kw">data</span>(<span class="st">&quot;CLC2000.ARGOLIDA.RES&quot;</span>)
+<span class="co"># Τι Περιέχει το σετ;</span>
+<span class="kw">kable</span>(<span class="kw">head</span>(CLC2000.ARGOLIDA.RES@data, <span class="dv">3</span>))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">code_00</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">111</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">112</td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left">112</td>
+</tr>
+</tbody>
+</table>
+<p>Και σε πιο άνθρωπο-φιλική μορφή</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ &lt;-<span class="st"> </span><span class="kw">merge</span>(<span class="dt">x =</span> CLC2000.ARGOLIDA.RES, <span class="dt">y =</span> CLC2000_CODES, 
+    <span class="dt">by.x =</span> <span class="st">&quot;code_00&quot;</span>, <span class="dt">by.y =</span> <span class="st">&quot;Code_00&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data, <span class="dv">3</span>))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">code_00</th>
+<th align="left">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">111</td>
+<td align="left">Συνεχής αστική οικοδόμηση</td>
+</tr>
+<tr class="even">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+</tr>
+<tr class="odd">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+</tr>
+</tbody>
+</table>
+<p>Θα θεωρήσουμε ότι ο λόγος της πυκνότητας <span class="math inline">\(111 : 112 = 3 : 1\)</span>. δηλαδή ότι στις περιοχές με πυκνό αστικό ιστό ζουν 3 φορές περισσότερου άνθρωποι ανά μονάδα επιφανείας από ότι στις αραιά δομημένες περιοχές.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+ReDens111 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>/<span class="dv">4</span>, <span class="dv">2</span>)
+ReDens112 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span>/<span class="dv">4</span>, <span class="dv">2</span>)
+ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[<span class="kw">which</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[, 
+    <span class="st">&quot;code_00&quot;</span>] ==<span class="st"> </span><span class="dv">111</span>), <span class="st">&quot;ReDens&quot;</span>] &lt;-<span class="st"> </span>ReDens111
+ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[<span class="kw">which</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[, 
+    <span class="st">&quot;code_00&quot;</span>] ==<span class="st"> </span><span class="dv">112</span>), <span class="st">&quot;ReDens&quot;</span>] &lt;-<span class="st"> </span>ReDens112
+<span class="kw">kable</span>(<span class="kw">head</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">code_00</th>
+<th align="left">DESCRIPTION</th>
+<th align="right">ReDens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">111</td>
+<td align="left">Συνεχής αστική οικοδόμηση</td>
+<td align="right">0.75</td>
+</tr>
+<tr class="even">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">112</td>
+<td align="left">Διακεκομμένη αστική οικοδόμηση</td>
+<td align="right">0.25</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ, <span class="dt">col =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">data</span>(<span class="st">&quot;NUTSV9_LEAC&quot;</span>)
+<span class="kw">plot</span>(NUTSV9_LEAC, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">border =</span> <span class="st">&quot;lightgrey&quot;</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-21-1.png" alt="" /><!-- --></p>
+<p>Καλώντας την <code>etrsAncillarySurface</code> θα υπολογίσουμε την “σχετική πυκνότητα” του κάθε κελιού πλέον με βάση τις παραδοχές που έγιναν: <em>Όλος ο πλυθησμός της Αργολίδας το έτος 2001 κατοικουσε σις περιοχές με συνεχή και διακεκκομενη αστική δόμηση και με σχετική πυκνότητα μάλιστα 1:3.</em> Θα μπορούσαμε να συμπεριλάβουμε και άλλες περιοχές και να του αποδώσουμε κάποιο ποσοστό. (π.χ αγροτικές περιοχές 5 %)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+<span class="kw">data</span>(<span class="st">&quot;NUTSV9_LEAC&quot;</span>)
+the.ancillary.surface.bf &lt;-<span class="st"> </span><span class="kw">etrsAncillarySurface</span>(<span class="dt">input.surface =</span> ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ, 
+    <span class="dt">over.method.type =</span> <span class="st">&quot;PropCal&quot;</span>, <span class="dt">surface.value.col =</span> <span class="dv">3</span>, <span class="dt">cell.size =</span> <span class="dv">1000</span>, <span class="dt">binary =</span> <span class="ot">FALSE</span>)
+<span class="kw">plot</span>(the.ancillary.surface.bf, <span class="dt">col =</span> <span class="st">&quot;purple&quot;</span>)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(NUTSV9_LEAC, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">border =</span> <span class="st">&quot;lightgrey&quot;</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-22-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(the.ancillary.surface.bf@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">WCELLWEIGHT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5453N1679</td>
+<td align="left">1kmE5453N1679</td>
+<td align="left">5453000</td>
+<td align="left">1679000</td>
+<td align="right">0.002125</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5454N1679</td>
+<td align="left">1kmE5454N1679</td>
+<td align="left">5454000</td>
+<td align="left">1679000</td>
+<td align="right">0.011550</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5455N1679</td>
+<td align="left">1kmE5455N1679</td>
+<td align="left">5455000</td>
+<td align="left">1679000</td>
+<td align="right">0.006825</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5453N1680</td>
+<td align="left">1kmE5453N1680</td>
+<td align="left">5453000</td>
+<td align="left">1680000</td>
+<td align="right">0.061250</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5454N1680</td>
+<td align="left">1kmE5454N1680</td>
+<td align="left">5454000</td>
+<td align="left">1680000</td>
+<td align="right">0.073950</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5455N1680</td>
+<td align="left">1kmE5455N1680</td>
+<td align="left">5455000</td>
+<td align="left">1680000</td>
+<td align="right">0.130800</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surface.detailed.table.bf &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;.surface.detailed.table.rds&quot;</span>)</code></pre></div>
+<p>Θα επαναλάβουμε του ίδιους υπολογισμούς θέτοντας την παράμετρο <code>binary = TRUE</code> η οποία δίνει διαφοροποιημένα αποτελέσματα. Για να έχουμε αποτελέσματα θα πρέπει να θέσουμε την σχετική πυκνότητα σε 1. Στην ουσία λειτουργεί σαν την εφαρμογή της MaxArea στον υπολογισμό της βοηθητικής επιφάνειας. Πρακτικά σε φυσικούς όρους σημαίνει αν ένα κελί έχει την ιδιότητα να φιλοξενεί πληθυσμό με τιμή μεγαλύτερη από 50% Στην απεικόνιση που ακολουθεί μόνο τα κελιά με μοβ χρώμα έχουν τιμή για την <code>$WCELLWEGHT</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[<span class="kw">which</span>(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[, 
+    <span class="st">&quot;code_00&quot;</span>] ==<span class="st"> </span><span class="kw">c</span>(<span class="dv">111</span>, <span class="dv">112</span>)), <span class="st">&quot;ReDens&quot;</span>] &lt;-<span class="st"> </span><span class="dv">1</span>
+the.ancillary.surface.bt &lt;-<span class="st"> </span><span class="kw">etrsAncillarySurface</span>(<span class="dt">input.surface =</span> ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ, 
+    <span class="dt">over.method.type =</span> <span class="st">&quot;PropCal&quot;</span>, <span class="dt">surface.value.col =</span> <span class="dv">3</span>, <span class="dt">cell.size =</span> <span class="dv">1000</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(the.ancillary.surface.bt, <span class="dt">col =</span> <span class="st">&quot;purple4&quot;</span>)
+<span class="kw">plot</span>(the.ancillary.surface.bt[<span class="kw">which</span>(the.ancillary.surface.bt[[<span class="st">&quot;WCELLWEIGHT&quot;</span>]] ==<span class="st"> </span>
+<span class="st">    </span><span class="dv">0</span>), ], <span class="dt">col =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="dt">add =</span> T)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">border =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(NUTSV9_LEAC, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">border =</span> <span class="st">&quot;lightgrey&quot;</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-24-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(the.ancillary.surface.bt@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">WCELLWEIGHT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5453N1679</td>
+<td align="left">1kmE5453N1679</td>
+<td align="left">5453000</td>
+<td align="left">1679000</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5454N1679</td>
+<td align="left">1kmE5454N1679</td>
+<td align="left">5454000</td>
+<td align="left">1679000</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5455N1679</td>
+<td align="left">1kmE5455N1679</td>
+<td align="left">5455000</td>
+<td align="left">1679000</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5453N1680</td>
+<td align="left">1kmE5453N1680</td>
+<td align="left">5453000</td>
+<td align="left">1680000</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5454N1680</td>
+<td align="left">1kmE5454N1680</td>
+<td align="left">5454000</td>
+<td align="left">1680000</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5455N1680</td>
+<td align="left">1kmE5455N1680</td>
+<td align="left">5455000</td>
+<td align="left">1680000</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surface.detailed.table.bt &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;.surface.detailed.table.rds&quot;</span>)</code></pre></div>
+<p>Ας δούμε και τα αποτελέσματά του πίνακα καθώς και του προσωρινού αρχείου για τον έλεγχο τον υπολογισμών</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
+<span class="kw">setwd</span>(wd)
+<span class="kw">kable</span>(<span class="kw">head</span>(surface.detailed.table.bf))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Row.names</th>
+<th align="left">CELLCODE</th>
+<th align="left">FEATURE</th>
+<th align="left">AREA</th>
+<th align="left">CELLSHARE</th>
+<th align="left">SURVALUE</th>
+<th align="left">CELLVALUE</th>
+<th align="right">SUMsΗAREi*Vi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5413N1703</td>
+<td align="left">1kmE5413N1703</td>
+<td align="left">25</td>
+<td align="left">308220.7152</td>
+<td align="left">0.3082</td>
+<td align="left">0.25</td>
+<td align="left">0.07705</td>
+<td align="right">0.07705</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5413N1721</td>
+<td align="left">1kmE5413N1721</td>
+<td align="left">50</td>
+<td align="left">20.2178</td>
+<td align="left">0</td>
+<td align="left">0.25</td>
+<td align="left">0</td>
+<td align="right">0.00000</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5414N1703</td>
+<td align="left">1kmE5414N1703</td>
+<td align="left">25</td>
+<td align="left">200020.0517</td>
+<td align="left">0.2</td>
+<td align="left">0.25</td>
+<td align="left">0.05</td>
+<td align="right">0.05000</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5414N1720</td>
+<td align="left">1kmE5414N1720</td>
+<td align="left">50</td>
+<td align="left">18780.6291</td>
+<td align="left">0.0188</td>
+<td align="left">0.25</td>
+<td align="left">0.0047</td>
+<td align="right">0.00470</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5414N1721</td>
+<td align="left">1kmE5414N1721</td>
+<td align="left">50</td>
+<td align="left">456643.8894</td>
+<td align="left">0.4566</td>
+<td align="left">0.25</td>
+<td align="left">0.11415</td>
+<td align="right">0.11415</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5415N1710</td>
+<td align="left">1kmE5415N1710</td>
+<td align="left">34</td>
+<td align="left">215448.6451</td>
+<td align="left">0.2154</td>
+<td align="left">0.25</td>
+<td align="left">0.05385</td>
+<td align="right">0.05385</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
+<h2>Ανακεφαλαιώνοντας</h2>
+<p>Είναι κατανοητό ότι και εδώ τα ζητήματα της κλίμακας του φαινομένου (κάλυψη) και της ανάλυσης (μέγεθος κελιού 1km) είναι σημαντικό να λαμβάνονται υπόψη από τον χρήστη για την παραγωγή αποτελεσμάτων αξιοποιήσιμων και “ρεαλιστικών” ώστε να διατηρείται η πληροφορία και να μην παράγεται νέα αλλά ψευδής. Για την συνέχεια του παραδείγματος θα επιλέξουμε την κατανομή που προέκυψε από την εφαρμογή της <code>etrsAncillarySurface(...,&quot;PropCAl&quot;,...)</code> δηλαδή την <em><code>the.ancillary.surface.bf</code></em></p>
+</div>
+<div id="--" class="section level2">
+<h2>Οι δασυμετρικοί υπολογισμοί</h2>
+<p>H μέθοδος για την εφαρμογή των δασυμετρικών υπολογισμών που θα κλιθεί είναι <code>etsrDasymetricSurface</code> και δέχεται ως ορίσματα μία επιφάνεια πηγή κλάσης <code>EtrsSourceSurface</code>την βοηθητική επιφάνεια κλάσης <code>EtrsAncillarySurface</code> και μία μεταβλητή logical <code>actuall.value</code> όπου εάν δοθεί η τιμή TRUE θα εφαρμοστεί η <code>ActuallVal2Density()</code> που η χρήση της εξηγήθηκε <a href="act">παραπάνω</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+dasymetric.surface &lt;-<span class="st"> </span><span class="kw">EtrsDasymetricSurface</span>(<span class="dt">input.surface.grided =</span> source.surface, 
+    <span class="dt">ancillary.grided =</span> the.ancillary.surface.bf, <span class="dt">actuall.value =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## ~~~ ETRS validity ~~~</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(dasymetric.surface)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> T, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-27-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(dasymetric.surface@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">CELLVALUE</th>
+<th align="right">WCELLWEIGHT</th>
+<th align="right">DASYCELL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">94</td>
+<td align="left">1kmE5488N1683</td>
+<td align="left">5488000</td>
+<td align="left">1683000</td>
+<td align="right">26.65893</td>
+<td align="right">0.047100</td>
+<td align="right">739.05977</td>
+</tr>
+<tr class="even">
+<td align="left">100</td>
+<td align="left">1kmE5489N1683</td>
+<td align="left">5489000</td>
+<td align="left">1683000</td>
+<td align="right">21.69835</td>
+<td align="right">0.006700</td>
+<td align="right">85.56922</td>
+</tr>
+<tr class="odd">
+<td align="left">106</td>
+<td align="left">1kmE5490N1683</td>
+<td align="left">5490000</td>
+<td align="left">1683000</td>
+<td align="right">47.46960</td>
+<td align="right">0.013925</td>
+<td align="right">389.06912</td>
+</tr>
+<tr class="even">
+<td align="left">95</td>
+<td align="left">1kmE5488N1684</td>
+<td align="left">5488000</td>
+<td align="left">1684000</td>
+<td align="right">47.46960</td>
+<td align="right">0.042250</td>
+<td align="right">1180.47901</td>
+</tr>
+<tr class="odd">
+<td align="left">101</td>
+<td align="left">1kmE5489N1684</td>
+<td align="left">5489000</td>
+<td align="left">1684000</td>
+<td align="right">47.46960</td>
+<td align="right">0.070725</td>
+<td align="right">1976.07995</td>
+</tr>
+<tr class="even">
+<td align="left">107</td>
+<td align="left">1kmE5490N1684</td>
+<td align="left">5490000</td>
+<td align="left">1684000</td>
+<td align="right">47.46960</td>
+<td align="right">0.015050</td>
+<td align="right">420.50199</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="---nuts--laea-" class="section level2">
+<h2>Η χρήση του NUTS και LAEA κανάβου</h2>
+<p>Το παράδειγμα που χρησιμοποιήθηκε όπως υπονοήθηκε δεν είναι αρκετά ακριβές αφού δεν χορηγήσαμε επαρκή στοιχεία τόσο για την κατανομή του πληθυσμού όσο και λόγω της μικρής κλίμακας των δεδομένων της κάλυψης. Θα μπορούσαμε να χρησιμοποιήσουμε δεδομένα από τις <a href="http://www.eea.europa.eu/data-and-maps/data/urban-morphological-zones-2000-2">UMZ200</a></p>
+<p>Ειδικά για το πληθυσμό προσφέρονται δεδομένα για το πληθυσμό στον ETRS-LAEA κάναβο για τα έτη 2006 2011 που έχουν προκύψει από την εφαρμογή πιο περίπλοκων αλγορίθμων μπορούν να στο <a href="http://database.espon.eu/db2/resource;jsessionid=0620e4b1ee3fe4232de4caab35e1?idCat=45">ESPOn</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;GEOSTAT_grid_EU_POP_2006_1k_V1_1_1&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(GEOSTAT_grid_EU_POP_2006_1k_V1_1_1))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">GRD_ID</th>
+<th align="right">POP_TOT</th>
+<th align="right">YEAR</th>
+<th align="left">METHD_CL</th>
+<th align="left">CNTR_CODE</th>
+<th align="left">DATA_SRC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmN5142E2862</td>
+<td align="right">2</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+<tr class="even">
+<td align="left">1kmN5141E2862</td>
+<td align="right">13</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmN5141E2864</td>
+<td align="right">211</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+<tr class="even">
+<td align="left">1kmN5140E2862</td>
+<td align="right">1</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmN5139E2876</td>
+<td align="right">33</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+<tr class="even">
+<td align="left">1kmN5138E2849</td>
+<td align="right">1</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">IS</td>
+<td align="left">AIT</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">GR_POP_2006 &lt;-<span class="st"> </span>GEOSTAT_grid_EU_POP_2006_1k_V1_1_1[<span class="kw">which</span>(GEOSTAT_grid_EU_POP_2006_1k_V1_1_1[, 
+    <span class="st">&quot;CNTR_CODE&quot;</span>] %in%<span class="st"> &quot;EL&quot;</span>), ]</code></pre></div>
+<p>Μία πιο προσεκτική ματιά σε αυτά τα δεδομένα δείχνει δεν ακολουθούν την προτεινόμενη κωδικοποίηση των κελιών της <a href="http://inspire.ec.europa.eu/index.cfm/pageid/241/documentid/3390">INSPIRE Specification on Geographical Grid Systems</a> Για να τέτοια προβλήματα αναπτύχθηκε η μέθοδος <code>etrsReverseCellCode</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">GR_POP_2006 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(GR_POP_2006)
+GR_POP_2006 &lt;-<span class="st"> </span><span class="kw">etrsReverseCellCode</span>(<span class="dt">df =</span> GR_POP_2006, <span class="dt">cell.code.col =</span> <span class="dv">1</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(GR_POP_2006))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">GRD_ID</th>
+<th align="right">POP_TOT</th>
+<th align="right">YEAR</th>
+<th align="left">METHD_CL</th>
+<th align="left">CNTR_CODE</th>
+<th align="left">DATA_SRC</th>
+<th align="left">CELLCODE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5663N2213</td>
+<td align="left">1kmN2213E5663</td>
+<td align="right">304</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5663N2213</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5664N2213</td>
+<td align="left">1kmN2213E5664</td>
+<td align="right">73</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5664N2213</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5665N2213</td>
+<td align="left">1kmN2213E5665</td>
+<td align="right">48</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5665N2213</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5666N2213</td>
+<td align="left">1kmN2213E5666</td>
+<td align="right">1</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5666N2213</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5670N2213</td>
+<td align="left">1kmN2213E5670</td>
+<td align="right">215</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5670N2213</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5671N2213</td>
+<td align="left">1kmN2213E5671</td>
+<td align="right">155</td>
+<td align="right">2006</td>
+<td align="left">D</td>
+<td align="left">EL</td>
+<td align="left">AIT</td>
+<td align="left">1kmE5671N2213</td>
+</tr>
+</tbody>
+</table>
+<p>Και για να απεικονισθούν τα δεδομένα μας στη μορφή του κανάβου μπορούμε να καλέσουμε την <code>EtrsGrid</code> και στην συνέχεια θα συγχωνεύσουμε τα πολύγωνα με τις εγγραφές στο data frame με του κωδικούς των κελλιών (<code>row.names,&quot;ID&quot;</code>(),ID).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+GR251 &lt;-<span class="st"> </span>NUTSV9_LEAC[<span class="kw">which</span>(!<span class="kw">is.na</span>(<span class="kw">match</span>(NUTSV9_LEAC[[<span class="st">&quot;N3CD&quot;</span>]], <span class="st">&quot;GR251&quot;</span>))), ]
+GR251 &lt;-<span class="st"> </span><span class="kw">EtrsTransform</span>(GR251)
+GR251.grd &lt;-<span class="st"> </span><span class="kw">etrsGrid</span>(GR251, <span class="dt">cell.size =</span> <span class="dv">1000</span>)
+GR251.grd &lt;-<span class="st"> </span><span class="kw">merge</span>(GR251.grd, GR_POP_2006, <span class="dt">by =</span> <span class="dv">0</span>, <span class="dt">all =</span> F)
+<span class="kw">plot</span>(GR251.grd)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-30-1.png" alt="" /><!-- --></p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD ## Η Δασυμετρική επιφάνεια σε Βοηθητική ======= ## Η Δασυμετρική σε Βοηθητική &gt;&gt;&gt;&gt;&gt;&gt;&gt; 8e7ff89b1d44f91b64c476d81766c5eed543a545</p>
+<p>Όπως αναφέρθηκε τα διοικητικά όρια συχνά αλλάζουν τέτοιο παράδειγμα είναι η περίπτωση του Ευρωπαϊκού χώρου όπου το ιστορικό των <a href="http://ec.europa.eu/eurostat/web/nuts/history">αλλαγων</a> συχνά δυσκολεύει την χρήση και σύγκριση των διαθέσιμων δεδομένων. Τα γεωγραφικά όρια μπορούν να μεταμορφωθούν από το της <a href="http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts13">EUROSTAT</a> Ας δούμε κατ’ αρχήν τις αλλαγές των ορίων στην υπό μελέτη περιοχή την Αργολίδα :</p>
+<p>Φορτώνουμε τα δεδομένα και τα :</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+<span class="co"># Όρια NUTS 2006</span>
+GR25 &lt;-<span class="st"> </span>NUTSV9_LEAC[<span class="kw">which</span>(!<span class="kw">is.na</span>(<span class="kw">match</span>(NUTSV9_LEAC[[<span class="st">&quot;N2CD&quot;</span>]], <span class="st">&quot;GR25&quot;</span>))), ]
+<span class="kw">kable</span>(<span class="kw">head</span>(GR25@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">NUTS3ID</th>
+<th align="left">NUFTTP</th>
+<th align="left">N0CD</th>
+<th align="left">N1CD</th>
+<th align="left">N2CD</th>
+<th align="left">N3CD</th>
+<th align="left">N0NME</th>
+<th align="left">N0NM</th>
+<th align="left">N1NM</th>
+<th align="left">N2NM</th>
+<th align="left">N3NM</th>
+<th align="left">N2_3CD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1312</td>
+<td align="right">1413</td>
+<td align="left">M</td>
+<td align="left">GR</td>
+<td align="left">GR2</td>
+<td align="left">GR25</td>
+<td align="left">GR253</td>
+<td align="left">GR GREECE</td>
+<td align="left">GR ELLADA</td>
+<td align="left">GR2 KENTRIKI ELLADA</td>
+<td align="left">GR25 Peloponnisos</td>
+<td align="left">GR253 Korinthia</td>
+<td align="left">GR25</td>
+</tr>
+<tr class="even">
+<td align="left">1319</td>
+<td align="right">1422</td>
+<td align="left">M</td>
+<td align="left">GR</td>
+<td align="left">GR2</td>
+<td align="left">GR25</td>
+<td align="left">GR252</td>
+<td align="left">GR GREECE</td>
+<td align="left">GR ELLADA</td>
+<td align="left">GR2 KENTRIKI ELLADA</td>
+<td align="left">GR25 Peloponnisos</td>
+<td align="left">GR252 Arkadia</td>
+<td align="left">GR25</td>
+</tr>
+<tr class="odd">
+<td align="left">1327</td>
+<td align="right">1438</td>
+<td align="left">M</td>
+<td align="left">GR</td>
+<td align="left">GR2</td>
+<td align="left">GR25</td>
+<td align="left">GR251</td>
+<td align="left">GR GREECE</td>
+<td align="left">GR ELLADA</td>
+<td align="left">GR2 KENTRIKI ELLADA</td>
+<td align="left">GR25 Peloponnisos</td>
+<td align="left">GR251 Argolida</td>
+<td align="left">GR25</td>
+</tr>
+<tr class="even">
+<td align="left">1329</td>
+<td align="right">1442</td>
+<td align="left">M</td>
+<td align="left">GR</td>
+<td align="left">GR2</td>
+<td align="left">GR25</td>
+<td align="left">GR254</td>
+<td align="left">GR GREECE</td>
+<td align="left">GR ELLADA</td>
+<td align="left">GR2 KENTRIKI ELLADA</td>
+<td align="left">GR25 Peloponnisos</td>
+<td align="left">GR254 Lakonia</td>
+<td align="left">GR25</td>
+</tr>
+<tr class="odd">
+<td align="left">1334</td>
+<td align="right">1451</td>
+<td align="left">M</td>
+<td align="left">GR</td>
+<td align="left">GR2</td>
+<td align="left">GR25</td>
+<td align="left">GR255</td>
+<td align="left">GR GREECE</td>
+<td align="left">GR ELLADA</td>
+<td align="left">GR2 KENTRIKI ELLADA</td>
+<td align="left">GR25 Peloponnisos</td>
+<td align="left">GR255 Messinia</td>
+<td align="left">GR25</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Νέα όρια NUTS 2013</span>
+<span class="kw">data</span>(<span class="st">&quot;NUTS_2013_01M_EL&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(NUTS_2013_01M_EL@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NUTS_ID</th>
+<th align="right">STAT_LEVL_</th>
+<th align="right">SHAPE_AREA</th>
+<th align="right">SHAPE_LEN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">667</td>
+<td align="left">EL522</td>
+<td align="right">3</td>
+<td align="right">0.3924027</td>
+<td align="right">4.937318</td>
+</tr>
+<tr class="even">
+<td align="left">668</td>
+<td align="left">EL523</td>
+<td align="right">3</td>
+<td align="right">0.2700854</td>
+<td align="right">3.152490</td>
+</tr>
+<tr class="odd">
+<td align="left">669</td>
+<td align="left">EL524</td>
+<td align="right">3</td>
+<td align="right">0.2679729</td>
+<td align="right">3.318840</td>
+</tr>
+<tr class="even">
+<td align="left">670</td>
+<td align="left">EL525</td>
+<td align="right">3</td>
+<td align="right">0.1616531</td>
+<td align="right">2.621749</td>
+</tr>
+<tr class="odd">
+<td align="left">671</td>
+<td align="left">EL631</td>
+<td align="right">3</td>
+<td align="right">0.5604019</td>
+<td align="right">6.666641</td>
+</tr>
+<tr class="even">
+<td align="left">672</td>
+<td align="left">EL632</td>
+<td align="right">3</td>
+<td align="right">0.3360470</td>
+<td align="right">3.150293</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NUTS_2013_01M_65 &lt;-<span class="st"> </span><span class="kw">EtrsTransform</span>(NUTS_2013_01M_EL[<span class="kw">grep</span>(<span class="st">&quot;^EL65&quot;</span>, NUTS_2013_01M_EL[[<span class="st">&quot;NUTS_ID&quot;</span>]]), 
+    ])
+<span class="kw">plot</span>(NUTS_2013_01M_65)
+<span class="kw">plot</span>(GR25)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-31-1.png" alt="" /><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-31-2.png" alt="" /></p>
+<p>Για όποιον ενδιαφέρεται για δεδομένα κοινωνικό-οικονομικά, περιβαλλοντικά κ.λ.π. ήδη γνωρίζει ότι μια σημαντική πηγή στοιχείων είναι <a href="http://ec.europa.eu/eurostat/">EurostatDatabase</a> Με την χρήση του <code>package eurostat</code> μπορούμε να συνεχίσουμε την ανάλυση μας και να απεικονίσουμε κοινωνικό - οικονομικά δεδομένα στον κάναβο. Π.Χ. μπορούμε να κατεβάσουμε δεδομένα για το ακαθάριστο εθνικό προϊόν ανά κάτοικο και να τα προβάλουμε στο κελί επιμερίζοντας τα με βάση τον αριθμό κατοίκων ανά κελί από τα προηγούμενα βήματα.</p>
+<p>Ας αναζητήσουμε κάποια στοιχεία από την Eurostat. Θα κάνουμε την αναζήτηση με βάση τo γεωγραφικό επίπεδο αναφοράς (NUTS3)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">info &lt;-<span class="st"> </span><span class="kw">search_eurostat</span>(<span class="st">&quot;NUTS 3&quot;</span>)
+<span class="kw">kable</span>(info[<span class="kw">c</span>(<span class="dv">23</span>:<span class="dv">30</span>), <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)])</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">title</th>
+<th align="left">code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">215</td>
+<td align="left">Private households by composition, age group of children and NUTS 3 regions</td>
+<td align="left">cens_01rhagchi</td>
+</tr>
+<tr class="even">
+<td align="left">217</td>
+<td align="left">Dwellings by type of housing, building and NUTS 3 regions</td>
+<td align="left">cens_01rdhh</td>
+</tr>
+<tr class="odd">
+<td align="left">218</td>
+<td align="left">Persons by type of building and NUTS 3 regions</td>
+<td align="left">cens_01rdbuild</td>
+</tr>
+<tr class="even">
+<td align="left">222</td>
+<td align="left">Average annual population to calculate regional GDP data (thousand persons) by NUTS 3 regions</td>
+<td align="left">nama_10r_3popgdp</td>
+</tr>
+<tr class="odd">
+<td align="left">223</td>
+<td align="left">Gross domestic product (GDP) at current market prices by NUTS 3 regions</td>
+<td align="left">nama_10r_3gdp</td>
+</tr>
+<tr class="even">
+<td align="left">226</td>
+<td align="left">Gross value added at basic prices by NUTS 3 regions</td>
+<td align="left">nama_10r_3gva</td>
+</tr>
+<tr class="odd">
+<td align="left">229</td>
+<td align="left">Employment (thousand persons) by NUTS 3 regions</td>
+<td align="left">nama_10r_3empers</td>
+</tr>
+<tr class="even">
+<td align="left">238</td>
+<td align="left">Gross domestic product (GDP) at current market prices by NUTS 3 regions</td>
+<td align="left">nama_r_e3gdp</td>
+</tr>
+</tbody>
+</table>
+<p>επιλέγονται δεδομένα για το ακαθάριστο εθνικό προϊόν του 2001 (Gross domestic product (GDP) at current market prices by NUTS 3 regions) και εiδικότερα για την περιοχή ενδιαφέροντος. H Επόμενη γραμμή χρειάζεται σύνδεση και δεν θα τρέξει αν δεν υπάρχει οπότε στο παράδειγμά μας</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># nama_10r_3gdp &lt;- get_eurostat(id = &#39;nama_10r_3gdp&#39; ,filters =</span>
+<span class="co"># list(time=2006),time_format = &#39;num&#39;)</span></code></pre></div>
+<p>Τα δεδομένα αυτά έχουν ήδη και περιέχονται στο πακέτο. Έτσι ι τα φορτώνονται από το /data με την χρήση <code>data()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;nama_10r_3gdp&quot;</span>)
+dat &lt;-<span class="st"> </span>nama_10r_3gdp</code></pre></div>
+<p>α περιορίσουμε την εργασία εδώ για λόγους οικονομίας στον νομό Αργολίδας (και “αναγκαστικά” και Αργολίδας)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">GDP651_2006 &lt;-<span class="st"> </span>dat[<span class="kw">grep</span>(<span class="st">&quot;^EL651&quot;</span>, dat$geo), ]
+<span class="kw">kable</span>(<span class="kw">label_eurostat</span>(GDP651_2006))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">unit</th>
+<th align="left">geo</th>
+<th align="right">time</th>
+<th align="right">values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">723</td>
+<td align="left">Euro per inhabitant</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">12800</td>
+</tr>
+<tr class="even">
+<td align="left">2553</td>
+<td align="left">Euro per inhabitant in percentage of the EU average</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">63</td>
+</tr>
+<tr class="odd">
+<td align="left">4383</td>
+<td align="left">Million euro</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">2426</td>
+</tr>
+<tr class="even">
+<td align="left">6213</td>
+<td align="left">Million PPS (purchasing power standard)</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">3103</td>
+</tr>
+<tr class="odd">
+<td align="left">8043</td>
+<td align="left">Purchasing Power Standard per inhabitant</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">16300</td>
+</tr>
+<tr class="even">
+<td align="left">9873</td>
+<td align="left">Purchasing Power Standards per inhabitant in percentage of the EU average</td>
+<td align="left">Argolida, Arkadia</td>
+<td align="right">2001</td>
+<td align="right">80</td>
+</tr>
+</tbody>
+</table>
+<p>Για να γίνει γεωναφορά των δεδομένων αυτών θα χρησιμοποιήσουμε τα όρια όπως αυτά παρέχονται <a href="http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts13">EUROSTAT</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+NUTS_2013_01M_651 &lt;-<span class="st"> </span><span class="kw">EtrsTransform</span>(NUTS_2013_01M_EL[<span class="kw">grep</span>(<span class="st">&quot;^EL651&quot;</span>, NUTS_2013_01M_EL[[<span class="st">&quot;NUTS_ID&quot;</span>]]), 
+    ])
+<span class="kw">kable</span>(NUTS_2013_01M_651@data)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NUTS_ID</th>
+<th align="right">STAT_LEVL_</th>
+<th align="right">SHAPE_AREA</th>
+<th align="right">SHAPE_LEN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">673</td>
+<td align="left">EL651</td>
+<td align="right">3</td>
+<td align="right">0.670281</td>
+<td align="right">7.572672</td>
+</tr>
+</tbody>
+</table>
+<p>Αρχικά γίνεται η γεωαναφορά των στοιχείων</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NUTS_2013_01M_651 &lt;-<span class="st"> </span><span class="kw">merge</span>(NUTS_2013_01M_651, GDP651_2006[<span class="dv">1</span>, ], <span class="dt">by.x =</span> <span class="st">&quot;NUTS_ID&quot;</span>, 
+    <span class="dt">by.y =</span> <span class="st">&quot;geo&quot;</span>, <span class="dt">all =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>H χρήση της <code>merge</code> ενδεχομένως να προκαλέσει αλλαγή στα <code>rownames</code> του <code>dataframe</code> οπότε έστω και προληπτικά τα διορθώνουμε</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">row.names</span>(NUTS_2013_01M_651@data) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">slot</span>(NUTS_2013_01M_651, <span class="st">&quot;polygons&quot;</span>), 
+    function(x) <span class="kw">slot</span>(x, <span class="st">&quot;ID&quot;</span>))
+<span class="kw">plot</span>(NUTS_2013_01M_651)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-38-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(NUTS_2013_01M_651@data)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NUTS_ID</th>
+<th align="right">STAT_LEVL_</th>
+<th align="right">SHAPE_AREA</th>
+<th align="right">SHAPE_LEN</th>
+<th align="left">unit</th>
+<th align="right">time</th>
+<th align="right">values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">673</td>
+<td align="left">EL651</td>
+<td align="right">3</td>
+<td align="right">0.670281</td>
+<td align="right">7.572672</td>
+<td align="left">EUR_HAB</td>
+<td align="right">2001</td>
+<td align="right">12800</td>
+</tr>
+<tr class="even">
+<td align="left">Στην σ</td>
+<td align="left">υνέχεια θα</td>
+<td align="right">χρησιμοποιήσ</td>
+<td align="right">ουμε την `etr</td>
+<td align="right">sSourceSurfa</td>
+<td align="left">ce` για να</td>
+<td align="right">προβάλ</td>
+<td align="right">λουμε στον καναβο το “φαινόμενο” της κατανομής του κατά κεφαλήν ακαθάριστου εθνικού προϊόντος</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+NUTS_2013_01M_651_GDP &lt;-<span class="st"> </span><span class="kw">etrsSourceSurface</span>(<span class="dt">input.surface =</span> NUTS_2013_01M_651, 
+    <span class="dt">over.method.type =</span> <span class="st">&quot;PropCal&quot;</span>, <span class="dt">surface.value.col =</span> <span class="dv">7</span>, <span class="dt">cell.size =</span> <span class="dv">1000</span>)
+<span class="kw">plot</span>(NUTS_2013_01M_651_GDP)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-39-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(NUTS_2013_01M_651_GDP@data))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">CELLVALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5468N1643</td>
+<td align="left">1kmE5468N1643</td>
+<td align="left">5468000</td>
+<td align="left">1643000</td>
+<td align="right">7.68</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5469N1643</td>
+<td align="left">1kmE5469N1643</td>
+<td align="left">5469000</td>
+<td align="left">1643000</td>
+<td align="right">24.32</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5463N1644</td>
+<td align="left">1kmE5463N1644</td>
+<td align="left">5463000</td>
+<td align="left">1644000</td>
+<td align="right">2.56</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5464N1644</td>
+<td align="left">1kmE5464N1644</td>
+<td align="left">5464000</td>
+<td align="left">1644000</td>
+<td align="right">3031.04</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5465N1644</td>
+<td align="left">1kmE5465N1644</td>
+<td align="left">5465000</td>
+<td align="left">1644000</td>
+<td align="right">5710.08</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5466N1644</td>
+<td align="left">1kmE5466N1644</td>
+<td align="left">5466000</td>
+<td align="left">1644000</td>
+<td align="right">6620.16</td>
+</tr>
+</tbody>
+</table>
+<p>Η προηγούμενη επιφάνεια <code>dasymetric.surface</code> που υπολογίστηκε ως Δασυμετρική επιφάνεια τώρα θα μετατραπεί σε βοηθητική επιφάνεια και θα χρησιμοποιεί για την κατανομή της τιμής της GDP. Σε αυτήν απεικονιζόταν ο αριθμός των κατοίκων ανά κελί που είχε την ιδιότητα του συνεχούς ή αστικού ιστού</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(dasymetric.surface@data))
+POP_2001_ancillary &lt;-<span class="st"> </span><span class="kw">etrsDasymetric2Ancillary</span>(dasymetric.surface)
+<span class="kw">row.names</span>(POP_2001_ancillary@data) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">slot</span>(POP_2001_ancillary, <span class="st">&quot;polygons&quot;</span>), 
+    function(x) <span class="kw">slot</span>(x, <span class="st">&quot;ID&quot;</span>))</code></pre></div>
+<p>Τέλος με την κλίση της <code>etrsPropWeightedValue</code> θα υπολογιστεί η τιμή του ακαθάριστου προϊόντος σε κάθε κελί</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+DASY_GPD &lt;-<span class="st"> </span><span class="kw">etrsPropWeightedValue</span>(<span class="dt">input.surface.grided =</span> NUTS_2013_01M_651_GDP, 
+    <span class="dt">ancillary.grided =</span> POP_2001_ancillary)</code></pre></div>
+<pre><code>## ~~~ ETRS validity ~~~</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(DASY_GPD)
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> T, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-42-1.png" alt="" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(DASY_GPD))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">CELLVALUE</th>
+<th align="right">WCELLWEIGHT</th>
+<th align="right">DASYCELL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">93</td>
+<td align="left">1kmE5488N1683</td>
+<td align="left">5488000</td>
+<td align="left">1683000</td>
+<td align="right">7016.96</td>
+<td align="right">739.05977</td>
+<td align="right">5185952.8</td>
+</tr>
+<tr class="even">
+<td align="left">99</td>
+<td align="left">1kmE5489N1683</td>
+<td align="left">5489000</td>
+<td align="left">1683000</td>
+<td align="right">2048.00</td>
+<td align="right">85.56922</td>
+<td align="right">175245.8</td>
+</tr>
+<tr class="odd">
+<td align="left">105</td>
+<td align="left">1kmE5490N1683</td>
+<td align="left">5490000</td>
+<td align="left">1683000</td>
+<td align="right">12800.00</td>
+<td align="right">389.06912</td>
+<td align="right">4980084.7</td>
+</tr>
+<tr class="even">
+<td align="left">94</td>
+<td align="left">1kmE5488N1684</td>
+<td align="left">5488000</td>
+<td align="left">1684000</td>
+<td align="right">12277.76</td>
+<td align="right">1180.47901</td>
+<td align="right">14493637.9</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">1kmE5489N1684</td>
+<td align="left">5489000</td>
+<td align="left">1684000</td>
+<td align="right">12029.44</td>
+<td align="right">1976.07995</td>
+<td align="right">23771135.2</td>
+</tr>
+<tr class="even">
+<td align="left">106</td>
+<td align="left">1kmE5490N1684</td>
+<td align="left">5490000</td>
+<td align="left">1684000</td>
+<td align="right">12800.00</td>
+<td align="right">420.50199</td>
+<td align="right">5382425.5</td>
+</tr>
+</tbody>
+</table>
+<p>Τέλος η μετατροπή των αποτελέσματα σε raster θα έκανε τα ευκολότερα διαθέσιμα για χρήση. Θα χρησιμοποιήσουμε την <code>etrsDasymetric2Raster</code>που εξαρτάται απο το πακέτο <code>raster</code> για να επιτύχουμε το ζητούμενο αποτέλεσμα</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))
+DASY_GPD_RASTER &lt;-<span class="st"> </span><span class="kw">etrsDasymetric2Raster</span>(<span class="dt">dasymetric.surface =</span> DASY_GPD)
+rw.colors &lt;-<span class="st"> </span>grey.colors
+<span class="kw">image</span>(DASY_GPD_RASTER, <span class="dt">col =</span> <span class="kw">rw.colors</span>(<span class="dv">5</span>))
+<span class="kw">plot</span>(ΑΡΓΟΛΙΔΑ.ETRS, <span class="dt">add =</span> T, <span class="dt">border =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="DasyMapR-vignette_files/figure-html/unnamed-chunk-43-1.png" alt="" /><!-- --></p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

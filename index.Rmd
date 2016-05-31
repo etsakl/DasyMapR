@@ -1,0 +1,5 @@
+---
+title: "About this Website"
+----
+
+Το πακέτο της R που αναπτύχθηκε περιέχει μία σειρά εργαλείων με σκοπό την υλοποίηση δασυμετρικών χαρτών με την μέθοδο του επιμερισμού των δεδομένων στον κανονικό ETRS-LAEA κάναβο. Πληροφορίες για τον γεωγραφικό κανάβο μπορούν να βρεθούν [INSPIRE Specification on Geographical Grid Systems](http://inspire.ec.europa.eu/index.cfm/pageid/241/documentid/3390)
