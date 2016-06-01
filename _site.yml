@@ -7,3 +7,9 @@ navbar:
     - text: "Vignette"
       href: DasyMapR-vignette.html
 output_dir:  "."
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    include:
+    css: styles.css
