@@ -9,7 +9,9 @@ navbar:
 output_dir:  "."
 output:
   html_document:
-    theme: cosmo
+    theme: united
     highlight: textmate
-    include:
-    css: styles.css
+    fig_width: 4
+    fig_height: 4
+    fig_show: hold
+    fig_align: center

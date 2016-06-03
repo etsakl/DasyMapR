@@ -2,14 +2,12 @@
 title: "DasyMapR - Ένας οδηγός για την χρήση του πακέτου"
 author: "Τσακλάνος Βαγγέλης"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-
-
-vignette: >
-  %\VignetteIndexEntry{DasyMapR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
+
 ```{r,echo=FALSE}
 library(knitr)
 opts_chunk$set(
@@ -33,6 +31,7 @@ message = FALSE
 * Βοηθητική Επιφάνεια
 * Οι δασυμετρικοί υπολογισμοί
 * Η Δασυμετρική επιφάνεια σε Βοηθητική 
+* H Δασυμετρική Επιφάνεια σε Raster
 
 
 
@@ -364,11 +363,8 @@ plot(GR251.grd)
 plot(ΑΡΓΟΛΙΔΑ.ETRS,add=TRUE,border=2,lwd=3)
 ```
 
-<<<<<<< HEAD
+
 ## Η Δασυμετρική επιφάνεια σε Βοηθητική 
-=======
-## Η Δασυμετρική σε Βοηθητική 
->>>>>>> 8e7ff89b1d44f91b64c476d81766c5eed543a545
 
 Όπως αναφέρθηκε τα διοικητικά όρια συχνά αλλάζουν τέτοιο παράδειγμα είναι η περίπτωση του Ευρωπαϊκού χώρου όπου το ιστορικό των [αλλαγων](http://ec.europa.eu/eurostat/web/nuts/history)  συχνά δυσκολεύει την χρήση και σύγκριση των διαθέσιμων δεδομένων. Τα γεωγραφικά όρια μπορούν να μεταμορφωθούν από το  της [EUROSTAT](http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts13) 
 Ας δούμε κατ' αρχήν τις αλλαγές των ορίων στην υπό μελέτη περιοχή την Αργολίδα :
@@ -471,6 +467,7 @@ plot(ΑΡΓΟΛΙΔΑ.ETRS,add=T,border=2,lwd=2)
 kable(head(DASY_GPD))
 ```
 
+## H Δασυμετρική Επιφάνεια σε Raster
 Τέλος η μετατροπή των αποτελέσματα σε raster θα έκανε τα  ευκολότερα διαθέσιμα για χρήση. Θα χρησιμοποιήσουμε την `etrsDasymetric2Raster`που εξαρτάται απο το πακέτο `raster` για να επιτύχουμε το ζητούμενο αποτέλεσμα 
 
 ```{r,fig.height=5,fig.width=7}
