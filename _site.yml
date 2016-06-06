@@ -7,7 +7,7 @@ navbar:
     - text: "Vignette"
       href: DasyMapR-vignette.html
       -text: "DasyMapR on Cloud"
-      href: http://52.50.222.241:8787/
+      href: [](http://52.50.222.241:8787/)
 output_dir:  "."
 output:
   html_document:
