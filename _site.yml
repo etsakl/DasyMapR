@@ -1,7 +1,7 @@
 name: "DasyMapR"
 navbar:
   title: "DasyMapR - Ένας οδηγός για την χρήση του πακέτου"
-  left:
+  right:
     - text: "Home"
       href: index.html
     - text: "Vignette"
