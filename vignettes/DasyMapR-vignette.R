@@ -7,7 +7,6 @@ warning = FALSE,
 message = FALSE
 )
 
-<<<<<<< HEAD
 ## ----eval=F,echo=TRUE,results='hide'-------------------------------------
 #  install.packages("devtools")
 #  library(devtools)
@@ -145,10 +144,12 @@ ReDens112<-round(1/4,2)
 kable(head(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data))
 plot(ΑΡΓΟΛΙΔΑ.ETRS,lwd=2,border=2)
 plot(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ,col="purple",add=TRUE)
+data("NUTSV9_LEAC")
 plot(NUTSV9_LEAC,add=TRUE,border="lightgrey")
 
 ## ----results='hide',fig.height=5,fig.width=7-----------------------------
 par("mar"=c(.1,.1,.1,.1))
+data("NUTSV9_LEAC")
 the.ancillary.surface.bf <- etrsAncillarySurface(input.surface = ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ,over.method.type = "PropCal",surface.value.col = 3,cell.size = 1000,binary = FALSE)
 plot(the.ancillary.surface.bf,col= "purple")
 plot(ΑΡΓΟΛΙΔΑ.ETRS, add = TRUE, lwd = 2, border = 2)
@@ -269,5 +270,3 @@ rw.colors<-grey.colors
 image(DASY_GPD_RASTER,col=rw.colors(5))
 plot(ΑΡΓΟΛΙΔΑ.ETRS,add=T,border=2,lwd=2)
 
-=======
->>>>>>> 8e7ff89b1d44f91b64c476d81766c5eed543a545
