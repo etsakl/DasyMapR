@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "name: \"DasyMapR\"\nnavbar:\n  title: \"DasyMapR - Ένας οδηγός για την χρήση του πακέτου\"\n  left:\n    - text: \"Home\"\n      href: index.html\n    - text: \"Vignette\"\n      href: DasyMapR-vignette.html\n      -text: \"DasyMapR on Cloud\"\n      href: [](http://52.50.222.241:8787/)\noutput_dir:  \".\"\noutput:\n  html_document:\n    theme: united\n    highlight: textmate\n    fig_width: 4\n    fig_height: 4\n    fig_show: hold\n    fig_align: center\n",
+    "contents" : "name: \"DasyMapR\"\nnavbar:\n  title: \"DasyMapR - Ένας οδηγός για την χρήση του πακέτου\"\n  left:\n    - text: \"Home\"\n      href: index.html\n    - text: \"Vignette\"\n      href: DasyMapR-vignette.html\n    - text: \"DasyMapR on Cloud\"\n      href: http://52.50.222.241:8787\n\noutput_dir:  \".\"\noutput:\n  html_document:\n    theme: united\n    highlight: textmate\n    fig_width: 4\n    fig_height: 4\n    fig_show: hold\n    fig_align: center\n",
     "created" : 1465226087936.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3658561520",
+    "hash" : "491163616",
     "id" : "E7F71478",
-    "lastKnownWriteTime" : 1465226187,
-    "last_content_update" : 1465226187493,
+    "lastKnownWriteTime" : 1465226799,
+    "last_content_update" : 1465226799319,
     "path" : "~/ownCloud/plsthesis/DasyMapR/_site.yml",
     "project_path" : "_site.yml",
     "properties" : {
