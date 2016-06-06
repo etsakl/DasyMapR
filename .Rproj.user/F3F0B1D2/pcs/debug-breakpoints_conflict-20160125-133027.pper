@@ -1,0 +1,21 @@
+{
+    "debugBreakpointsState" : {
+        "breakpoints" : [
+            {
+                "editor_line_number" : 46,
+                "editor_state" : 1,
+                "function_name" : "etrsPoints.default",
+                "function_steps" : "4",
+                "id" : 0,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 46,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "~/ownCloud/plsthesis/DasyMapR/R/Class-EtrsPoint.R",
+                "state" : 1,
+                "type" : 0
+            }
+        ]
+    }
+}
