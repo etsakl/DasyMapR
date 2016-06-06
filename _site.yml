@@ -10,7 +10,6 @@ navbar:
       href: http://52.50.222.241:8787
     - text: "DasyMapR dashboard"
       href: http://52.50.222.241:3838
-
 output_dir:  "."
 output:
   html_document:
