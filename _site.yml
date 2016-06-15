@@ -9,7 +9,7 @@ navbar:
     - text: "DasyMapR on Cloud"
       href: http://52.50.222.241:8787
     - text: "DasyMapR dashboard"
-      href: http://52.50.222.241:3838
+      href: http://52.50.222.241:3838/DasyMapR-shinyapp/
 output_dir:  "."
 output:
   html_document:
