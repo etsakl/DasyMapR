@@ -1,12 +1,9 @@
-# Geocoding script for large list of addresses.
-# Shane Lynn 10/10/2013
-
 #load up the ggmap library
 library(ggmap)
 # get the input data
 setwd("~/ownCloud/plsthesis/data/ZIP Codes Greece")
 infile<-getwd()
-data<- read.csv("ZIP Codes Greece.csv",sep=";",header = FALSE)
+data<- read.csv("ZIP Codes Greece_corrected.csv",sep=";",header = FALSE)
 colnames(data)<-c("id","generic","route","NA","administrative_area","postal_code")
 # get the address list, and append "Ireland" to the end to increase accuracy
 # (change or remove this if your address already include a country etc.)

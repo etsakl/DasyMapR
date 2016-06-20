@@ -39,5 +39,6 @@ Collate:
     'DasyMapR-package.R'
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    deldir
 VignetteBuilder: knitr
