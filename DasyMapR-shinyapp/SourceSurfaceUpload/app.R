@@ -9,9 +9,9 @@ ui <- function(input, output) {
   fixedPage(
     includeCSS("bootstrap.min.css"),
     # Vertical Layout ---------------------------------------------------------
-       navbarPage(
+    navbarPage(
       "Επιφάνεια Πηγή",
-            # Μεταφόρτωσε επιφάνεια πηγή ----------------------------------------------
+      # Μεταφόρτωσε επιφάνεια πηγή ----------------------------------------------
       tabPanel(
         "Φόρτωση Επιφάνειας Πηγής",
         sidebarLayout(
@@ -39,8 +39,8 @@ ui <- function(input, output) {
             textOutput(outputId = 'Titledf'),
             br(),
             tableOutput(outputId = 'sourceSurfaceTable')
-            
-            
+
+
           )
         )
       ),
@@ -86,20 +86,25 @@ ui <- function(input, output) {
               ),
               selected = "1000",
               multiple = FALSE
-              
+
             ),
             br(),
             actionButton('surface_con', label = "Συνέχεια")
           ),
-          mainPanel(plotOutput('source.surface'))
+
+          mainPanel(
+            plotOutput('source.surface'),
+            br(),
+            tableOutput(outputId = 'sourceSurfaceTableg')
+          )
         )
       )
-      
-      
-      
+
+
+
     )
   )
-  
+
 }
 
 # SERVER ------------------------------------------------------------------
@@ -110,7 +115,10 @@ server <- function(input, output, session) {
     validate(need(input$shp_file, message = FALSE))
     input$shp_file
   })
-  
+
+  if(!dir.exists("Public"))
+    dir.create("Public", showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
   input.surface <- reactive({
     req(input$shp_file)
     if (!is.data.frame(userFile()))
@@ -119,7 +127,7 @@ server <- function(input, output, session) {
     dir <- unique(dirname(infiles))
     outfiles <- file.path(dir, userFile()$name)
     purrr::walk2(infiles, outfiles, ~ file.rename(.x, .y))
-    
+
     inputSurface <-
       try(readOGR(dir, strsplit(userFile()$name[1], "\\.")[[1]][1], encoding = "UTF8"), TRUE)
     if (class(input.surface) == "try-error")
@@ -129,58 +137,63 @@ server <- function(input, output, session) {
     save(inputSurface, file = "Public/input.surface.RData")
     inputSurface
   })
-  
-  
-  
+
+
+
   observeEvent(input$shp_file, {
     output$Titlegeo <- renderText({
       "Επιφάνεια Πηγή: Γεωμετρία"
     })
   })
-  
+
   output$inputSurface <- renderPlot(height = 300, {
     plot(input.surface())
   })
-  
+
   observeEvent(input$shp_file, {
     output$Titledf <-
       renderText({
         "Επιφάνεια Πηγή: Περιγραφικά Δεδομένα"
       })
   })
-  
+
   output$sourceSurfaceTable <-
     renderTable(head(input.surface()@data))
-  
+
   observeEvent(input$shp_file, {
     output$Oksource <-
       renderText({
         "Η επιφάνεια πηγή φορτώθηκε. Συνεχίστε στην προετοιμασία της επιφάνειας"
       })
   })
-  
-  
-  
+
+wd<-getwd()
+setwd("Public")
   source.surface <- eventReactive(input$surface_con, {
     insrf <- input.surface()
-   withProgress(message = "working",value = 0,{ 
-    ss <<- do.call(
-      etrsSourceSurface,
-      list(
-        input.surface = insrf,
-        over.method.type = input$over.method.type,
-        surface.value.col = input$surface.value.col,
-        cell.size = as.numeric(input$cell.size)
+    withProgress(message = "working", value = 0, {
+      ss <<- do.call(
+        etrsSourceSurface,
+        list(
+          input.surface = insrf,
+          over.method.type = input$over.method.type,
+          surface.value.col = as.numeric(input$surface.value.col),
+          cell.size = as.numeric(input$cell.size)
+        )
       )
-    )})
-    #save(ss, file = "Public/source.surface.RData")
+    })
+    save(ss, file = "Public/source.surface.RData")
     ss
   })
-  
-  
+setwd(wd)
+
   output$source.surface <- renderPlot({
     plot(source.surface())
   })
+
+  output$sourceSurfaceTableg <-
+    renderTable(head(source.surface()@data,5))
+
 }
 
 

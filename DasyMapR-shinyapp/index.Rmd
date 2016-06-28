@@ -24,6 +24,8 @@ message = FALSE
 ```{r,echo=FALSE,cache=FALSE}
 shinyAppDir("SourceSurfaceUpload",options = list(width="100%",height=700))
 shinyAppDir("AncillarySurfaceUpload",options = list(width="100%",height=700))
+shinyAppDir("DasymetricCalc",options = list(width="100%",height=700))
+
 ```
 
 

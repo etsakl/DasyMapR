@@ -387,7 +387,7 @@ etrsSurface.default <-
         etrsMaxArea(the.etrs.grid = the.etrs.grid,the.surface = input.surface)
       CELLVALUE <- "FEATURE"
     }else{
-      if (over.method.type %in% "PropCal") {
+      if (identical(x = over.method.type,y = "PropCal")) {
         source.surface <-
           etrsPropValue(
             the.etrs.grid = the.etrs.grid,
