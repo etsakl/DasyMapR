@@ -7,9 +7,9 @@ navbar:
     - text: "Vignette"
       href: DasyMapR-vignette.html
     - text: "DasyMapR on Cloud"
-      href: http://52.50.111.52:8787
+      href: http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:8787
     - text: "DasyMapR dashboard"
-      href: http://52.50.111.52:3838/DasyMapR-shinyapp/
+      href: http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:3838
 output_dir:  "."
 output:
   html_document:
