@@ -8,10 +8,10 @@
 #' @export ETRS
 ETRS <- setClass(
   Class = "ETRS",
-  representation(etrs.cell.codes.columns = "character","VIRTUAL"),
+  representation(etrs.cell.codes.columns = "character", "VIRTUAL"),
 
   prototype = prototype(
-    etrs.cell.codes.columns = c("CELLCODES","EASTOFORIGIN","NORTHOFORIGIN")
+    etrs.cell.codes.columns = c("CELLCODES", "EASTOFORIGIN", "NORTHOFORIGIN")
   )
   ,
   validity = function(object) {
@@ -37,12 +37,13 @@ ETRS <- setClass(
 
 if (!isGeneric("CheckEtrsValidity")) {
   setGeneric(
-    name = "CheckEtrsValidity", def = function(object) {
+    name = "CheckEtrsValidity",
+    def = function(object) {
       standardGeneric("CheckEtrsValidity")
     }
   )
 
-}else{
+} else{
   stop("You have to remove the CheckEtrsValidity generic before you displace it")
 }
 
@@ -71,7 +72,7 @@ setMethod(
   signature = "Spatial",
   definition = function(object) {
     # Only spatial objects have CRS
-    if (!is(object,"Spatial"))
+    if (!is(object, "Spatial"))
       stop("Only Saptial objects are valid")
 
     # Which must be ETRS89-LAEA
@@ -91,11 +92,12 @@ setMethod(
 
 if (!isGeneric("CheckEtrsResolution")) {
   setGeneric(
-    name = "CheckEtrsResolution", def = function(cell.size) {
+    name = "CheckEtrsResolution",
+    def = function(cell.size) {
       standardGeneric("CheckEtrsResolution")
     }
   )
-}else{
+} else{
   stop("You have to remove the CheckEtrsResolution generic before you displace it")
 }
 
@@ -121,9 +123,9 @@ setMethod(
     # EEA 2008 compatible (10^n / 2^m) n=c(0:5) and m=c(c0:2)
     primary.level <- c(0:5)
     quadtree.level <- c(0:2)
-    quadtree.level.row <- rep(quadtree.level,length(primary.level))
+    quadtree.level.row <- rep(quadtree.level, length(primary.level))
     primary.level.row <-
-      rep(primary.level,each = length(quadtree.level))
+      rep(primary.level, each = length(quadtree.level))
     value.resolution <-
       sort((10 ^ primary.level.row) / (2 ^ quadtree.level.row))
     # geoagraphical grid of 0.25m, 05m not recomented from EEA so are excluded
@@ -131,7 +133,7 @@ setMethod(
       value.resolution[!value.resolution %in% value.resolution[1:2]]
 
     # check if cell size is EEA valid
-    if (!is.element(cell.size,value.resolution)) {
+    if (!is.element(cell.size, value.resolution)) {
       warnings("This is not valid cell size. continuing with 10km cell size")
       cell.size <- 100000
     }
@@ -142,11 +144,12 @@ setMethod(
 
 if (!isGeneric("EtrsTableCodes")) {
   setGeneric(
-    name = "EtrsTableCodes",def = function(eastings.northings,cell.size) {
+    name = "EtrsTableCodes",
+    def = function(eastings.northings, cell.size) {
       standardGeneric("EtrsTableCodes")
     }
   )
-}else{
+} else{
   stop("You have to remove EtrsTableCodes generic before you replace it")
 }
 
@@ -179,18 +182,21 @@ if (!isGeneric("EtrsTableCodes")) {
 #'df
 setMethod(
   "EtrsTableCodes",
-  signature(eastings.northings = "matrix",cell.size =
+  signature(eastings.northings = "matrix", cell.size =
               "numeric"),
   definition = function(eastings.northings, cell.size) {
     # Call the cell code identifier for ETRS
     etrs.cell.code <-
-      EtrsCellCodes(eastings.northings,cell.size)
+      EtrsCellCodes(eastings.northings, cell.size)
     etrs.table.cell.codes <-
       as.data.frame(
         cbind(
-          CELLCODE = etrs.cell.code,EASTOFORIGIN = eastings.northings[,1],NORTHOFORIGIN =
-            as.numeric(as.character(eastings.northings[,2]))
-        ),stringAsfactor = FALSE
+          CELLCODE = etrs.cell.code,
+          EASTOFORIGIN = eastings.northings[, 1],
+          NORTHOFORIGIN =
+            as.numeric(as.character(eastings.northings[, 2]))
+        ),
+        stringAsfactor = FALSE
       )
     rownames(etrs.table.cell.codes) <- etrs.cell.code
     etrs.table.cell.codes
@@ -200,11 +206,12 @@ setMethod(
 # generic EtrsCheckCodeColumns --------------------------------------------
 if (!isGeneric("EtrsCheckCodeColumns")) {
   setGeneric(
-    name = "EtrsCheckCodeColumns", def = function(object) {
+    name = "EtrsCheckCodeColumns",
+    def = function(object) {
       standardGeneric("EtrsCheckCodeColumns")
     }
   )
-}else{
+} else{
   stop()
 }
 #' checks if colum names data are etrs table.codes
@@ -231,11 +238,12 @@ setMethod(
 # generic -----------------------------------------------------------------
 if (!isGeneric("EtrsCellCodes")) {
   setGeneric(
-    name = "EtrsCellCodes", def = function(eastings.northings,cell.size,NE) {
+    name = "EtrsCellCodes",
+    def = function(eastings.northings, cell.size, NE) {
       standardGeneric("EtrsCellCodes")
     }
   )
-}else{
+} else{
   stop("You have to remove the EtrsTableCodes generic before you displace it")
 }
 
@@ -269,30 +277,33 @@ setMethod(
   f = "EtrsCellCodes",
 
   signature(
-    eastings.northings = "matrix",cell.size = "numeric",NE = "missing"
+    eastings.northings = "matrix",
+    cell.size = "numeric",
+    NE = "missing"
   ),
 
-  definition = function(eastings.northings,cell.size) {
+  definition = function(eastings.northings, cell.size) {
     # A cell code identifier for ETRS
     # Define the cell size prefix
     prefix <-
-      paste("",as(
-        ifelse(cell.size >= 1000,cell.size / 1000,cell.size),"character"
-      ),as(ifelse(cell.size >= 1000,"km","m"),"character"),sep = "")
+      paste("", as(
+        ifelse(cell.size >= 1000, cell.size / 1000, cell.size),
+        "character"
+      ), as(ifelse(cell.size >= 1000, "km", "m"), "character"), sep = "")
     #Identify the number of zeros to remove from Eastings and Northings Values
     nz <-
       as.numeric(unlist(strsplit(as.character(
-        format(cell.size,scientific = TRUE)
-      ),split = ".e\\+"))[2])
+        format(cell.size, scientific = TRUE)
+      ), split = ".e\\+"))[2])
     # Define string value based on Easting
     eaststr <-
-      paste("E",as.character(eastings.northings[,1] / 10 ^ nz),sep = "")
+      paste("E", as.character(eastings.northings[, 1] / 10 ^ nz), sep = "")
     #Define string value based on Northings
     northststr <-
-      paste("N",as.character(eastings.northings[,2] / 10 ^ nz),sep = "")
+      paste("N", as.character(eastings.northings[, 2] / 10 ^ nz), sep = "")
     # Concatenate strings into cell code
 
-    etrs.cell.code <- paste(prefix,eaststr,northststr,sep = "")
+    etrs.cell.code <- paste(prefix, eaststr, northststr, sep = "")
     #
     etrs.cell.code
   }
@@ -324,34 +335,36 @@ setMethod(
   f = "EtrsCellCodes",
 
   signature(
-    eastings.northings = "matrix",cell.size = "numeric",NE = "logical"
+    eastings.northings = "matrix",
+    cell.size = "numeric",
+    NE = "logical"
   ),
 
-  definition = function(eastings.northings,cell.size,NE) {
+  definition = function(eastings.northings, cell.size, NE) {
     # A cell code identifier for ETRS
     # Define the cell size prefix
     prefix <-
-      paste("",as(
-        ifelse(cell.size >= 1000,cell.size / 1000,cell.size),"character"
-      ),as(ifelse(cell.size >= 1000,"km","m"),"character"),sep = "")
+      paste("", as(
+        ifelse(cell.size >= 1000, cell.size / 1000, cell.size),
+        "character"
+      ), as(ifelse(cell.size >= 1000, "km", "m"), "character"), sep = "")
     #Identify the number of zeros to remove from Eastings and Northings Values
     nz <-
       as.numeric(unlist(strsplit(as.character(
-        format(cell.size,scientific = TRUE)
-      ),split = ".e\\+"))[2])
+        format(cell.size, scientific = TRUE)
+      ), split = ".e\\+"))[2])
     # Define string value based on Easting
     eaststr <-
-      paste("E",as.character(eastings.northings[,1] / 10 ^ nz),sep = "")
+      paste("E", as.character(eastings.northings[, 1] / 10 ^ nz), sep = "")
     #Define string value based on Northings
     northststr <-
-      paste("N",as.character(eastings.northings[,2] / 10 ^ nz),sep = "")
+      paste("N", as.character(eastings.northings[, 2] / 10 ^ nz), sep = "")
     # Concatenate strings into cell code
-   if(!NE){
-     etrs.cell.code <- paste(prefix,eaststr,northststr,sep = "")
-   }else{
-
-     etrs.cell.code <- paste(prefix,northststr,eaststr,sep = "")
-   }
+    if (!NE) {
+      etrs.cell.code <- paste(prefix, eaststr, northststr, sep = "")
+    } else{
+      etrs.cell.code <- paste(prefix, northststr, eaststr, sep = "")
+    }
     #
     etrs.cell.code
   }
@@ -361,11 +374,12 @@ setMethod(
 # generic -----------------------------------------------------------------
 if (!isGeneric("etrsReverseCellCode")) {
   setGeneric(
-    name = "etrsReverseCellCode", def = function(df,cell.code.col) {
+    name = "etrsReverseCellCode",
+    def = function(df, cell.code.col) {
       standardGeneric("etrsReverseCellCode")
     }
   )
-}else{
+} else{
   stop("You have to remove the etrsReverseCellCode generic before you displace it")
 }
 
@@ -381,54 +395,69 @@ if (!isGeneric("etrsReverseCellCode")) {
 #' @example
 #'
 setMethod(
-f="etrsReverseCellCode",
-signature = signature(df="data.frame",cell.code.col="numeric"),
-  definition=function(df = 'data.frame',cell.code.col = 'numeric') {
+  f = "etrsReverseCellCode",
+  signature = signature(df = "data.frame", cell.code.col = "numeric"),
+  definition = function(df = 'data.frame', cell.code.col = 'numeric') {
     #pr\arallel computing frame settings
     no_cores <- detectCores() - 1
-    cl <- makeCluster(no_cores,type = "FORK")
+    cl <- makeCluster(no_cores, type = "FORK")
     registerDoParallel(cores = cl)
 
     #keep the resolution
     res <-
-      paste0(unlist(strsplit(df[1,cell.code.col],split = "m"))[1],"m")
+      paste0(unlist(strsplit(df[1, cell.code.col], split = "m"))[1], "m")
 
     # remove duplicates
-    if(any(duplicated(df[,cell.code.col]))) {
-      df <- df[which(!duplicated(df[,cell.code.col])),]
+    if (any(duplicated(df[, cell.code.col]))) {
+      df <- df[which(!duplicated(df[, cell.code.col])),]
       warning("Cell codes not unique... trying to drop duplicates")
     }
 
-     # split the df in equal parts
+    # split the df in equal parts
     div <- seq_len(abs(no_cores))
     splitf <- max(div[nrow(df) %% div == 0L])
 
-     df <- split(df,f = rep_len(1:splitf, nrow(df)))
+    df <- split(df, f = rep_len(1:splitf, nrow(df)))
 
-     df <-
+    df <-
       foreach(
-        df.part = df,.combine = 'rbind',.packages = 'base',.inorder = T
+        df.part = df,
+        .combine = 'rbind',
+        .packages = 'base',
+        .inorder = T
       ) %dopar% {
         rcc <-
-          paste0(res, as.character(unlist(sapply(sapply(sapply(strsplit(df.part[,cell.code.col],split = "m"),
+          paste0(res, as.character(unlist(sapply(sapply(sapply(strsplit(df.part[, cell.code.col], split = "m"),
                                                                function(x)
                                                                  x[2]),
                                                         function(x)
-                                                          strsplit(x,split = "E")),
+                                                          strsplit(x, split = "E")),
                                                  function(x)
-                                                   paste0("E",x[2],x[1])))))
+                                                   paste0("E", x[2], x[1])))))
 
 
-        df.part[,"CELLCODE"] <- rcc
+        df.part[, "CELLCODE"] <- rcc
         return(df.part)
       }
 
 
     stopCluster(cl)
-    row.names(df) <- df[,"CELLCODE"]
+    row.names(df) <- df[, "CELLCODE"]
     df
   }
 )
+# generic -----------------------------------------------------------------
+if (!isGeneric("pntsattr2surface")) {
+  setGeneric(
+    name = "pntsattr2surface",
+    def = function(sppdf, sppntdf) {
+      standardGeneric("pntsattr2surface")
+    }
+  )
+} else{
+  stop("You have to remove the pntsattr2surface generic before you displace it")
+}
+
 
 #' pntsattr2surface is an ancillary utility for point surface combining attributes
 #'
@@ -437,7 +466,8 @@ signature = signature(df="data.frame",cell.code.col="numeric"),
 #' @param sppntdf A spatialpointsdataframe object
 #'
 #' @return A spattial polygons data frame object
-#' @export
+#'
+#' @export pntsattr2surface
 #'
 #' @examples
 #'
@@ -445,8 +475,13 @@ signature = signature(df="data.frame",cell.code.col="numeric"),
 #'
 #'
 #'
-pntsattr2surface <-
-  function(sppdf = "SpatialPolygonsDataFrame", sppntdf = "SpatialPointsDataFrame") {
+setMethod(
+  f = "pntsattr2surface",
+
+  signature(sppdf = "SpatialPolygonsDataFrame",
+            sppntdf = "SpatialPointsDataFrame"),
+  definition = function(sppdf = "SpatialPolygonsDataFrame",
+                        sppntdf = "SpatialPointsDataFrame") {
     rbind.SPDF <- function(..., makeUniqueIDs = TRUE) {
       dots = list(...)
       names(dots) <- NULL
@@ -466,39 +501,40 @@ pntsattr2surface <-
         .combine = 'rbind.SPDF',
         .packages = c('sp')
       ) %do% {
-        p_ota <- sppdf[p,]
-        pnts <- sppntdf[p_ota,]
-        pnts <- pnts[which(!duplicated(coordinates(pnts))),]
+        p_ota <- sppdf[p, ]
+        pnts <- sppntdf[p_ota, ]
+        pnts <- pnts[which(!duplicated(coordinates(pnts))), ]
 
         #If the polygon contains 1 point then takes its attributes
         if (length(pnts) == 1) {
           p_ota@data <- cbind(p_ota@data, pnts@data)
-
         }
+
         #if the polygon contains more than 2 points voronoi method of package deldir it's used to subsudevide the region
         require(deldir)
         if (length(pnts) > 1) {
           bb <- bbox(p_ota)
           rw <- as.numeric(t(bb))
           z <- as.character(pnts@data$POSTCODE)
-          vor <- deldir(coordinates(pnts)[, 1], coordinates(pnts)[, 2], rw = rw)
+          vor <-
+            deldir(coordinates(pnts)[, 1], coordinates(pnts)[, 2], rw = rw)
           w <- tile.list(vor)
           polys <- vector(mode = 'list', length = length(w))
           require(sp)
           for (i in seq(along = polys)) {
             pcrds <- cbind(w[[i]]$x, w[[i]]$y)
-            pcrds <- rbind(pcrds, pcrds[1, ])
+            pcrds <- rbind(pcrds, pcrds[1,])
             polys[[i]] <-
               Polygons(list(Polygon(pcrds)), ID = as.character(i))
           }
 
           SP <-
-            SpatialPolygons(polys, proj4string = CRS("+init=epsg:3035"))
+            SpatialPolygons(polys, proj4string = CRS("+init = epsg:3035"))
           SP_vor <- gIntersection(SP, p_ota, byid = TRUE)
           rn <- sapply(slot(SP_vor, 'polygons'), function(x)
             slot(x, 'ID'))
           df <- p_ota@data
-          df <- df[rep(seq_len(nrow(df)), each = length(SP_vor)), ]
+          df <- df[rep(seq_len(nrow(df)), each = length(SP_vor)),]
           row.names(df) <- rn
           p_ota <- SpatialPolygonsDataFrame(SP_vor, data = df)
 
@@ -506,13 +542,13 @@ pntsattr2surface <-
         }
         # if no point is contained in the region thn NA is provided as values
         if (length(pnts) == 0) {
-          df <- (GeoPC_GR_Places_etrs[1,])@data
-          df[1, ] <- NA
+          df <- (GeoPC_GR_Places_etrs[1, ])@data
+          df[1,] <- NA
           pnts <-
             SpatialPointsDataFrame(
               coords = gCentroid(p_ota),
               data = df,
-              proj4string = CRS("+init=epsg:3035")
+              proj4string = CRS("+init = epsg:3035")
             )
           p_ota@data <- cbind(p_ota@data, pnts@data)
         }
@@ -521,3 +557,4 @@ pntsattr2surface <-
       }
   }
 
+)
