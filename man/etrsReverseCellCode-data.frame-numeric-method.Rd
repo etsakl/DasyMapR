@@ -15,12 +15,11 @@
 }
 \value{
 a data frame with CELLCODE and ID = CELLCODE
- @description It 's possible to find out, out there data not comabatible to Inspire.
- so reversin is a option. Such an example the GEOASTAT_grid_EU_POP .... files
-the method also set the data frame row names as etrs cell codes. As a result of it it can be used to as a spatial etrs grid
 }
 \description{
-Reversing etrs cell codew from resoloution easting northings to res northing eastings
+It 's possible to find out, out there data not comabatible to Inspire.
+ so reversin is a option. Such an example the GEOASTAT_grid_EU_POP .... files
+the method also set the data frame row names as etrs cell codes. As a result of it it can be used to as a spatial etrs grid
 }
 \examples{
 

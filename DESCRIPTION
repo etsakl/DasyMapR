@@ -22,7 +22,8 @@ Depends:
     doParallel,
     foreach,
     raster,
-   eurostat
+    eurostat,
+    deldir
 URL: https://github.com/etsakl/DasyMapR.git
 RoxygenNote: 5.0.1
 Collate:
@@ -37,8 +38,8 @@ Collate:
     'CreateEtrsVectorGrid.R'
     'DasyMapR-data-documentation.R'
     'DasyMapR-package.R'
+    'Points2Surface.R'
 Suggests:
     knitr,
-    rmarkdown,
-    deldir
+    rmarkdown
 VignetteBuilder: knitr

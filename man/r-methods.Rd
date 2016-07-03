@@ -42,7 +42,7 @@ northings <-seq(from = bb.outer.limits[2, 1], to = bb.outer.limits[2, 2], by = c
 eastings.northings <- as.matrix(expand.grid(eastings, northings))
 low.corner.cell.etrs.points<-etrsPoints(eastings.northings = eastings.northings,cell.size =1000)
 EtrsCellCodes<-EtrsCellCodes(eastings.northings,cell.size=1000)
- 
+
 bb <- bbox(cbind(c(4321000, 4323000), c(3210000,3212000)))
 cell.size = 1000
 # Calculate the limits of the grid
