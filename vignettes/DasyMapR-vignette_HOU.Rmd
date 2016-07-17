@@ -1,17 +1,25 @@
 ---
-title: "DasyMapR - Μία σύντομη περίπτωση χρήσης για σημειακά δεδομένα - Οι αιτήσεις στο ΕΑΠ"
+title: "DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ"
 author: "Τσακλάνος Βαγγέλης"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-
 
 vignette: >
   %\VignetteIndexEntry{DasyMapR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r,echo=FALSE}
+```{r,echo=FALSE,message=FALSE,results='hide'}
 library(knitr)
+library(DasyMapR)
+library(plyr)
+library(maptools)
+library(eurostat)
+library(classInt)
+library(RColorBrewer)
+library(GISTools)
+library(leaflet)
+
 opts_chunk$set(
 tidy = TRUE,
 cache = TRUE,
@@ -19,467 +27,503 @@ warning = FALSE,
 message = FALSE
 )
 ```
-## Το πακέτο DasyMapR 
 
-Το πακέτο της R που αναπτύχθηκε περιέχει μία σειρά εργαλείων για σημειακά δεδομένα.  Παρόλο που το κομμάτι των σημειακών δεδομένων δεν είναι εκ πρώτης όψεως αντικείμενο που εμπίπτει στην μέθοδο της Δασυμετρικής χαρτογράφίας εντούτοις η επέκταση του πακέτου μπορεί να το κάνει ακόμη πιο χρησιμο. Το κείμενο αυτό εχει ως σκοπό να εξηγήσει πως αυτό μπορέι να γίνει.  
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+dasymapPlot<-function(aEtrsSurface,col.value){
+  srf<-aEtrsSurface
+add.alpha(pal<-brewer.pal(5,"Reds"),.5)
+q5<-classIntervals(srf@data[,col.value],n=5,style = "fisher", dataPrecision=0)
+q5Colours<-findColours(q5,pal)
+# srf<-spTransform(srf,CRS("+init=epsg:4326"))
+# bb<-bbox(srf)
+# base.map<-get_stamenmap(bbox = bb,zoom = 9, maptype = "toner-2011",crop = T)
+# image(base.map)
+plot(srf,col=q5Colours,border=NA)
+legend("topleft",fill=attr(q5Colours,"palette"),legend=names(attr(q5Colours,"table")),bty="n")
+}
+
+wgsTransaform<-function(obj){
+  obj <- spTransform(obj,CRS("+init=epsg:4326"))
+  return(obj)
+}
+
+dasymapPlot.leaflet <- function(aEtrsSurface,col.value){
+
+srf<-aEtrsSurface
+qpal <- colorNumeric("Reds", srf[[col.value]], n = 5)
+srf<- spTransform(srf,CRS("+init=epsg:4326"))
+
+value.popup<-paste0("<strong>Value: </strong>",srf[[col.value]])
+
+map <- leaflet(srf) %>% addTiles() %>% addProviderTiles("Stamen.Toner")
+map  %>%
+  addPolygons(stroke = FALSE ,smoothFactor = 0.2 ,color= ~qpal(srf[[col.value]]),fillOpacity = .9,popup=value.popup
+              ) %>% 
+  addLegend("bottomright", pal=qpal,values =~srf[[col.value]],title = "HOU Applicants", opacity = .9)
+
+}
+
+raster2Ancillary<-function(aRaster,cell.size,attr_divisor=1)
+  {
+  library(raster)
+  r <- res(aRaster)
+  f <- cell.size/r
+  aRaster.agg<-aggregate(aRaster,fact=f)
+  raster.surface<-rasterToPolygons(aRaster.agg,dissolve = T)
+  colnames(raster.surface@data)<-c("value")
+  raster.surface[['value']]<-raster.surface[['value']]/attr_divisor
+  raster.surface<-etrsSurfacePar(raster.surface,over.method.type = "PropCal",surface.value.col = 1,cell.size = cell.size)
+  colnames(raster.surface@data)[4] <- "WCELLWEIGHT"
+  new(
+    "EtrsSurface",
+    raster.surface,
+    over.method.type = "MaxArea",
+    cell.size = cell.size,
+    CELLVALUE = "WCELLWEIGHT"
+  )
+
+}
+
+etrsDasymetric2Source<-function(d){
+row.names(d@data) <- sapply(slot(d, "polygons"),function(x) slot(x, "ID"))
+d@data <- d@data[,c(1:3,6)]
+colnames(d@data)[4]<-"CELLVALUE"
+d
+}
+```
 
 ## Τι περιέχεται σε αυτό το κείμενο 
-* Εγκατάσταση του πακέτου
-* Τι υπάρχει στο πακέτο και αφορά σημειακά δεδομένα
-* Φόρτωση Δεδομένων
-* Απόδοση τιμής σε επιφάνεία απο σημειακα δεδομένα
-* Απόδοση τιμής στο κελί - Κατηγορικά(ποιοτικά) Δεδομένα - MaxArea
-* Απόδοση τιμής στο κελί - Αριθμητικά (ποσοτικά) Δεδομένα - PropCal
+
+* Εγκατάσταση
+* Το πακέτο DasyMapR
+* Τα δεδομένα απο το ΕΑΠ
+* Οι δασυμετρικοί υπολογισμοί
+* Χρήση του LAEA καναβου
 * Επιφάνεια Πηγή
 * Βοηθητική Επιφάνεια
-* Οι δασυμετρικοί υπολογισμοί
-* Η Δασυμετρική επιφάνεια σε Βοηθητική 
-
-
-
+* Appendix Προετοιμασία των Δεδομένων
+ 
 
 ## Εγκατάσταση 
 
-Το πακέτο δεν φιλοξενείται στο CRAN (θα χρειαστεί πολλή δουλειά ακόμη για αυτό) αλλά στο προσωπικό αποθετήριο του σπουδαστή στο github. Για να εγκατασταθεί το `DasyMapR` θα πρέπει καταρχήν να εγκατασταθεί το πακέτο `devtools` και στην συνέχεια με την χρήση της συνάρτησης `install_github()` να γίνει η εγκατάσταση του πακέτου 
+Το πακέτο φιλοξενείται στο προσωπικό αποθετήριο του σπουδαστή στο github. Για να εγκατασταθεί το `DasyMapR` θα πρέπει καταρχήν να εγκατασταθεί το πακέτο `devtools` και στην συνέχεια με την χρήση της συνάρτησης `install_github()` να γίνει η εγκατάσταση του πακέτου 
 ```{r,eval=F,echo=TRUE,results='hide'}
 install.packages("devtools")
 library(devtools)
 install_github("etsakl/DasyMapR",build_vignettes=TRUE)
 library(DasyMapR)
 ```
-## Τι υπάρχει στο πακέτο και αφορά σημειακά δεδομένα
-
-Το πακέτο αποτελείται αποτελείται από από `S4 - Classes` από τις μεθόδους τους `methods`, την τεκμηρίωσή τους `files.Rd` και τα δεδομένα `data` που θα χρησιμοποιηθούν σε αυτό το κείμενο με την τεκμηρίωσή τους και το ίδιο το κείμενο ως `vignette` που επίσης συνοδεύει το πακέτο.
-```{r,echo=TRUE,message=FALSE}
-library(DasyMapR)
-library(knitr)
-DasyMapR.contains<-sort(ls("package:DasyMapR"))
-kable(as.data.frame(DasyMapR.contains))
-```
-
 Περισσότερες πληροφορίες για το πακέτο θα μπορούσε να βρει κάποιος στα  file του πακέτου `help("DasyMapR")` ή στο [github](https://github.com/etsakl/DasyMapR.git)
 
-## Φόρτωση Δεδομένων
-Το πακέτο συνοδεύεται από κάποια δεδομένα κατά κανόνα *ανοικτά δημόσια δεδομένα* που η προσπάθεια για να συμβάλλουμε στην αξιοποίηση τους έγινε και η αφορμή για ανάπτυξη του συγκεκριμένου πακέτου που σκοπεύει να συμβάλει στην οπτικοποίηση και ανάλυσή τους. Προφανώς για λόγους οικονομίας χρόνου μεταφόρτωσης  και αποθηκευτικού χώρου τα δεδομένα αυτά είναι υποσύνολα των δεδομένων που προσφέρονται από τους οργανισμούς που τα διαθέτουν. Τεκμηρίωση και πληροφορίες υπάρχουν στα help files του πακέτου help("DasyMapR")` ή στο [github](https://github.com/etsakl/DasyMapR.git)
 
-```{r,echo=TRUE,eval=FALSE}
-# Αν τρέξει ο κώδικας παρουσιάζονται τα διαθέσιμα δεδομένα 
-DasyMapR.data<-data(package ="DasyMapR")
-print(DasyMapR.data)
+## Το πακέτο DasyMapR 
+
+Το πακέτο της R που αναπτύχθηκε περιέχει μία σειρά εργαλείων που μπορούν να βοηθήσουν το χρήστη να αποδώσει τα δεδομένα στο ETRS-LAEA κάναβο αλλά και να αποσυσσωματώση δεδομένα με την χρήση βοηθιτικής επιφάνειας. Θα παρουσιαστούν κάνοντας χρήση σημειακών δεδόμενων που σχετίζονται με τις αιτήσεις που γίνονται στο ΕΑΠ με σκόπο τη συμμετοχή στις διαδικασιες επιλόγής φοιτητών του ιδρύματος. Με την χρήση των εργαλέιων που αναπτύχθηκαν αλλά και με την χρήση άλλων πακέτων της R θα γίνει προσπάθεια κατανομής των δεδομένων στο γεωγραφικό κάναβο ETRS (θα περιοριστούμε σε αυτήν την εργασία μόνο στις αιτήσεις που έγιναν απο φοιτητές που δηλώνουν κατοικία στην Ελλάδα) και στην συνέχεια θα συσχετιστουν με άλλα δεδόμενα από άλλες πηγές.
+Εδώ για λόγους που σχετίζονται με την *προστασία των πρόσωπικών δεδόμενων* των χρηστών εμφανίζεται και χρησιμοποιήται *μόνο o Ταχυδρομικός Κώδικας*, η χώρα και ο νομός. Εξετάζονται  τα δεδομένα. 
+
+## Τα δεδομένα απο το ΕΑΠ
+Είναι αναμενομένο, όσες ασφαλιστικές δικλείδες και αν προβλεφθούν κατα την εισαγωγή δεδομένων απο τους χρήστες που συμπληρώνουν π.χ αιτήσεις, ότι θα υπάρξουν εγγραφές  που δεν μπορούν να χρησιμοποιθουν χώρις επεξεργασία. Εν προκειμένω μία "δειγματοληπτική" προεπισκόπιση αποδεικνύει τον ισχυρισμό.  
+
+```{r Load_cancidates_Raw, echo=TRUE, message=FALSE, warning=FALSE}
+data("candidates_addresses")
+candidates_addresses<-candidates_addresses[order(candidates_addresses$country),]
+kable(head(candidates_addresses,5))
+kable(candidates_addresses[round(runif(10,min = 11,max = nrow(candidates_addresses)-10),0),])
+kable(tail(candidates_addresses,5))
 ```
 
-Θα φορτώσουμε τα δεδομένα που μεταμορφώθηκαν από το [GeoData.open.gov](http://geodata.gov.gr/dataset/oria-nomon-okkhe) και θα επιλέξουμε τους νομούς της περιφέρειας Πελοποννήσου για τους δασυμετρικούς μας υπολογισμούς. 
+Είναι πρόφανές ότι τα δεδόμενα απαιτούν προετοιμασία για να χρησιμοποιηθούν. Η προετοιμάσία των δεδομένων παρατίθεται στο τέλος του κειμένου όπου υπάρχει ο κώδικας και παρουσίαση των βοηθιτικών δεδομένων που θα χρησιμοποιθουν για να πετύχουμε την γεωναφοα τους. 
+Όπως παρατηρείται τα δεδομένα *εχουν διορθωθεί  για τις εγγραφές "pre" (~νομός)* και τις χώρες προέλευσης (country). Γενικά ο νομός ως γεωγραφική αναφορά εμφανίζει λιγότερες λανθασμένες εγγραφές αφού οι χρήστες σε γενικές γραμμές γνωρίζουν τον νόμο που διαμένουν όχι όμως απαραίτητα και τον Ταχυδρομικό Κώδικα της διευθυνσης που δηλώνουν. Λιγότερο αξιοπιστη είναι αναφορά στην οδό όπου η ονοματοδοσία και η αριθμοδοσία (όταν ή αν) γίνεται απο τους οργανισμούς της Τοπικης Αυτοιδιοικισης με χρονική και τοπική διασπόρα. Αποτελέσμα είναι να μην μπορούν να θεωρήθουν αξιόπιστα δεδομένα ακόμη και όταν συμπληρώνονται σωστά απο τον χρήστη. 
 
-```{r,fig.show='hold'}
-# Φόρτωσε τα δεδομένα 
-data("NUTS3_OCMG")
-# Δίάλεξε κάποια
-pp <- c("Ν. ΑΡΓΟΛΙΔΟΣ","Ν. ΚΟΡΙΝΘΙΑΣ","Ν. ΑΡΚΑΔΙΑΣ","Ν. ΜΕΣΣΗΝΙΑΣ","Ν. ΛΑΚΩΝΙΑΣ")
-Π.ΠΕΛΟΠΟΝΝΗΣΟΥ <- NUTS3_OCMG[which(!is.na(match(NUTS3_OCMG[["NAME"]],pp))),]
-par("mar"=c(.1,.1,.1,.1))
-# και σχεδίασε τα
-plot(NUTS3_OCMG)
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ,border=2,lwd=2,add=T)
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ,border=2,lwd=2)
+## Δασυμετρική Χαρτογράφια στα δεδομένα του ΕΑΠ. 
+
+Μετά την επεξεργασία των δεδομένων, που όπως προαναφέρθηκε ο τρόπος αναλύεται στο τέλος του κειμένου, ανακτούμε τα δεδομένα που συνοδέυουν το πακέτο και αφορούν τις αιτήσεις στο ΕΑΠ. Οι αιτήσεις έχουν ομαδοποιησθεί ανά χωρική περιοχή αναφοράς. Ας οπτικοποιησουμε κατα αρχήν τα δεδομένα όπως αρχικά xορηγήθηκαν με ένα απλό χωροπληθή χάρτη 5 τάξεων. 
+
+### To "σφάλμα" της απεικόνισης
+
+Αναναπαριστούμε τον αριθμό των αιτήσεων στα όρια του νομού γενικευοντας σε διαστήματα τόσα ώστε οι αποχρώσεις να διακρίνονται απο  το χρήστης.  Αυτός ο χάρτης όμως δημιουργεί εσφαλμένη εντύπωση στο χρήστη για 2 κυρίως λόγους. Καταρχήν σε καθε νομό φαίνεται ομοιογενής ο αριθμός των αιτουντων. Έτσι τα Κύθηρα φαίνεται να ανήκουν στην ίδια κατηγορία με την Αθήνα δηλαδή έχοντας αριθμό αιτήσεων μεταξύ 11000 και 350000. Το ίδιο βέβαια μπορεί να προκαλλέσει και η επιλογή της διαίρεσης σε 5 διαστήματα τιμών. Το πρώτο σφάλμα "οφείλεται"" στην "επιλόγή" της μονάδας απαρίθμισης (περίπου όρια νομού) και αυτό θα "διορθωθεί" με την χρήση των εργαλέιων που αναπτύχθηκαν.   
+
+```{r Error_MAP, echo=TRUE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, tidy=TRUE}
+data("EAP.application.pre_err")
+dasymapPlot.leaflet(EAP.application.pre_err,5)
 ```
 
-ας δούμε και τα περιγραφικά δεδομένα των νομών που περιέχει το αρχείο. 
+Με βάση τους διορθωμένους Ταχυδρόμικούς Κώδικές είναι δυνατό να δημίουργήσουμε μια "ρεαλιστικότερη" εικόνα για τις περιοχές που έγιναν οι αιτήσεις στο ΕΑΠ. Εδώ θα χρησιμοπoιήσουμε την πληροφορία του Ταχυδρομικού Κώδικα που μας επιτρεπει να έχουμε αναφορά των αιτούντων στα όρια του προ καποδιστριακού Δήμου. Αυτή η "ρεαλιστικότερη" απεικόνιση όπου η επιλογή της μονάδα απαρίθμισης (τώρα τα όρια του δήμου) έχει βελτιώση την απεικόνιση των δεδομένων. θα μπορούσε μάλιστα να συγκριθεί με το αποτέλεσμα της δασυμετρικής χαρτογραφίας που θα εφαρμόζουμε στην συνέχεια.
+
+```{r PC_MAP, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, tidy=TRUE}
+data("EAP.application.loc")
+dasymapPlot.leaflet(EAP.application.loc,2)
+```
+
+Ήδη αυτή η εικόνα δίνει άλλη αντίληψη για την διασπορά των υποψηφίων στην επικράτεια απ' ότι ο προηγούμενος. Για παράδειγμα τα Κύθηρα δεν ανήκουν στις περιοχές με το υψηλότερο αριθμό δηλώσεων. Έχουμε το μεγαλύτερο αριθμό αιτήσεων στου Δήμους Αστικά κέντρα κ.λ.π. Όμως και εδώ υπάρχουν σφάλματα λόγω των διοκιτκών ορίων. Π.χ Μικροί Δήμοι εξυπηρετούνται απο το Ταχυδρομικό γραφείο της περιοχής του μεγαλύτερου Δήμου. Έτσι εμφανίζονται και πάλι με πλασματικό αριθμό αιτούνταων λόγω της επιλογής της επιφάνειας απρίθμησης.     
+Αν θέλαμε όμως να απεικονισουμε την κατανομή σε μεγαλύτερη κλίμακα όπου δεν υπάρχουν δεδομένα απαρίθμισης ή τα στοιχεία  έχουν συσωματωθεί και αποκρίπτεται η εν λόγω πληροφορία τότε θα επρεπε να χρησιμοποiηsουμε κάποια άλλη μέθοδο. Εδώ προτείνεται η μέθοδος της δασυμετρικής χαρτογραφία και το λογισμικό που αναπτύχθηκε στην R (DasyMapR) για να κάνει αυτή την εργασία. 
+
+Ας δούμε τώρα μία απεικόνιση του φαινομένου 'αιτήσεις ΕΑΠ' σε πιό μεγάλη κλίμακα. Επλεγεται  η  Αττική και αποδίδεται πλέον με χάρτη κουκίδων. Κάθε κουκιδα αντιστοιχούν 10 αίτησεις και τοποθετέιται τυχαία στο πολύγωνο του νομού. Ας αντληφθούμε την διαδικασία σαν προπσάθεια να τοποθετήσουμε την κουκίδα στην (όσο το δυνατόν) πραγματική της θέση. *Αυτό θα γίνει με την προβολή της επιφάνειας πηγής στον κάναβο την χρήση βοηθιτικής επιφάνειας και τέλος την εφαρμογή δασυμετρικών υπολογισμών*
+
+
+```{r NUTS_EAP, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, tidy=TRUE}
+#Φορτώνουμε τα όρια NUTS. Χρησιμοποείται η EtrsTransform του Πακέτου DasyMapR για την αλλαγή του συστήματος συντεταγμεων στο επιθυμητό ETRS. 
+NUTS_2013_01M_EL_ETRS<-EtrsTransform(NUTS_2013_01M_EL)
+#Μας ενδιαφέρπυν οι περιφεριακές ενότητες(νομοι)
+NUTS_2013_01M_EL_ETRS<-NUTS_2013_01M_EL_ETRS[grep("^EL\\d{3}",NUTS_2013_01M_EL_ETRS[["NUTS_ID"]]),]
+count.EAP.applicants<-as.data.frame(table(candidates_addresses_el_cor['NUTS_313'],dnn = "NUTS_ID"),stringAsFactor=F)
+EAP.application.NUTS<-merge(x=NUTS_2013_01M_EL_ETRS,y=count.EAP.applicants,by='NUTS_ID')
+#H χρήση της merge ενδεχομένως να προκαλέσει αλλαγή στα rownames του dataframe οπότε έστω και προληπτικά τα διορθώνουμε
+row.names(EAP.application.NUTS@data) <- sapply(slot(EAP.application.NUTS, "polygons"),function(x) slot(x, "ID"))
+#Διαλέγουμε περιοχή
+EAP.application.NUTS.30<-EAP.application.NUTS[grep("^EL30[1-6]",EAP.application.NUTS[["NUTS_ID"]]),]
+applicants<-EAP.application.NUTS.30@data$Freq/10
+plot(EAP.application.NUTS.30)
+for (i in 1:length(EAP.application.NUTS.30)){
+ EAP.application.NUTS.30.pl<-SpatialPolygons(EAP.application.NUTS.30@polygons)
+ points(spsample(EAP.application.NUTS.30.pl[i],applicants[i],"regular"),pch=1,cex=.2,col=2) 
+}
+title(main = "Χάρτης αιτήσεων στο ΕΑΠ",sub = "Περιφέρεια Αττικής")
+kable(head(EAP.application.NUTS.30@data[,c(1,5)]),col.names = c("NUTS_ID","Αιτήσεις") )
+```
+
+### Χρήση  του LAEA καναβου με δεδομένα απο την απο την Eurostat (resolution 1km)
+
+Θα κανουμε αρχικά χρήση δεδομένων του [ESPOΝ](http://database.espon.eu/db2/resource;jsessionid=0620e4b1ee3fe4232de4caab35e1?idCat=45) ως βοηθιτικής επιφάνειας δηλαδή το κάναβο LAEA με βοηθητκή επιφανεια τον πλυθισμό του 2011 όπως έχει κατανεμηθεί ο πλυθησμος της απογραφής του 2011 με αρκετά περίπλοκους αλγορίθμους. 
+
+Θα ανάγουμε καταρχήν τις αιτησεις σε αριθμό αιτήσεων αν 1000 κατοίκους κάνοντας χρήση δεδομένων της EUROSTAT
+
+Μεταφορτώνουμε τα δεδομένα
+
+```{r Pop_data, message=FALSE, warning=FALSE}
+# O παρακάτω κώδικας δεν τρέχει πάντα γιατί εξαρτάται απο την σύνδεση
+# nama_10r_3popgdp <- get_eurostat(id = 'nama_10r_3popgdp' ,filters = list(time=2013),time_format = 'num')
+POP_EL<-nama_10r_3popgdp[grep("^EL\\d{3}",nama_10r_3popgdp$geo),]
+kable(head(POP_EL))
+POP_EL.30<-nama_10r_3popgdp[grep("^EL30[1-6]",nama_10r_3popgdp$geo),]
+```
+
+και κάνουμε τους υπολογισμούς
+
+```{r applPerhab, message=FALSE, warning=FALSE}
+EAP.application.NUTS@data$POP<-unlist(sapply(EAP.application.NUTS$NUTS_ID , FUN = function(x) POP_EL$values[match(x,POP_EL$geo)]))
+EAP.application.NUTS[['appPerhab']]<-round(EAP.application.NUTS@data$Freq/EAP.application.NUTS@data$POP,0)
+kable(head(EAP.application.NUTS))
+```
+
+Ας δούμε και παλί τα αποτελέσματα στο χάρτη.
+
+```{r, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+dasymapPlot.leaflet(EAP.application.NUTS,7)
+```
+
+
+Θα μετατρέψουμε την στατιστική επιφάνεια "αιτήσεις ανά 1000 κατοίκους" σε κάναβο με την χρήση της `etrsSurfacePar` που αναπτύχθηκε και περιέχεται στο πακέτο (μέθοδος που κάνει διάχυτο υπολογισμο) που επιτάχύνει πολύ τους υπολογισμούς. Θα περιοσριστούμε στην Αττική για οικονομία χρόνου και χόρου
+
+```{r Source_appPerhab, message=FALSE, warning=FALSE}
+EAP.application.NUTS.30<-EAP.application.NUTS[grep("^EL30[1-6]",EAP.application.NUTS[["NUTS_ID"]]),]
+EAP.application.NUTS.grid.30 <- etrsSurfacePar(EAP.application.NUTS.30,over.method.type = "MaxArea",cell.size = 1000)
+```
+
+Χρησημοποιουμε την `joinMaxAreaSurfaceDataFrames`,  επίσης μέθοδος του πακέτου, για ενημερώσουμε την επιφάνεια που δημιουργήσαμε με τα atrributes της επιφανειας πηγής.
+
+```{r JOINMAX, message=FALSE, warning=FALSE}
+EAP.application.NUTS.grid.30 <- joinMaxAreaSurfaceDataFrames(the.surface = EAP.application.NUTS.30,the.EtrsSurface = EAP.application.NUTS.grid.30)
+```
+
+Και τελικά ας δουμε την επιφάνεια πηγή που παραχθηκε με την βοήθεια της συνάρτησης `dasymaplot` του πακέτου που παράγει χωροπληθής χάρτες 5 τάξεων.
+
+```{r PLOT_grid, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+#EAP.application.NUTS.grid.30<-EAP.application.NUTS.grid[grep("^EL30[1-6]",EAP.application.NUTS.grid[["NUTS_ID"]]),]
+dasymapPlot.leaflet(EAP.application.NUTS.grid.30,11)
+kable(head(EAP.application.NUTS.grid.30))
+```
+
+
+Ας δουμε τώρα αν  μπορούμε να χρησιμοποιήσουμε δεδομένα από τις UMZ200 που ειδικά για το πληθυσμό προσφέρονται δεδομένα  στον ETRS-LAEA κάναβο για τα έτη 2006 2011 που έχουν προκύψει από την 
 
 ```{r}
-# Τα περιγράφικά σε πίνακα
-kable(head(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ@data[,3:10]))
+kable(head(GEOSTAT_grid_POP_1K_2011_V2_0_el))
+```
+
+Μία πιο προσεκτική ματιά σε αυτά τα δεδομένα δείχνει δεν ακολουθούν την προτεινόμενη κωδικοποίηση των κελιών της INSPIRE Specification on Geographical Grid Systems Θα γίνει χρήση της μέθοδου etrsReverseCellCode του πακέτου DasyMapR. 
+Τέλος Η απλή συγχωνευση μας δίνει ένα καναβο με τις δυο τιμές που ενδιαφέρουν δηλάδη του των αριθμό των κατοίκων ανα κελι και τον αριθμό των κατοίκων ανά 1000 κατοίκους.
+
+```{r USE_LAEA, message=FALSE, warning=FALSE}
+GEO_POP_2011_rev<-etrsReverseCellCode(df=GEOSTAT_grid_POP_1K_2011_V2_0_el,cell.code.col = 2)
+GEO_POP_2011_rev<-GEO_POP_2011_rev[,c(1,8)]
+
+EAP.application.NUTS.grid.30<-merge(EAP.application.NUTS.grid.30,by=0,GEO_POP_2011_rev,all=F)
+row.names(EAP.application.NUTS.grid.30@data) <- sapply(slot(EAP.application.NUTS.grid.30, "polygons"),function(x) slot(x, "ID"))
+
+EAP.application.NUTS.grid.30@data$applicants<-round((EAP.application.NUTS.grid.30@data$appPerhab*
+                                                       EAP.application.NUTS.grid.30@data$TOT_P)/1000,0)
+```
+
+Ας δούμε και παλί την κατανομή σε ενα χάρτη με τους αiτούντες ανά κελί
+
+```{r Cell_applicants, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+dasymapPlot.leaflet(EAP.application.NUTS.grid.30,15)
+```
+
+#### Μερικά "εύκολα" συμπεράσματα
+
+Ήδη είναι κατανητό ότι η κατανομή αυτή είναι ήδη πιο κοντά στην πραγματικότητα. Π.χ. Δεν εμφανίζονται πλέον αιτούντες στην Πάρνηθα!
+
+### Δασυμετρικοί υπολογισμοί (resolution 500m)
+
+Οι υπολογισμοί που ακολουθουν θα γίνουν με τις αμειγώς δασυμετρικές μεθόδους που αναπτυχθηκαν διμηουργώντας και την επιφάνεια πηγή. Αρχικά θα κάνουμε χρηση των δεδομένων CORINE που αφορουν την καλύψη. Ξεκινάμε παλι με την προετοιμασία της επιφάνειας πηγής. Αυτή τη φορά θα εργαστούμε σε μιτκρότερη περιοχή. Θεψρούμε ο βόρειος τομέας είναι κατάλληλος
+
+### Η Επιφάνεια Πηγή
+
+Ο αριθμός των αιτούντων ανά νομό θα προβλήθεί στον ETRS κάναβο διμιουργώντας την επιφάνεια πηγή. Αρχικά θα Θα πρέπει να μετατραπεί από απόλυτη τιμή σε πυκνότητα αιτούντων. Στο πακέτο έχει αναπτυχθεί η μέθοδος `:DasyMapR::ActullVal2Density` που θα κάνει την μετατροπή
+
+```{r, echo=TRUE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+EAP.application.NUTS.301<-EAP.application.NUTS[grep("^EL30[123]",EAP.application.NUTS[["NUTS_ID"]]),]
+# Διαιρούμε με το εμβαδό της νεάς μονάδας απαρίθμισης
+EAP.application.NUTS.301<-ActuallVal2Density(EAP.application.NUTS.301,surface.value.col = 5,area.unit = 1e+06)
+EAP.source.surface<-etrsSourceSurface(input.surface =EAP.application.NUTS.301,over.method.type = "PropCal",surface.value.col = 7,cell.size = 500)
+dasymapPlot(EAP.source.surface,4)
+kable(head(EAP.source.surface@data))
+```
+
+
+Η κατανομή που έγινε στα κελλιά του κανάβου περίπου ισο κατενειμαι τον αριθμό των αιτήσεων με εξαίρεση τα οριακά κελλιά. Ας το δούμε στο χάρτη που ακολουθεί.
+Θα χρειαστούμε κάποια βοηθιτικά δεδομένα για να επιτύχουμε την ρεαλιστικότερη κατανομή των αιτούντων στο χώρο. Είναι απολύτως λογικό να θεωρήσουμε ότι οι ταχυδρομικοί κώδικες αντιστοιχούν σε κατοικημένες περιοχές. Αυτή έιναι και η βοηθητική επιφάνεια που θα χρσηιμοποισουμε. δηλaδή τις κατοικοιμένες περιοχές όπως δίνονται απο τα αρχεία το πρόγραμμα [CORINE](http://www.google.gr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiI3YS4m_fNAhVC8RQKHbumD6oQFggcMAA&url=http%3A%2F%2Fwww.eea.europa.eu%2Fpublications%2FCOR0-landcover&usg=AFQjCNFxIbyJIGJ8g4NL1FIxUDax4vqMYQ&sig2=Ys9ym8MtbW-DZk7g7GRXUQ)
+
+
+### Η βοηθιτική Επιφάνεια
+Για να διμιουργήσουμε την βοηθιτκή επιφάνεια θα χρησιμοποιησουμε την συναρτηση `etrsAncillarySurface` μεθόδο που έχει αναπτυχθεί και περιλλαμβανεται στο πακέτο `DasyMapR` και θα φορτωθουν τα δεδομένα που περιεχονται στο πακέτο.
+
+```{r Residential_Areas, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+residential.areas<-clc_v2_code_11x_el[EAP.application.NUTS.301,]
+#residential.areas<-residential.areas[-10,]
+bound301=list(EAP.application.NUTS.301,border=2,lwd=2)
+bound=list(EAP.application.NUTS)
+spplot(residential.areas,'code_00',main="Περιοχές Κατοικίας  CORINE" ,sp.layout=list(bound,bound301),col.regions=terrain.colors(2))
+
+```
+
+Θα αποδώσουμε και σχετικές πυκνότητες για τις περιοχές κάνοντας την παραδοχή ότι στις πυκνοδομημενες περιοχές (111 -	Συνεχής αστική οικοδόμηση) θα έχουμε περισσότερες κατοικίες απο ότι στις πιο αραιοκατοικιμένες (112 -	Διακεκομμένη αστική οικοδόμηση)
+
+
+```{r Ancillarry_Surface, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+ReDens111 <- round(3/4, 2)
+ReDens112 <- round(1/4, 2)
+residential.areas@data[which(residential.areas@data[,"code_00"] == 111), "ReDens"] <- ReDens111
+residential.areas@data[which(residential.areas@data[,"code_00"] == 112), "ReDens"] <- ReDens112
+residential.areas.anc<-etrsAncillarySurface(input.surface = residential.areas,over.method.type = "PropCal",surface.value.col = 2,cell.size = 500,binary = F)
+spplot(residential.areas.anc,"WCELLWEIGHT",main="Περιοχές Κατοικίας  Βοηθητική Επιφάνεια / grided" ,sp.layout=list(bound,bound301),edge.col="lightgrey",col.regions=topo.colors(10),cuts=9)
+```
+
+### Οι Δασυμετρικοί Υπολογισμοί
+
+H μέθοδος για την εφαρμογή των δασυμετρικών υπολογισμών που θα κλιθεί είναι `etsrDasymetricSurface` και θα έχει ως ορίσματα την επιφάνεια πηγή και την βοηθιτική επίφανεια. 
+
+```{r Dasymetric, message=FALSE, warning=FALSE}
+EAP.dasymetric.surface<-EtrsDasymetricSurface(input.surface.grided = EAP.source.surface,ancillary.grided = residential.areas.anc) 
+EAP.dasymetric.surface[["DASYCELL"]]<-round(EAP.dasymetric.surface[["DASYCELL"]],0)
+```
+
+Ας εξετάσουμε τα αποτελέσματα  των υπολογισμών μας και την νέα μας κατανομή για τις αιτήσεις των υποψηφίων στο ΕΑΠ.
+
+```{r,fig.show='hold', fig.height=5, fig.show='hold', fig.width=7, message=FALSE, warning=FALSE}
+dasymapPlot(EAP.dasymetric.surface,6)
+title(main = "Χάρτης αιτήσεων στο ΕΑΠ",sub = "Δασυμeτρική επιφάνεια")
+plot(pc_regions[EAP.application.NUTS,],border="1",add=T,lty=3)
+kable(head(EAP.dasymetric.surface@data[,c(1,6)]),col.names = c("Κωδικός Κελλιου","Αιτήσεις"))
+```
+
+Είναι αναμένομενο τα αστικά κέντρα να έχουν μεγαλύτερο αριθμό αιτήσεων απο τους οικισμούς οι τις αγροτικές περιοχές και αυτό αποτυπώνεται στο χάρτη.
+Aς δούμε ττώρα σε ενα διαδρραστικό χάρτη πως έγινε η κατανομή
+
+```{r Dasymetric_leaflet, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+dasymapPlot.leaflet(EAP.dasymetric.surface,6)
+```
+
+Μια συντομη περιήγηση διαπιστώνεται ότι αυτή η κατανομή των αιτήσεων δεν είναι ακριβεστερη της προηγούμενης όμως είναι δυνατόν με κατάλλλη επιλογή συντελεστών  να γίνει ακριβέστερη. Για αυτό θα μπορουσε να χρησιμοποηθεί η μέθοδος 'etrsProWeightedValue' που συνοδευει το πακετο εφόσον έιναι διαθέσιμοι. Θα μποροόυσαμε π.χ. να "να βελτιώσουμε" την πληροφορία "Διακεκομένη αστική Δόμηση" προσδιορίζοντας τις περιοχές που διακόπτεται. Ακολουθεί μία τετοια διαδικασία με τα εργαλεία που έχουν αναπτυχθεί με διαφορετίκη μέθοδο.
+
+### RASTER Δεδομένα
+Τα δεδομένα raster είναι δημοφιλή για την αποθήκευση γεωγραφικών δεδομένων οπότε είναι μπορούν να βρεθούν επιφάνειες που μπορούν να χρησιμοποιηθουν ως βοηθητικές σε τετοιο format(δορυφορικές εικόνες, αεροφωτογραφίες, αναλογικοί χαρτες κ.λ.π). Εχουν ανπτυχθεί κάποια εργαλεία για την αξιοποηση πληροφοριών απο τέτοια δεδομένα. Εδω Θα χρησημοποιήσουμε ένα raster αρχείο που αποτυπώνονται οι σκλήρες επιφάνειες σε ανάλυση ανα 100 m που διατίθονται απο την [EEA](http://goo.gl/VgvXvR) Θεωρώντας ότι η εμφάνιση μίας κατοικίας (Ταχδρομικού κώδικα) απαιτεί δομημενο περιβάλλον φορτώνουμε τις "σκληρες επιφάνειες"  τις περιοχές toy B. Τομέα της Περίφερειας Αττικής και θα βελτιώσουμε την κατανομή των αιτούντων του προηγούμενου παραδείγματος.
+
+```{r mosaic_sealing, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+EAP.application.NUTS.301<-EAP.application.NUTS[grep("EL301",EAP.application.NUTS[["NUTS_ID"]]),]
+aRaster<-crop(mosaic_100m_sealing_el,EAP.application.NUTS.301)
+plot(aRaster,col=terrain.colors(10))
+plot(EAP.application.NUTS.301,border=2,lwd=2,add=T)
+```
+
+Με την χρήση της μεθόδου `raster2Ancillary` θα παράγουμε βοηθητική επιφανεια απο τις σκληρές επιφανειες
+
+```{r, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+mosaic_100m_sealing_301.anc<-raster2Ancillary(aRaster = aRaster ,cell.size = 500 ,attr_divisor = 100)
+
+spplot(mosaic_100m_sealing_301.anc,'WCELLWEIGHT',main="Σκληρές επιφάνειες  sealing surfaces" ,sp.layout=list(bound,bound301),col.regions=terrain.colors(10),cuts=9)
+```
+
+Θα χρησιμοποιήσουμε την προηγόυμενη δασυμετρική επιφανεια που έγινε χρηση των καλυψεων γής CORINE για να βελτιώσουμε την κατανομή. Με την χρήση της μεθόδου 
+
+```{r mosaic_dasy, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+EAP.dasymetic.surface2source<-etrsDasymetric2Source(d = EAP.dasymetric.surface)
+EAP.dasymetic.surface.mosaic<-EtrsDasymetricSurface(input.surface.grided = EAP.dasymetic.surface2source,ancillary.grided = mosaic_100m_sealing_301.anc)
+dasymapPlot.leaflet(EAP.dasymetic.surface.mosaic,col.value = 6)
 ```
 
 
 
-## Κατηγορικά Δεδομένα - Η χρήση της MaxArea
-
-Η Νομοί έχουν ένα ποιοτικό χαρακτηριστικό αυτό της "Ονομασίας" `Π.ΠΕΛΟΠΟΝΝΗΣΟΥ[["ΝΑΜΕ"]]`  που τους προσδίδει την ιδιότητα του Νομού (περιοχή διοικητικής διαίρεσης). Θα ήταν χρήσιμο αυτή η ιδιότητα να αποδοθεί στα κελιά του κανάβου αφού με βάση αυτή την ιδιότητα στη συνέχεια θα μπορούσαν να του π.χ.  αποδοθούν και άλλα χαρακτηριστικά που έχουν ως επιφάνεια απαρίθμησης, αυτή ακριβώς την ιδιότητα δηλαδή του νόμου. Το κελί σε αυτήν την περίπτωση των κατηγορικών δεδομένων παίρνει την τιμή της επιφάνειας που καταλαμβάνει το μεγαλύτερο μέρος του κελιού. Η μέθοδος `etrsSurface` που δέχεται ορίσματα την επιφάνεια `input.surface` την μέθοδο `Max.Area` και το μέγεθος του κελιού `cell.size`. Θα πρέπει να αναφερθεί εδώ ότι η επιφάνεια `NUTS3_OCMG` είναι σε σύστημα συντεταγμένων [ΕΓΣΑ87](http://spatialreference.org/ref/epsg/2100/)(GGRS'87 (EPSG:2100)) όμως τα αποτελέσματα δηλαδή η τελικά υπολογιζόμενη etrsSurface θα έχει πλέον σύστημα αναφοράς το [ETRS-LAEA](http://spatialreference.org/ref/epsg/etrs89-etrs-laea/) καλώντας κατά τους υπολογισμούς την `DasyMapR::etsrTransform()` του πακέτου και στέλνει μήνυμα `warning`  ενημερώνοντας για την μετατροπή. 
-
-```{r,results='hide',fig.show='hold',message=FALSE,tidy=TRUE,cache=TRUE,echo=-2}
-library(DasyMapR)
-par("mar"=c(.1,.1,.1,.1))
-# Καλεί την EtrsTransForm
-srf.grd.max <- etrsSurface(input.surface = Π.ΠΕΛΟΠΟΝΝΗΣΟΥ,over.method.type = "MaxArea",cell.size = 10000)
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
-plot(srf.grd.max)
-```
-
-Το αντικείμενο που δημιουργήθηκε δηλαδή `srf.grd.max` είναι αντικείμενο κλάσης `EtrsSurface` και τα περιγραφικά δεδομένα στο `slot` (`@data`) είναι σε μορφή πίνακα :  
-```{r}
-kable(head(srf.grd.max@data))
-```
-
-Όπως φαίνεται στο πίνακα τα στοιχεία που περιέχονται είναι ο κωδικός `$CELLCODE`του κελιού  οι συντεταγμένες του κάτω άκρου του κελιού `$EASTOFORIGIN,$NORTHOFORIGIN"` και ο αριθμός αναγνώρισης της επιφάνειας `$FEATURE` από την οποία έχει πάρει την ιδιότητα το κελί. Ο κωδικός του κελιού που επαναλαμβάνεται στην αρχή είναι η ιδιότητα `row.names()` του `data.frame` `@data` και χρησιμεύει ως αναγνωριστικό σύνδεσης με το γεωμετρικό μέρος του αντικείμενου. (`@polygons`). Περισσότερες πληροφορίες για την δομή του αντικειμένου `EtrsSurface` αλλά και του `SpatialPolygonsDataFrame` παρέχονται στο κυρίως κείμενο και στα help files.
-
-Θα ήταν χρήσιμο να συμπεριλάβει κάποιος ιδιότητες από τα περιγραφικά δεδομένα της επιφάνειας πηγής στο πίνακα δεδομένων των κελιών. H μέθοδος `DasyMapR::joinMaxAreaSurfaceDataFrame` μπορεί να κληθεί και να συνενώσει τα χαρακτηριστικά που δεν έχουν συμπεριληφθεί αρχικά ως ιδιότητες της νέας επιφάνειας  (του κανάβου). 
-
-```{r}
-srf.grd.max.full<-joinMaxAreaSurfaceDataFrames(the.surface = NUTS3_OCMG, the.EtrsSurface = srf.grd.max)
-kable(head(srf.grd.max.full@data[,c(7:12)]))
-```
 
 
-Κάτι που πρέπει να επισημανθεί εδώ είναι ότι ο χρήστης πρέπει πάντα να έχει υπόψη του τι δεδομένα έχει και τι αναγωγές πρέπει να κάνει για να έχει ορθά αποτελέσματα. Για παράδειγμα στον τελευταίο πίνακα στο κελί  ως τιμές του πληθυσμού εμφανίζονται οι `$POP91` ή `$pl2001`. Αυτό είναι λάθος διότι η τιμές αυτές αναφέρονται στις αρχικές επιφάνειες απαριθμήσεις δηλαδή στους νομούς. Ακόμη και η τιμή της πυκνότητας ανά κελί είναι εσφαλμένη αφού δεν έχουν γίνει κατάλληλες αναγωγές. 
-
-Ο χρόνος που χρειάζεται για να γίνουν οι υπολογισμοί μπορούν να μειωθεί με την χρήση της μεθόδου `DasyMapR::etrsSurfacePar()` όπου γίνεται χρήση  περισσοτέρων πόρων του συστήματος (επεξεργαστών και πυρήνων) με την χρήση των πακέτων `foreach` και `doParaller` της R. Περισσότερες πληροφορίες για αυτό μπορούν να βρεθούν στο κυρίως κείμενο.  
-
-## Αριθμητικά (ποσοτικά) Δεδομένα - Η χρήση της PropCal 
-
-Για την καλύτερη παρακολούθηση του παραδείγματος και κάνοντας χρίση των ίδιων δεδομένων που αντλήσαμε από το [GeoData.open.gov](http://geodata.gov.gr/dataset/oria-nomon-okkhe) θα κρατήσουμε μόνο τις στήλες που είναι χρήσιμες για το τρέχον παράδειγμά.
-
-```{r}
-# Θα κρατήσουμε μόνο τον πλυθισμό του 2001 
-Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001<-Π.ΠΕΛΟΠΟΝΝΗΣΟΥ[,c(3,7)]
-kable(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001@data)
-```
-
-Η τιμή στόχος που θέλουμε να επιμερίσουμε στον κάναβο είναι αυτή του πληθυσμού. Αν επιμερίσουμε αυτή την τιμή του χαρακτηριστικού `pl$2001` θα αποδώσουμε στο κελί λανθασμένη τιμή (όπως προαναφέρθηκε) . Θα πρέπει να μετατραπεί από απόλυτη τιμή σε πυκνότητα πληθυσμού. Στο πακέτο  έχει αναπτυχθεί η μέθοδος ():`DasyMapR::ActullVal2Density()` που θα κάνει την μετατροπή
-
-```{r}
-Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001<-ActuallVal2Density(input.surface = Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001,surface.value.col = 2,area.unit = 1e+06)
-kable(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001@data)
-```
-
-Η τιμή `$VALUE` πλέον αναφέρεται σε  κατοίκους/km^2^ και εκφράζει πυκνότητα. Το `@data$VALUE` (slot) πλέον περιέχει και την τιμή του εμβαδού σε km^2^.
-
-Θα επιμερίσουμε την τιμή με την χρήση της μεθόδου `etrsSourceSurface()`  για την τιμή (`VALUE`) της πυκνότητας Η μέθοδος που είναι καταλληλότερη για τον υπολογισμό της τιμής του κελιού μετά την προβολή της επιφάνειας θα είναι αυτή του αναλογικού υπολογισμού σε σχέση με την επιφάνεια $CELLVALUE = (V~i~ ∗ Share~i~)$ όπου V~i~, η τιμή της επιφάνειας και Share~i~, το μερίδιο της επιφάνειας i μέσα στο κελί
-
-```{r,fig.show='hold',tidy=TRUE,warning=FALSE,message=FALSE,results='hide'}
-srf.grd.prop<-etrsSourceSurface(input.surface = Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001,over.method.type = "PropCal",surface.value.col = 4,cell.size = 10000)
-par("mar"=c(.1,.1,.1,.1))
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
-plot(srf.grd.prop)
-```
-
-Το αντικείμενο που δημιουργήθηκε είναι αντικείμενο της κλάσης `EtrsSourceSurface` και ο πίνακας που είναι συσχετισμένος με την επιφάνεια περιεχέι τα χαρακτηριστικά 
-```{r}
-kable(head(srf.grd.prop@data))
-```
- 
-Λεπτομέρειες για τον υπολογισμό της `$CELLVALUE` μπορεί κάποιος να βρει αν φορτώσει το **προσωρινό αρχείο** με όνομα **".surface.detailed.table.rds"** που αποθηκεύετε στο working directory. Για το παράδειγμα της συγκεκριμένης εργασίας φορτώνουμε το εν λόγω αρχείο (.rds) και εμφανίζουμε ορισμένες γραμμές του.Σε αυτές εμφανίζονται οι τιμές για τμήμα του κελιού πριν την άθροιση και τον τελικό υπολογισμό (για αυτό και εμφανίζονται `row.names(srf.grd.prop@data)` με την προσθήκη αριθμού ώστε να είναι μοναδικός ο κωδικός αριθμός `ID`. 
-```{r}
-wd<-getwd()
-setwd(wd)
-surface.detailed.table<-readRDS(".surface.detailed.table.rds")
-kable(head(surface.detailed.table,5))
-```
-
-Για πολλά δεδομένα προτείνεται να γίνει χρήση των προσφερόμενων `parallel computing` μεθόδων
-
-## Ανακεφαλαιώνοντας - Η επιφάνεια Εισόδου
-
-Ίσως να μην έχει γίνει κατανοητό πως οι διαφορετικές μέθοδοι επηρεάζουν την γεωγραφική απεικόνιση της επιφάνειας πηγής για αυτό  στο επόμενο σχήμα απεικονίζονται οι δύο περιπτώσεις εφαρμογής των δύο μεθόδων. 
-```{r,fig.show='hold'}
-# Η κλήση της EtrsTrasnform για αλλαγη του CRS
-Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS <- EtrsTransform(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
-par("mar"=c(.1,.1,.1,.1))
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS,border=2,lwd=2)
-plot(srf.grd.max,col=rgb(0,1,0,0.1),add=TRUE)
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.ETRS,border=2,lwd=2)
-plot(srf.grd.prop,col=rgb(0,1,0,0.1),add=TRUE)
-```
-
-Στην πρώτη περίπτωση η επιφάνεια μπορεί να μην καλύπτεται ή υπερκαλύπτεται ενώ στην δεύτερη πάντα υπερκαλύπτεται. Είναι διακριτό ότι η μέθοδος που επιλέγεται είναι σημαντική για την απόκρυψη ή μη πληροφορίας και την παραγωγή σφαλμάτων (στην πρώτη εικόνα τμήματα ξηράς εξαιρούνται από την ανάλυση μας στην δεύτερη τμήματα της  λογίζονται πλέον ως ξηρά). Περισσότερα σχετικά με τα σφάλματα της μεθόδου μπορεί να αναζητηθούν [εδω](http://www.google.gr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjz843QpsrMAhVkI8AKHSNTA54QFggaMAA&url=http%3A%2F%2Fwww.colorado.edu%2Fgeography%2Fleyk%2Fdata%2FHamid%2Fdasy%2520lit%2FeicherBrewerDasy.pdf&usg=AFQjCNGXOXkB2-hbrbFCZcQ5BadCPTWYUw&sig2=JOZyGXYCkmnEz_nQ0-QFjg&bvm=bv.121421273,d.ZGg)
-Για να είναι "ρεαλιστικότερο" το παράδειγμα μας θα αλλάξουμε επίπεδο αναφοράς και από το επίπεδο της περιφέρειας θα περάσουμε στο επίπεδο της περιφερειακής ενότητας (νομού ή NUTS3) και της ανάλυσης από τον κάναβο του 10km στον κάναβο 1km. 
-Επιλέγεται εδώ ο νόμος Αργολίδας 
-
-```{r,fig.show='hold',results='hide'}
-par(mar = c(0.1, 0.1, 0.1, 0.1))
-ΑΡΓΟΛΙΔΑ <- NUTS3_OCMG[which(!is.na(match(NUTS3_OCMG[["NAME"]], "Ν. ΑΡΓΟΛΙΔΟΣ"))),]
-plot(Π.ΠΕΛΟΠΟΝΝΗΣΟΥ)
-plot(ΑΡΓΟΛΙΔΑ, add = TRUE, lwd = 2, border = 2)
-# Εδώ καλείται η EtrsTransform απευθείας
-ΑΡΓΟΛΙΔΑ.ETRS<-EtrsTransform(ΑΡΓΟΛΙΔΑ)
-# Με την κλήση της etrsSourceSurface παράγεται η επιφανεια πηγή
-source.surface <- etrsSourceSurface(input.surface = Π.ΠΕΛΟΠΟΝΝΗΣΟΥ.2001[3,], 
-    over.method.type = "PropCal", surface.value.col = 4, cell.size = 1000)
-plot(source.surface,col=rgb(0,1,0,0.01),lwd=.5,border="lightgrey")
-plot(ΑΡΓΟΛΙΔΑ.ETRS, add = TRUE, lwd = 2, border = 2)
-```
-
-
-## Η Βοηθιτική επιφάνεια
-Θα γίνει χρήση των δεδομένων CORINE 2000 δηλαδή των δεδομένων κάλυψη γης για την Ελλάδα και το έτος 2000, όπως διατίθενται από Ευρωπαϊκή Υπηρεσία Περιβάλλοντος . Τα δεδομένα αυτά μπορούν να μεταμορφωθούν από τον ισότοπο της  [ΕΕΑ](http://www.eea.europa.eu/data-and-maps/data/corine-land-cover-2000-clc2000-seamless-vector-database-1#tab-interactive-maps-produced) και επιλέχθηκαν ως κατάλληλα από την άποψη της χρονικής κατανομής σε σχέση με το φαινόμενο  (πληθυσμό 2001) που θέλουμε να ανακατανείμουμε. 
-Για την προετοιμασία της επιφάνειας επίσης θα γίνει η χρήση της `etrsAncillarySurface`. Εδώ κρίνεται σκόπιμο να γίνουν ορισμένες επισημάνσεις στο χρήστη του πακέτου. Παρόλο που οι τρεις μέθοδοι δημιουργίας των επιφανειών `etrsSurface`, `etsrSourceSurface`, `etrsAncillarySurface` επί της ουσίας κάνουν ακριβώς τους ίδιους υπολογισμούς, και οι κλάσεις περιέχουν τα ίδια `@slots` και θα μπορούσε ο χρήστης να αποφασίζει για την "ορθή" χρήση τους η επιλογή αυτή έγινε για να καθοδηγήσει τον χρήστη για το πώς θα πρέπει να ενεργήσει. Θα γίνουμε πιο συγκεκριμένη στην πορεία ολοκλήρωσης του τρέχοντος παραδείγματος.
-
-### Προετοιμασία των Δεδομένων
-Εδώ ο χρήστης θα πρέπει να κάνει τις επιλογές *που στηρίζονται στην εμπιρεία του η/και την γνώση του* για το θέμα (Ως εκ τούτου η μέθοδος συχνά αναφέρεται ως [Intelligent Dasymetric Maping](http://www.google.gr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwih8LubqMrMAhXFCsAKHeXuDS4QFggeMAA&url=http%3A%2F%2Fastro.temple.edu%2F~jmennis%2Fpubs%2Fmennis_cagis06.pdf&usg=AFQjCNFJdc_Q5xwRIQXjKwAWSXSKri_Q3g&sig2=tC3fEvdfjV04htuDlgPMeg). Ας δούμε τις κατηγορίες καλύψεων που περιέχονται στην Corine DB:
-
-```{r}
-data("CLC2000_CODES")
-kable(head(CLC2000_CODES))
-``` 
-...
-
-Είναι προφανές ότι για το παράδειγμα,  ενδιαφέρουν μόνο οι δύο κατηγορίες 111 και 112 που σχετίζονται με την κατοικία. Αυτές θα μεταφορτώνουν από την ΕΕΑ αφού διατίθενται για μεταφόρτωση σε αρχεία .shp κατα τις προαναφερόμενες κατηγόρίες. 
-
-Με τον παρακάτω κώδικα θα μπορούσε κάποιος να δημιουργησει αν dataset με κάλυψη για όποια κατηγορία ή έτος απαιτείται για την ανάλυσή του. Παρατίθεται εδώ για να αποτελέσει οδηγό σε ενδεχομένη προετοιμασία άλλων δεδομένων από τον χρήστη. 
+## Προετοιμασία των Δεδομένων 
+Αναζητούνατι οι αιτήσεις που έχουν γίνει απο την Ελλάδα
 
 ```{r,eval=FALSE}
-# Τα δύο .shp files περιέχονται στο folder corine
- setwd(system.file("data/corine",package="DasyMapR"))
- # Με βάση τα όρια της περιοχής ... 
- bb<-bbox(ΑΡΓΟΛΙΔΑ.ETRS)
- # διμιουργησε νέα .shp files που περιέχουν όσα δεδομένα χρειάζομαι
- ogr2ogr(".","clc_cliped",spat =  c(bb[,1],bb[,2]))
- dsn<-setwd("clc_cliped/")
- # φόρτωσε τα ως SpatialPolygonsDataFrames 
- CLC2000_POLY_ARGOLIDA111<-readOGR(".","clc00_v2_code_111")
- CLC2000_POLY_ARGOLIDA112<-readOGR(".","clc00_v2_code_112")
- # και ένωσε τα
- CLC2000.ARGOLIDA.RES<-rbind.SpatialPolygonsDataFrame(CLC2000_POLY_ARGOLIDA111,CLC2000_POLY_ARGOLIDA112,makeUniqueIDs = T)
- # τέλος σώστα στο δίσκο ως dataset
- setwd(system.file("data",package = "DasyMapR"))
-# Αφαιρέθηκαν 2 πολύγωνα με πρόβλημα στην γεωμετρία
- CLC2000.ARGOLIDA.RES<-CLC2000.ARGOLIDA.RES[-which(row.names(CLC2000.ARGOLIDA.RES)==8),]
-CLC2000.ARGOLIDA.RES<-CLC2000.ARGOLIDA.RES[-which(row.names(CLC2000.ARGOLIDA.RES)%in% "01"),]
- devtools::use_data(CLC2000.ARGOLIDA.RES,overwrite = T)
+candidates_addresses_el<-candidates_addresses[candidates_addresses$country %in% "Ελλάδα",]
+kable(head(candidates_addresses_el,10))
 ```
 
 
-Στο πακέτο `DasyMapR` υπάρχουν ήδη τα δεδομένα αυτά στο φάκελο `.\data` ως `datasets` που το συνοδεύουν.
+Εχει γίνει ήδη αντιλληπτό ότι οι ταχυδρομικοί κώδικες είτε δεν έχουν συμπληρωθεί απο τους χρήστες σωστά είτε δεν έχουν το σωστό φορμά ή τύπο.
+"Διορθώνουμε" τους ταχυδρομικούς κώδικες με το παρακάτω κώδικα. Δεν  αναφέρoνται λεπτομέρεις για το τί κάνει ο κώδικας γιατί ο καθασρισμός των δεδομένων  δεν είναι το κύρίως αντικείμενο που παρουσίαζεται στο κείμενο.
 
-```{r}
-#Φορτώνουμε τα δεδομένα 
-data("CLC2000.ARGOLIDA.RES")
-# Τι Περιέχει το σετ;
-kable(head(CLC2000.ARGOLIDA.RES@data,3))
+
+```{r,eval=FALSE}
+candidates_addresses_el$zipCode<-as.character(candidates_addresses_el$zipCode)
+#αφαιρούνται σημεία στίξης αλλά και κενά απο ΤΚ
+candidates_addresses_el$zipCode<-gsub("[[:space:]]","",candidates_addresses_el$zipCode)
+candidates_addresses_el$zipCode<-gsub("[[:punct:]]","",candidates_addresses_el$zipCode)
+#γράφουμε τοκ κωδικό σε μορφή Τ.Κ.
+candidates_addresses_el$POSTCODE<-paste0(substring(candidates_addresses_el$zipCode,1,3)," ",substring(candidates_addresses_el$zipCode,4,5))
+# Και αναζητούμε όσους δεν εχουν τιμή η έχουν τιμή που δεν είναι Τ.Κ
+check_pc <- !(grepl("[[:digit:]]{3}[[:space:]][[:digit:]]{2}$",candidates_addresses_el$POSTCODE,perl=T))
+# Τι δεδομένα  είναι αυτά? εξηγείται παρακάτω
+data("pc_regions")
+# απόδοση τιμών ΤΚ από τον πίνακα pc_regions με βάση την πολή
+candidates_addresses_el_np<-subset(candidates_addresses_el,check_pc)
+candidates_addresses_el_wp<-subset(candidates_addresses_el,!check_pc)  
+candidates_addresses_el_np$POSTCODE <- unlist(sapply(candidates_addresses_el_np$city , FUN = function(x) as.character(pc_regions@data$POSTCODE[match(x,pc_regions$EDRA)])))
+candidates_addresses_el<-rbind(candidates_addresses_el_wp,candidates_addresses_el_np)
+# Και αναζητούμε όσους δεν εχουν τιμή η έχουν τιμή που δεν είναι Τ.Κ
+check_pc <- (grepl("[[:digit:]]{3}[[:space:]][[:digit:]]{2}$",candidates_addresses_el$POSTCODE,perl=T))
+candidates_addresses_el<-subset(candidates_addresses_el,check_pc)
+#Υπάρχουν Τ.Κ. θυρήδων Αθήνων οπότε αποδίδονται στην Αθήνα
+check_pc <- grepl("[1]{1}[0]{1}[0-4]{1}[[:space:]][0-3]{1}[0]{1}",candidates_addresses_el$POSTCODE,perl = T)
+candidates_addresses_el[check_pc,"POSTCODE"]<-"104 31"
+#Υπάρχουν Κωδικοί εξωτερικού ή που δεν μπορούν να συσχετιστουν
+check_pc <-grepl("^[8-9]{1}[6-9]{1}[0-4]{1}[[:space:]][0-9]{1}[0-9]{1}",candidates_addresses_el$POSTCODE,perl = T)
+candidates_addresses_el_np<-subset(candidates_addresses_el,check_pc)
+candidates_addresses_el_wp <- subset(candidates_addresses_el,!check_pc)  
+candidates_addresses_el_np$POSTCODE <- unlist(sapply(candidates_addresses_el_np$city , FUN = function(x) as.character(pc_regions@data$POSTCODE[match(x,pc_regions$EDRA)])))
+candidates_addresses_el<-rbind(candidates_addresses_el_wp,candidates_addresses_el_np)
+check_pc <-grepl("^[8-9]{1}[6-9]{1}[0-4]{1}[[:space:]][0-9]{1}[0-9]{1}",candidates_addresses_el$POSTCODE,perl = T)
+candidates_addresses_el<-subset(candidates_addresses_el,!check_pc) 
+#Υπαρχουν κωδικοί που εμφανίζονται λίγες φορές με έλεγχο κρίθηκε ότι δεν αντιστοιχούνσε ΤΚ και αποδίδονται στα 3 πρώτα ψηφία
+cnt_py<-count(candidates_addresses_el,vars = c('POSTCODE'))
+cnt_py_lf<-subset(cnt_py,cnt_py$freq <= 20L)
+cnt_py_hf<-subset(cnt_py,cnt_py$freq > 20L)
+check_pc<-!is.na(match(candidates_addresses_el$POSTCODE,cnt_py_lf$POSTCODE))
+candidates_addresses_el_wp <- subset(candidates_addresses_el,!check_pc)  
+candidates_addresses_el_np<-subset(candidates_addresses_el,check_pc)
+candidates_addresses_el_np$POSTCODE <- unlist(sapply(candidates_addresses_el_np$POSTCODE , FUN = function(x) as.character(
+  pc_regions@data$POSTCODE[
+    match(substring(x,first = 1,last = 3)
+          ,substring(pc_regions$POSTCODE,first = 1,last = 3))
+    ])))
+
+candidates_addresses_el_cor<-rbind(na.exclude(candidates_addresses_el_np),candidates_addresses_el_wp)
+
+# Προσθέτω τυχαίες χρονιές αιτήσεων για χρήση ως παράδειγμα
+year <-round(runif(nrow(candidates_addresses_el_cor),min = 1998,max =2016) ,0)
+candidates_addresses_el_cor["YEAR"] <- year
+
+kable(head(candidates_addresses_el,10))
 ```
 
-Και σε πιο άνθρωπο-φιλική  μορφή 
+Επίσης δεν θα γίνει ανάλυση  στο συγκεριμένο κείμενο για τους ταχυδρομικούς κώδικές και πως σχετίζονται με τον γεωγραφικό χώρο. Εδώ χρησιμοποιούνται παρεμπιπτοντως ως στοιχείο που διατίθεται για την γεωναφορά των αιτήσεων. Απλώς αναφέρεται ότι  Οι ταχυδρομικοί κωδικοί είναι διαχωρισμένοι σε : 
 
-```{r}
-ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ <- merge(x = CLC2000.ARGOLIDA.RES,y = CLC2000_CODES,by.x="code_00",by.y="Code_00")
-kable(head(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data,3))
+* πόλεις Α΄ ζώνης (αφορά πόλεις με περισσότερους από έναν ταχυδρομικούς κώδικες)
+* πόλεις Β΄ ζώνης (αφορά πόλεις που εξυπηρετούνται με έναν ταχυδρομικό κώδικα)
+
+Πληροφορίες μπορούν εύκολα να βρεθούν στο διαδύκτιο π.χ. [Κατάλογος ταχυδρομικών κωδικών της Ελλάδας](https://goo.gl/75IiYc). 
+
+Με βάση δεδομένα που μπορούν να βρεθούν στο διαδίκτυο αποδόθηκαν, στα πολυγωνα των προ ["Καποδιστρικών Δήμων"](http://goo.gl/mzxu3N) μιά σειρά κωδικών που εμφανίζονται σε πίνακες με στατιστικά δεδομένα και  μπορούν να βοηθήσουν στην συσχέτιση των κελλιών κανάβου με περιγραφικά δεδομένα. Τα δεδομένα αυτά περιλαμβάνονται στο πακέτο και ήδη εγινε χρήση τους για να συμπληρωθούν τιμές απο εγγραφές που δεν υπήρχαν στα αρχικά δεδομένα. Λεπτομέρειες για την απόδοση τιμών στα πολυγωνα αναφερόνται στο τέλος του κειμένου όπου εξηγείται και η μέθοδος `DasyMapR::pntsattr2surface` που ανατπύχθηκε για να αποδίδει κατηγορικές τιμές από σημειακά δεδομένα σε επιφάνειες 
+
+Εδώ εμφανίζονται ενα απόσπασμα των περιγραφικών  δεδομένων 
+```{r,eval=FALSE}
+kable(head(pc_regions[,1:12]))
+kable(head(pc_regions[,13:24]))
+```
+Αυτοί οι κωδικοι μπορούν να αποδωθούν στα κελλιά για συσχετισης  με δεδομένα απο πλήθος πήγων (ΕΣΥΕ,EUROSTAT κ.λ.π)
+Ας δούμε τώρα τα πολύγωνα με τα όρια των ΟΤΑ (πριν τη διοικιτική μεταρύθμιση "Καποδίστριας")
+```{r,eval=FALSE}
+plot(pc_regions)
 ```
 
-Θα θεωρήσουμε ότι ο λόγος της πυκνότητας $111 : 112 = 3 : 1$.   δηλαδή ότι στις  περιοχές με πυκνό αστικό ιστό ζουν 3 φορές περισσότερου άνθρωποι ανά μονάδα επιφανείας από ότι στις αραιά δομημένες περιοχές. 
+Γυρίζωντας στις αιτήσεις των υπόψήφιων του ΕΑΠ και για να τις απεικονήσουμε στις γεωγραφικές θέσεις που αντιστοιχούν θα συσχετίσουμε την συχνότητα εμφάνισης με το πολύγωνο του ταχυδρομικού κώδικα που αντιστοιχέι 
 
-
-```{r,fig.height=5,fig.width=7,tidy=TRUE}
-par("mar"=c(.1,.1,.1,.1))
-ReDens111<-round(3/4,2)
-ReDens112<-round(1/4,2)
-ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[which(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[,"code_00"] == 111),"ReDens"]<-ReDens111
-ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[which(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[,"code_00"] == 112),"ReDens"]<-ReDens112
-kable(head(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data))
-plot(ΑΡΓΟΛΙΔΑ.ETRS,lwd=2,border=2)
-plot(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ,col="purple",add=TRUE)
-data("NUTSV9_LEAC")
-plot(NUTSV9_LEAC,add=TRUE,border="lightgrey")
+```{r,eval=FALSE}
+kable(head(candidates_addresses_el,10))
 ```
 
+Τα δεδομένα που περιέχονται `pc_regions` δεν μπορούν να χρησιμοποιηθουν όπως είναι, γιατί σε αρκετές περιπωσεις περιέχονται "διπλοεγγραφές". Π.Χ. είναι δυνατόν δυό περισσότερες περιοχές να εουν τον ίδιο Τ.Κ. Ή ένας νομός να έχει περίσσοτερους του ενός κωδικούς NUTS. (παλιό και καινούργιο)
 
-Καλώντας την `etrsAncillarySurface` θα υπολογίσουμε την "σχετική πυκνότητα" του κάθε κελιού πλέον με βάση τις παραδοχές που έγιναν: *Όλος ο πλυθησμός της Αργολίδας το έτος 2001 κατοικουσε σις περιοχές με συνεχή και διακεκκομενη αστική δόμηση και με σχετική πυκνότητα μάλιστα 1:3.*  Θα μπορούσαμε να συμπεριλάβουμε και άλλες περιοχές και να του αποδώσουμε κάποιο ποσοστό. (π.χ αγροτικές περιοχές 5 %)
+```{r,eval=FALSE}
+ data("pc_regions")
+
+ #"ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ"
+# #Διόρθωοη των "νομών"
+ cnt_py_pre_err <- as.data.frame(table(candidates_addresses['pre']))
+ colnames(cnt_py_pre)<-c('POSTCODE','Freq')
+ #Αφαίρεση εγγραφών και απόδοση κωδικών
+ cnt_py_pre_err<-read.csv("cnt_py_pre_err.csv",sep = ",")
+ #Συσωμάτωση με το νομό ΙΙ
+ pc_regions_data<-pc_regions@data
+ pc_regions_data<-pc_regions_data[,c("PREF_ID","PREFECTURE")]
+ pc_regions_data<-unique(pc_regions_data)
+ rownames(pc_regions_data)<-pc_regions_data$PREF_ID
+ pc_regions_sp<-unionSpatialPolygons(pc_regions,pc_regions@data$PREF_ID)
+ pc_regions_pref<-SpatialPolygonsDataFrame(pc_regions_sp,pc_regions_data)
+# #Γεωαναφορά
+ EAP.application.pre_err<-merge(x=pc_regions_pref,y=cnt_py_pre_err,by='PREF_ID')
+ EAP.application.pre_err@data[is.na(EAP.application.pre_err$Freq),'Freq']<-0L
 
 
-```{r,results='hide',fig.height=5,fig.width=7}
-par("mar"=c(.1,.1,.1,.1))
-data("NUTSV9_LEAC")
-the.ancillary.surface.bf <- etrsAncillarySurface(input.surface = ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ,over.method.type = "PropCal",surface.value.col = 3,cell.size = 1000,binary = FALSE)
-plot(the.ancillary.surface.bf,col= "purple")
-plot(ΑΡΓΟΛΙΔΑ.ETRS, add = TRUE, lwd = 2, border = 2)
-plot(NUTSV9_LEAC,add=TRUE,border="lightgrey")
+ # Συσσωμάτωση με βάση το ΤΚ
+ pc_regions_data<-pc_regions@data
+ pc_regions_data<-unique(pc_regions_data['POSTCODE'])
+ rownames(pc_regions_data)<-pc_regions_data$POSTCODE
+ pc_regions_sp<-unionSpatialPolygons(pc_regions,pc_regions@data$POSTCODE)
+ pc_regions_ag<-SpatialPolygonsDataFrame(pc_regions_sp,pc_regions_data)
+ #Γεωαναφορά
+ cnt_py_loc<-as.data.frame(table(candidates_addresses_el_cor['POSTCODE']))
+ EAP.application.loc<-merge(x=pc_regions_ag,y=cnt_py_loc,by='POSTCODE')
+ EAP.application.loc@data[is.na(EAP.application.loc$freq),'freq']<-0L
+
+ #Συσωμάτωση με το νομό ΙΙ
+ pc_regions_data<-pc_regions@data
+ pc_regions_data<-pc_regions_data[,c("PREF_ID","PREFECTURE")]
+ pc_regions_data<-unique(pc_regions_data)
+ rownames(pc_regions_data)<-pc_regions_data$PREF_ID
+ pc_regions_sp<-unionSpatialPolygons(pc_regions,pc_regions@data$PREF_ID)
+ pc_regions_pref<-SpatialPolygonsDataFrame(pc_regions_sp,pc_regions_data)
+ #Γεωναφορά
+ EAP.application.pre<-merge(x=pc_regions_pref,y=cnt_py_pre_err,by='PREF_ID')
+ EAP.application.pre@data[is.na(EAP.application.pre_err$Freq),'Freq']<-0L
+
+#"ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ" NUTS
+ EAP_NUTS_V9<-read.csv("EAP_NUTS_V9.csv")
+#Γεωαναφορά
+ GR<-NUTSV9_LEAC[which(!is.na(match(NUTSV9_LEAC[["N0CD"]], "GR"))), ]
+ EAP.NUTS<-merge(x=NUTSV9_LEAC,y=EAP_NUTS_V9,by.x='N3CD',by.y='NUTS_V9',all.y=TRUE)
+ EAP.NUTS<-EAP.NUTS[which(!is.na(EAP.NUTS@data$PREF_ID)),]
+
+ plot(perf)
+ applicants<-perf@data$freq
+ points(spsample(x = perf,n=applicants ,type= "random"),pch = 1,cex=.5,col=2)
+ ```
+
+```{r,eval=FALSE}
+#Χρήση των pc_el_NUTS20xx
+candidates_addresses_el_cor$NUTS_310 <- unlist(sapply(candidates_addresses_el_cor$POSTCODE , FUN = function(x) as.character(pc_el_NUTS2010$NUTS_3[match(x,pc_el_NUTS2010$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_313 <- unlist(sapply(candidates_addresses_el_cor$POSTCODE , FUN = function(x) as.character(pc_el_NUTS2013$NUTS_3[match(x,pc_el_NUTS2013$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_309 <- unlist(sapply(candidates_addresses_el_cor$pre , FUN = function(x) as.character(EAP_NUTS_V9$NUTS_V9[match(x,EAP_NUTS_V9$pre)])))
+
+candidates_addresses_el_cor$PREF_ID <- unlist(sapply(candidates_addresses_el_cor$POSTCODE , FUN = function(x) as.character(pc_regions$PREF_ID[match(x,pc_regions$POSTCODE)])))
+
 ```
-
-
-```{r}
-kable(head(the.ancillary.surface.bf@data))
-surface.detailed.table.bf<-readRDS(".surface.detailed.table.rds")
-```
-
-Θα επαναλάβουμε του ίδιους υπολογισμούς θέτοντας την παράμετρο `binary = TRUE` η οποία δίνει διαφοροποιημένα αποτελέσματα. Για να έχουμε αποτελέσματα θα πρέπει να θέσουμε την σχετική πυκνότητα σε 1. Στην ουσία λειτουργεί σαν την εφαρμογή  της MaxArea στον υπολογισμό της βοηθητικής επιφάνειας. Πρακτικά σε φυσικούς όρους σημαίνει αν ένα κελί έχει την ιδιότητα να φιλοξενεί πληθυσμό με τιμή μεγαλύτερη από 50% Στην απεικόνιση που ακολουθεί μόνο τα κελιά  με μοβ χρώμα έχουν τιμή για την `$WCELLWEGHT`
-
-```{r,results='hide',fig.height=5,fig.width=7}
-par("mar"=c(.1,.1,.1,.1))
-ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[which(ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ@data[,"code_00"] == c(111,112)),"ReDens"]<-1
-the.ancillary.surface.bt <- etrsAncillarySurface(input.surface = ΠΕΡΙΟΧΕΣ.ΚΑΤΟΙΚΙΑΣ,over.method.type = "PropCal",surface.value.col = 3,cell.size = 1000,binary = TRUE)
-plot(the.ancillary.surface.bt,col= "purple4")
-plot(the.ancillary.surface.bt[which(the.ancillary.surface.bt[["WCELLWEIGHT"]]==0),],col= "lightgrey",add=T)
-plot(ΑΡΓΟΛΙΔΑ.ETRS, add = TRUE, lwd = 2, border = 2)
-plot(NUTSV9_LEAC,add=TRUE,border="lightgrey")
-```
-
-```{r}
-kable(head(the.ancillary.surface.bt@data))
-surface.detailed.table.bt<-readRDS(".surface.detailed.table.rds")
-```
-
-Ας δούμε και τα αποτελέσματά του πίνακα καθώς και του προσωρινού αρχείου για τον έλεγχο τον υπολογισμών
-```{r}
-wd<-getwd()
-setwd(wd)
-kable(head(surface.detailed.table.bf))
-```
-
-
-## Ανακεφαλαιώνοντας 
-
-Είναι κατανοητό ότι και εδώ τα ζητήματα της κλίμακας του φαινομένου (κάλυψη) και της ανάλυσης (μέγεθος κελιού 1km) είναι σημαντικό να λαμβάνονται υπόψη από τον χρήστη για την παραγωγή αποτελεσμάτων αξιοποιήσιμων και "ρεαλιστικών" ώστε να διατηρείται η πληροφορία και να μην παράγεται νέα αλλά ψευδής.
-Για την συνέχεια του παραδείγματος θα επιλέξουμε την κατανομή που προέκυψε από την εφαρμογή της `etrsAncillarySurface(...,"PropCAl",...)` δηλαδή την  *`the.ancillary.surface.bf`*
-
-## Οι δασυμετρικοί υπολογισμοί
-
-H μέθοδος για την εφαρμογή των δασυμετρικών υπολογισμών που θα κλιθεί είναι `etsrDasymetricSurface` και δέχεται ως ορίσματα μία επιφάνεια πηγή κλάσης `EtrsSourceSurface`την βοηθητική επιφάνεια κλάσης `EtrsAncillarySurface`  και μία μεταβλητή logical `actuall.value` όπου εάν δοθεί η τιμή TRUE θα εφαρμοστεί η `ActuallVal2Density()` που η χρήση της εξηγήθηκε [παραπάνω](act)
-
-```{r,fig.height=5,fig.width=7}
-par("mar"=c(.1,.1,.1,.1))
-dasymetric.surface<-EtrsDasymetricSurface(input.surface.grided = source.surface,ancillary.grided =the.ancillary.surface.bf  ,actuall.value = FALSE)
-plot(dasymetric.surface)
-plot(ΑΡΓΟΛΙΔΑ.ETRS,add=T,border="red",lwd=2)
-kable(head(dasymetric.surface@data))
-```
-
-## Η χρήση του NUTS  και LAEA κανάβου
-
-Το παράδειγμα που χρησιμοποιήθηκε όπως υπονοήθηκε δεν είναι αρκετά ακριβές αφού δεν χορηγήσαμε επαρκή στοιχεία τόσο για την κατανομή του πληθυσμού όσο και λόγω της μικρής κλίμακας των δεδομένων της κάλυψης. Θα μπορούσαμε να χρησιμοποιήσουμε δεδομένα από τις [UMZ200](http://www.eea.europa.eu/data-and-maps/data/urban-morphological-zones-2000-2)
-
-Ειδικά για το πληθυσμό προσφέρονται δεδομένα για το πληθυσμό στον ETRS-LAEA κάναβο για τα έτη 2006 2011 που έχουν προκύψει από την εφαρμογή πιο περίπλοκων αλγορίθμων μπορούν να  στο  [ESPOn](http://database.espon.eu/db2/resource;jsessionid=0620e4b1ee3fe4232de4caab35e1?idCat=45).     
- 
-
-```{r}
-data("GEOSTAT_grid_EU_POP_2006_1k_V1_1_1")
-kable(head(GEOSTAT_grid_EU_POP_2006_1k_V1_1_1))
-GR_POP_2006<-GEOSTAT_grid_EU_POP_2006_1k_V1_1_1[which(GEOSTAT_grid_EU_POP_2006_1k_V1_1_1[,'CNTR_CODE'] %in% "EL"),]
-```
-
-Μία πιο προσεκτική ματιά σε αυτά τα δεδομένα δείχνει δεν ακολουθούν την προτεινόμενη κωδικοποίηση των κελιών της [INSPIRE Specification on Geographical Grid Systems](http://inspire.ec.europa.eu/index.cfm/pageid/241/documentid/3390) Για να  τέτοια προβλήματα αναπτύχθηκε η μέθοδος `etrsReverseCellCode`.
-
-```{r}
-GR_POP_2006<-as.data.frame(GR_POP_2006)
-GR_POP_2006<-etrsReverseCellCode(df = GR_POP_2006,cell.code.col = 1)
-kable(head(GR_POP_2006))
-```
-
-Και για να απεικονισθούν τα δεδομένα μας στη μορφή του κανάβου μπορούμε να καλέσουμε την `EtrsGrid` και στην συνέχεια θα συγχωνεύσουμε τα πολύγωνα με τις εγγραφές στο data frame με του κωδικούς των κελλιών (`row.names,"ID"`(),ID).
-
-
-```{r,results='hide',fig.height=5,fig.width=7}
-par("mar"=c(.1,.1,.1,.1))
-GR251<-NUTSV9_LEAC[which(!is.na(match(NUTSV9_LEAC[["N3CD"]],"GR251"))),]
-GR251<-EtrsTransform(GR251)
-GR251.grd<-etrsGrid(GR251,cell.size = 1000)
-GR251.grd<-merge(GR251.grd,GR_POP_2006,by=0,all=F)
-plot(GR251.grd)
-plot(ΑΡΓΟΛΙΔΑ.ETRS,add=TRUE,border=2,lwd=3)
-```
-
-<<<<<<< HEAD
-## Η Δασυμετρική επιφάνεια σε Βοηθητική 
-=======
-## Η Δασυμετρική σε Βοηθητική 
->>>>>>> 8e7ff89b1d44f91b64c476d81766c5eed543a545
-
-Όπως αναφέρθηκε τα διοικητικά όρια συχνά αλλάζουν τέτοιο παράδειγμα είναι η περίπτωση του Ευρωπαϊκού χώρου όπου το ιστορικό των [αλλαγων](http://ec.europa.eu/eurostat/web/nuts/history)  συχνά δυσκολεύει την χρήση και σύγκριση των διαθέσιμων δεδομένων. Τα γεωγραφικά όρια μπορούν να μεταμορφωθούν από το  της [EUROSTAT](http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts13) 
-Ας δούμε κατ' αρχήν τις αλλαγές των ορίων στην υπό μελέτη περιοχή την Αργολίδα :
-
-Φορτώνουμε τα δεδομένα και τα :
-
-```{r,warning=FALSE,message=FALSE,fig.show='hold'}
-par("mar"=c(.1,.1,.1,.1))
-# Όρια NUTS 2006
-GR25<-NUTSV9_LEAC[which(!is.na(match(NUTSV9_LEAC[["N2CD"]],"GR25"))),]
-kable(head(GR25@data))
-#Νέα όρια NUTS 2013
-data("NUTS_2013_01M_EL")
-kable(head(NUTS_2013_01M_EL@data))
-NUTS_2013_01M_65<-EtrsTransform(NUTS_2013_01M_EL[grep('^EL65',NUTS_2013_01M_EL[["NUTS_ID"]]) ,])
-plot(NUTS_2013_01M_65)
-plot(GR25)
-```
-
-
-Για όποιον ενδιαφέρεται για δεδομένα κοινωνικό-οικονομικά, περιβαλλοντικά κ.λ.π. ήδη γνωρίζει ότι μια σημαντική πηγή στοιχείων είναι [EurostatDatabase](http://ec.europa.eu/eurostat/) Με την χρήση του `package eurostat` μπορούμε να συνεχίσουμε την ανάλυση μας και να απεικονίσουμε κοινωνικό - οικονομικά δεδομένα στον κάναβο. Π.Χ. μπορούμε να κατεβάσουμε δεδομένα για το ακαθάριστο εθνικό προϊόν ανά κάτοικο και να τα προβάλουμε στο κελί επιμερίζοντας τα με βάση τον αριθμό κατοίκων ανά κελί από τα προηγούμενα βήματα.
- 
-Ας αναζητήσουμε κάποια στοιχεία  από την Eurostat. Θα κάνουμε την αναζήτηση με βάση τo γεωγραφικό επίπεδο αναφοράς (NUTS3)
-```{r}
-info<-search_eurostat("NUTS 3")
-kable(info[c(23:30),c(1,2)])
-```
-
-επιλέγονται δεδομένα για το ακαθάριστο εθνικό προϊόν του 2001  (Gross domestic product (GDP) at current market prices by NUTS 3 regions) και εiδικότερα για την περιοχή ενδιαφέροντος.  H Επόμενη γραμμή χρειάζεται σύνδεση και δεν θα τρέξει αν δεν υπάρχει  οπότε  στο παράδειγμά μας
-
-```{r}
-#nama_10r_3gdp <- get_eurostat(id = "nama_10r_3gdp" ,filters = list(time=2006),time_format = "num")
-```
-
-Τα δεδομένα αυτά έχουν ήδη  και περιέχονται στο πακέτο. Έτσι ι τα φορτώνονται από το /data 
-με την χρήση `data()`
-
-
-```{r}
-data("nama_10r_3gdp")
-dat<-nama_10r_3gdp
-```
-
-α περιορίσουμε την εργασία εδώ για λόγους οικονομίας στον νομό Αργολίδας (και "αναγκαστικά" και Αργολίδας)
-
-```{r}
-GDP651_2006<-dat[grep('^EL651',dat$geo),] 
-kable(label_eurostat(GDP651_2006))
-```
-
-Για να γίνει γεωναφορά των δεδομένων αυτών θα  χρησιμοποιήσουμε τα όρια όπως αυτά παρέχονται [EUROSTAT](http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts13). 
-
-```{r}
-par("mar"=c(.1,.1,.1,.1))
-NUTS_2013_01M_651<-EtrsTransform(NUTS_2013_01M_EL[grep('^EL651',NUTS_2013_01M_EL[["NUTS_ID"]]) ,])
-kable(NUTS_2013_01M_651@data)
-```
-
-Αρχικά γίνεται η γεωαναφορά των στοιχείων 
-
-```{r}
-NUTS_2013_01M_651<-merge(NUTS_2013_01M_651,GDP651_2006[1,],by.x="NUTS_ID",by.y="geo",all=FALSE)
-```
-
-H χρήση της `merge` ενδεχομένως να προκαλέσει αλλαγή στα `rownames`  του `dataframe` οπότε έστω και προληπτικά τα διορθώνουμε
-
-```{r,fig.height=5,fig.width=7}
-row.names(NUTS_2013_01M_651@data)<-sapply(slot(NUTS_2013_01M_651, "polygons"), function(x) slot(x, "ID"))
-plot(NUTS_2013_01M_651)
-kable(NUTS_2013_01M_651@data)
-```
-Στην συνέχεια θα χρησιμοποιήσουμε την `etrsSourceSurface` για να προβάλλουμε στον καναβο το "φαινόμενο" της κατανομής του κατά κεφαλήν ακαθάριστου εθνικού προϊόντος 
-
-```{r,results='hide',fig.height=5,fig.width=7}
-par("mar"=c(.1,.1,.1,.1))
-NUTS_2013_01M_651_GDP<-etrsSourceSurface(input.surface = NUTS_2013_01M_651,over.method.type = "PropCal",surface.value.col = 7,cell.size = 1000)
-plot(NUTS_2013_01M_651_GDP)
-```
-
-```{r}
-kable(head(NUTS_2013_01M_651_GDP@data))
-```
-
-Η προηγούμενη επιφάνεια `dasymetric.surface` που υπολογίστηκε ως Δασυμετρική επιφάνεια τώρα θα μετατραπεί σε βοηθητική επιφάνεια και θα χρησιμοποιεί για την κατανομή της τιμής της GDP. Σε αυτήν απεικονιζόταν ο αριθμός των κατοίκων ανά κελί που είχε την ιδιότητα του συνεχούς ή  αστικού ιστού 
-
-
-```{r,results='hide',warnings='hide',message='hide'}
-kable(head(dasymetric.surface@data))
-POP_2001_ancillary<- etrsDasymetric2Ancillary(dasymetric.surface)
-row.names(POP_2001_ancillary@data)<-sapply(slot(POP_2001_ancillary, "polygons"), function(x) slot(x, "ID"))
-```
-
-Τέλος με την κλίση της `etrsPropWeightedValue` θα υπολογιστεί η τιμή του ακαθάριστου προϊόντος σε κάθε κελί
-
-```{r,fig.height=5,fig.width=7}
-par("mar"=c(0.1,0.1,0.1,0.1))
-DASY_GPD<-etrsPropWeightedValue(input.surface.grided = NUTS_2013_01M_651_GDP, ancillary.grided = POP_2001_ancillary)
-plot(DASY_GPD)
-plot(ΑΡΓΟΛΙΔΑ.ETRS,add=T,border=2,lwd=2)
-kable(head(DASY_GPD))
-```
-
-Τέλος η μετατροπή των αποτελέσματα σε raster θα έκανε τα  ευκολότερα διαθέσιμα για χρήση. Θα χρησιμοποιήσουμε την `etrsDasymetric2Raster`που εξαρτάται απο το πακέτο `raster` για να επιτύχουμε το ζητούμενο αποτέλεσμα 
-
-```{r,fig.height=5,fig.width=7}
-par("mar"=c(0.1,0.1,0.1,0.1))
-DASY_GPD_RASTER<-etrsDasymetric2Raster(dasymetric.surface = DASY_GPD)
-rw.colors<-grey.colors
-image(DASY_GPD_RASTER,col=rw.colors(5))
-plot(ΑΡΓΟΛΙΔΑ.ETRS,add=T,border=2,lwd=2)
-```
-
-

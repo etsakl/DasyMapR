@@ -1,11 +1,10 @@
-
 # revGeocoding script for large list of locations.
 setwd("~/ownCloud/plsthesis/data/ZIP Codes Greece/")
 infile<-getwd()
 library(sp)
 library(ggmap)
-oikismoi<-wgs<-load("~/ownCloud/plsthesis/data/ΟΚΧΕ/oikismoi_wgs.RData")
-locations<-coordinates(oikismoi_wgs)
+#oikismoi<-wgs<-load("~/ownCloud/plsthesis/data/ΟΚΧΕ/oikismoi_wgs.RData")
+locations<-coordinates(fl_na)
 
 
 #define a function that will process googles server responses for us.
@@ -70,10 +69,10 @@ for (ii in seq(startindex, length(locations))){
 }
 
 # #now we add the latitude and longitude to the main data
-# data$lat <- geocoded$lat
-# data$long <- geocoded$lat
-# data$accuracy <- geocoded$accuracy
-#
-# #finally write it all to the output files
-# saveRDS(locations, paste0(infile ,"_geocoded.rds"))
-# write.table(locations, file=paste0(infile ,"_geocoded.csv"), sep=",", row.names=FALSE)
+ data$lat <- geocoded$lat
+ data$long <- geocoded$lat
+ data$accuracy <- geocoded$accuracy
+
+ #finally write it all to the output files
+ saveRDS(locations, paste0(infile ,"_rgeocoded.rds"))
+ write.table(locations, file=paste0(infile ,"_rgeocoded.csv"), sep=",", row.names=FALSE)

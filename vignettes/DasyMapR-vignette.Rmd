@@ -12,6 +12,7 @@ vignette: >
 ---
 ```{r,echo=FALSE}
 library(knitr)
+library(DasyMapR)
 opts_chunk$set(
 tidy = TRUE,
 cache = TRUE,

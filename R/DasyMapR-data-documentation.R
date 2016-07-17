@@ -50,3 +50,11 @@
 
 "nama_10r_3gdp"
 
+#' @title Candidates addresses of HOU
+#'
+#' @description Non personal data of HOU candidate students
+#' @author HOU
+#' @note It is subset of dataset and any use for purposes other than educational is prohbited by the owner (HOU)
+
+"candidates_addresses"
+

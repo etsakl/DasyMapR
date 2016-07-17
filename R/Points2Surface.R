@@ -75,7 +75,7 @@ setMethod(
           }
 
           SP <-
-            SpatialPolygons(polys, proj4string = CRS("+init = epsg:3035"))
+            SpatialPolygons(polys, proj4string = CRS("+init=epsg:3035"))
           SP_vor <- gIntersection(SP, p_ota, byid = TRUE)
           rn <- sapply(slot(SP_vor, 'polygons'), function(x)
             slot(x, 'ID'))
@@ -88,13 +88,13 @@ setMethod(
         }
         # if no point is contained in the region thn NA is provided as values
         if (length(pnts) == 0) {
-          df <- (GeoPC_GR_Places_etrs[1, ])@data
+          df <- (sppdf[1, ])@data
           df[1,] <- NA
           pnts <-
             SpatialPointsDataFrame(
               coords = gCentroid(p_ota),
               data = df,
-              proj4string = CRS("+init = epsg:3035")
+              proj4string = CRS("+init=epsg:3035")
             )
           p_ota@data <- cbind(p_ota@data, pnts@data)
         }
