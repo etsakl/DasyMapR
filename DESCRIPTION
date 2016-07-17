@@ -36,10 +36,14 @@ Collate:
     'Class-DasymetricSurface.R'
     'Class-EtrsPoint.R'
     'CreateEtrsVectorGrid.R'
+    'DasyMapR-GenUt.R'
     'DasyMapR-data-documentation.R'
     'DasyMapR-package.R'
-    'Points2Surface.R'
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    plyr,
+    classInt,
+    RColorBrewer,
+    leaflet
 VignetteBuilder: knitr
