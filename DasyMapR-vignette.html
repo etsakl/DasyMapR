@@ -11,7 +11,7 @@
 
 <meta name="author" content="Τσακλάνος Βαγγέλης" />
 
-<meta name="date" content="2016-06-28" />
+<meta name="date" content="2016-07-18" />
 
 <title>DasyMapR - Ένας οδηγός για την χρήση του πακέτου</title>
 
@@ -155,7 +155,7 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.0/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -205,6 +205,7 @@ $(document).ready(function ()  {
   width: 100%;
 }
 }
+
 
 .toc-content {
   padding-left: 30px;
@@ -280,8 +281,20 @@ div.tocify {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="DasyMapR-vignette.html">Vignette</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignette
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DasyMapR-vignette.html">A guide to package (GR)</a>
+    </li>
+    <li>
+      <a href="DasyMapR-vignette_HOU.html">Case Study HOU Applicants (GR)</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:8787">DasyMapR on Cloud</a>
@@ -300,7 +313,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">DasyMapR - Ένας οδηγός για την χρήση του πακέτου</h1>
 <h4 class="author"><em>Τσακλάνος Βαγγέλης</em></h4>
-<h4 class="date"><em>2016-06-28</em></h4>
+<h4 class="date"><em>2016-07-18</em></h4>
 
 </div>
 
@@ -343,14 +356,22 @@ kable(as.data.frame(DasyMapR.contains))</code></pre>
 <div id="dasymapr.contains" class="section level2">
 <h2>DasyMapR.contains</h2>
 <p>ActuallVal2Density<br />
+candidates_addresses<br />
+candidates_addresses_el_cor<br />
 CheckEtrsResolution<br />
 CheckEtrsValidity<br />
 CLC2000.ARGOLIDA.RES<br />
 CLC2000_CODES<br />
 CLC2000_GEO_CODES<br />
+clc_v2_code_11x_el<br />
 CORINE2000_CODES<br />
 CreateEtrsVectorGrid<br />
 DASY_GPD<br />
+dasymapPlot<br />
+EAP.application.loc<br />
+EAP.application.NUTS<br />
+EAP.application.pre_err<br />
+EAP_NUTS_V9<br />
 ETRS<br />
 etrsAncillarySurface<br />
 EtrsAncillarySurface<br />
@@ -362,6 +383,7 @@ EtrsCells<br />
 EtrsCheckCodeColumns<br />
 etrsDasymetric2Ancillary<br />
 etrsDasymetric2Raster<br />
+etrsDasymetric2Source<br />
 EtrsDasymetricSurface<br />
 etrsGrid<br />
 etrsGrid2Spdf<br />
@@ -382,14 +404,27 @@ etrsSurface.default<br />
 etrsSurfacePar<br />
 EtrsTableCodes<br />
 EtrsTransform<br />
-GEOSTAT_grid_EU_POP_2006_1k_V1_1_1 GEOSTAT_grid_POP_1K_2011_V2_0<br />
+GeoPc_GR_Places_etrs_k<br />
+GeoPc_GR_Places_etrs_k_el<br />
+GeoPc_GR_Places_etrs_k_en<br />
+GEOSTAT_grid_EU_POP_2006_1k_V1_1_1 GEOSTAT_grid_POP_1K_2011_V2_0_el<br />
 joinMaxAreaSurfaceDataFrames<br />
+mosaic_100m_sealing_el<br />
 nama_10r_3gdp<br />
+nama_10r_3popgdp<br />
 NUTS_2013_01M_EL<br />
 NUTS3_OCMG<br />
 NUTSV9_LEAC<br />
 NUTSV9_LEAC_GR_1km_grided<br />
-oikismoi</p>
+oikismoi<br />
+oikismoi_ETRS<br />
+oria_ota_etrs<br />
+pc_el_NUTS2010<br />
+pc_el_NUTS2013<br />
+pc_regions<br />
+pntsattr2surface<br />
+raster2Ancillary<br />
+wgsTransform</p>
 <p>Περισσότερες πληροφορίες για το πακέτο θα μπορούσε να βρει κάποιος στα file του πακέτου <code>help(&quot;DasyMapR&quot;)</code> ή στο <a href="https://github.com/etsakl/DasyMapR.git">github</a></p>
 </div>
 <div id="-" class="section level2">
@@ -938,7 +973,8 @@ kable(head(CLC2000_CODES))</code></pre>
 <p>Είναι προφανές ότι για το παράδειγμα, ενδιαφέρουν μόνο οι δύο κατηγορίες 111 και 112 που σχετίζονται με την κατοικία. Αυτές θα μεταφορτώνουν από την ΕΕΑ αφού διατίθενται για μεταφόρτωση σε αρχεία .shp κατα τις προαναφερόμενες κατηγόρίες.</p>
 <p>Με τον παρακάτω κώδικα θα μπορούσε κάποιος να δημιουργησει αν dataset με κάλυψη για όποια κατηγορία ή έτος απαιτείται για την ανάλυσή του. Παρατίθεται εδώ για να αποτελέσει οδηγό σε ενδεχομένη προετοιμασία άλλων δεδομένων από τον χρήστη.</p>
 <pre class="r"><code># Τα δύο .shp files περιέχονται στο folder corine
-setwd(system.file(&quot;data/corine&quot;, package = &quot;DasyMapR&quot;))
+system.file(&quot;extdata&quot;, &quot;clc00_v2_code_111&quot;, package = &quot;DasyMapR&quot;)
+system.file(&quot;extdata&quot;, &quot;clc00_v2_code_112&quot;, package = &quot;DasyMapR&quot;)
 # Με βάση τα όρια της περιοχής ...
 bb &lt;- bbox(ΑΡΓΟΛΙΔΑ.ETRS)
 # διμιουργησε νέα .shp files που περιέχουν όσα δεδομένα χρειάζομαι
@@ -1220,64 +1256,64 @@ kable(head(surface.detailed.table.bf))</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1kmE5414N1724</td>
-<td align="left">1kmE5414N1724</td>
-<td align="left">23</td>
-<td align="left">160380.6993</td>
-<td align="left">0.1604</td>
-<td align="left">47.4696</td>
-<td align="left">7.61412384</td>
-<td align="right">7.614124</td>
+<td align="left">1kmE5413N1703</td>
+<td align="left">1kmE5413N1703</td>
+<td align="left">25</td>
+<td align="left">308220.7152</td>
+<td align="left">0.3082</td>
+<td align="left">0.25</td>
+<td align="left">0.07705</td>
+<td align="right">0.07705</td>
 </tr>
 <tr class="even">
-<td align="left">1kmE5415N1722</td>
-<td align="left">1kmE5415N1722</td>
-<td align="left">23</td>
-<td align="left">160139.7745</td>
-<td align="left">0.1601</td>
-<td align="left">47.4696</td>
-<td align="left">7.59988296</td>
-<td align="right">7.599883</td>
+<td align="left">1kmE5413N1721</td>
+<td align="left">1kmE5413N1721</td>
+<td align="left">50</td>
+<td align="left">20.2178</td>
+<td align="left">0</td>
+<td align="left">0.25</td>
+<td align="left">0</td>
+<td align="right">0.00000</td>
 </tr>
 <tr class="odd">
-<td align="left">1kmE5415N1723</td>
-<td align="left">1kmE5415N1723</td>
-<td align="left">23</td>
-<td align="left">450670.0656</td>
-<td align="left">0.4507</td>
-<td align="left">47.4696</td>
-<td align="left">21.39454872</td>
-<td align="right">21.394549</td>
+<td align="left">1kmE5414N1703</td>
+<td align="left">1kmE5414N1703</td>
+<td align="left">25</td>
+<td align="left">200020.0517</td>
+<td align="left">0.2</td>
+<td align="left">0.25</td>
+<td align="left">0.05</td>
+<td align="right">0.05000</td>
 </tr>
 <tr class="even">
-<td align="left">1kmE5415N1724</td>
-<td align="left">1kmE5415N1724</td>
-<td align="left">23</td>
-<td align="left">745621.4626</td>
-<td align="left">0.7456</td>
-<td align="left">47.4696</td>
-<td align="left">35.39333376</td>
-<td align="right">35.393334</td>
+<td align="left">1kmE5414N1720</td>
+<td align="left">1kmE5414N1720</td>
+<td align="left">50</td>
+<td align="left">18780.6291</td>
+<td align="left">0.0188</td>
+<td align="left">0.25</td>
+<td align="left">0.0047</td>
+<td align="right">0.00470</td>
 </tr>
 <tr class="odd">
-<td align="left">1kmE5416N1714</td>
-<td align="left">1kmE5416N1714</td>
-<td align="left">23</td>
-<td align="left">38601.8066</td>
-<td align="left">0.0386</td>
-<td align="left">47.4696</td>
-<td align="left">1.83232656</td>
-<td align="right">1.832327</td>
+<td align="left">1kmE5414N1721</td>
+<td align="left">1kmE5414N1721</td>
+<td align="left">50</td>
+<td align="left">456643.8894</td>
+<td align="left">0.4566</td>
+<td align="left">0.25</td>
+<td align="left">0.11415</td>
+<td align="right">0.11415</td>
 </tr>
 <tr class="even">
-<td align="left">1kmE5416N1715</td>
-<td align="left">1kmE5416N1715</td>
-<td align="left">23</td>
-<td align="left">234250.9937</td>
-<td align="left">0.2343</td>
-<td align="left">47.4696</td>
-<td align="left">11.12212728</td>
-<td align="right">11.122127</td>
+<td align="left">1kmE5415N1710</td>
+<td align="left">1kmE5415N1710</td>
+<td align="left">34</td>
+<td align="left">215448.6451</td>
+<td align="left">0.2154</td>
+<td align="left">0.25</td>
+<td align="left">0.05385</td>
+<td align="right">0.05385</td>
 </tr>
 </tbody>
 </table>

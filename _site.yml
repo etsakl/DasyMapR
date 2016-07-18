@@ -5,7 +5,11 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Vignette"
-      href: DasyMapR-vignette.html
+      menu:
+        - text: "A guide to package (GR)"
+          href: DasyMapR-vignette.html
+        - text: "Case Study HOU Applicants (GR)"
+          href: DasyMapR-vignette_HOU.html
     - text: "DasyMapR on Cloud"
       href: http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:8787
     - text: "DasyMapR dashboard"

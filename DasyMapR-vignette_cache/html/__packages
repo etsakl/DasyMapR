@@ -1,4 +1,6 @@
 base
+rmarkdown
+knitr
 sp
 rgdal
 rgeos
@@ -7,6 +9,15 @@ iterators
 doParallel
 raster
 eurostat
+deldir
 DasyMapR
-knitr
-rmarkdown
+classInt
+RColorBrewer
+leaflet
+htmlwidgets
+magrittr
+devtools
+plyr
+maptools
+MASS
+GISTools

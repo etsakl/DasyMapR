@@ -150,7 +150,7 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.0/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -182,8 +182,20 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="DasyMapR-vignette.html">Vignette</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignette
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DasyMapR-vignette.html">A guide to package (GR)</a>
+    </li>
+    <li>
+      <a href="DasyMapR-vignette_HOU.html">Case Study HOU Applicants (GR)</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:8787">DasyMapR on Cloud</a>

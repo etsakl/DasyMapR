@@ -216,7 +216,8 @@ kable(head(CLC2000_CODES))
 
 ```{r,eval=FALSE}
 # Τα δύο .shp files περιέχονται στο folder corine
- setwd(system.file("data/corine",package="DasyMapR"))
+ system.file("extdata","clc00_v2_code_111",package="DasyMapR")
+system.file("extdata","clc00_v2_code_112",package="DasyMapR")
  # Με βάση τα όρια της περιοχής ... 
  bb<-bbox(ΑΡΓΟΛΙΔΑ.ETRS)
  # διμιουργησε νέα .shp files που περιέχουν όσα δεδομένα χρειάζομαι

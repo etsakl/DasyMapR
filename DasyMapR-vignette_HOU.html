@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Τσακλάνος Βαγγέλης" />
+
+<meta name="date" content="2016-07-18" />
+
+<title>DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">DasyMapR - Ένας οδηγός για την χρήση του πακέτου</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignette
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DasyMapR-vignette.html">A guide to package (GR)</a>
+    </li>
+    <li>
+      <a href="DasyMapR-vignette_HOU.html">Case Study HOU Applicants (GR)</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:8787">DasyMapR on Cloud</a>
+</li>
+<li>
+  <a href="http://ec2-52-16-87-215.eu-west-1.compute.amazonaws.com:3838">DasyMapR dashboard</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ</h1>
+<h4 class="author"><em>Τσακλάνος Βαγγέλης</em></h4>
+<h4 class="date"><em>2016-07-18</em></h4>
+
+</div>
+
+
+<div id="-----" class="section level2">
+<h2>Τι περιέχεται σε αυτό το κείμενο</h2>
+<ul>
+<li>Εγκατάσταση</li>
+<li>Το πακέτο DasyMapR</li>
+<li>Τα δεδομένα απο το ΕΑΠ</li>
+<li>Οι δασυμετρικοί υπολογισμοί</li>
+<li>Χρήση του LAEA καναβου</li>
+<li>Επιφάνεια Πηγή</li>
+<li>Βοηθητική Επιφάνεια</li>
+<li>Raster Δεδομένα</li>
+<li>Appendix Προετοιμασία των Δεδομένων του ΕΑΠ</li>
+</ul>
+</div>
+<div class="section level2">
+<h2>Εγκατάσταση</h2>
+<p>Το πακέτο φιλοξενείται στο προσωπικό αποθετήριο του σπουδαστή στο github. Για να εγκατασταθεί το <code>DasyMapR</code> θα πρέπει καταρχήν να εγκατασταθεί το πακέτο <code>devtools</code> και στην συνέχεια με την χρήση της συνάρτησης <code>install_github()</code> να γίνει η εγκατάσταση του πακέτου</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+library(devtools)
+install_github(&quot;etsakl/DasyMapR&quot;, build_vignettes = TRUE)
+library(DasyMapR)</code></pre>
+<p>Περισσότερες πληροφορίες για το πακέτο θα μπορούσε να βρει κάποιος στα file του πακέτου <code>help(&quot;DasyMapR&quot;)</code> ή στο <a href="https://github.com/etsakl/DasyMapR.git">github</a> ή στην σελίδα και το server πακέτου <a href="http://etsakl.github.io/DasyMapR/">etsakl.github.io/DasyMapR</a></p>
+</div>
+<div id="--dasymapr" class="section level2">
+<h2>Το πακέτο DasyMapR</h2>
+<p>Το πακέτο της R που αναπτύχθηκε περιέχει μία σειρά εργαλείων που μπορούν να βοηθήσουν το χρήστη να αποδώσει δεδομένα στον ETRS-LAEA κάναβο αλλά και να αποσυσσωματώση δεδομένα με την χρήση βοηθητικής επιφάνειας. Θα παρουσιαστούν κάνοντας χρήση δεδομένων που σχετίζονται με τις αιτήσεις που γίνονται στο ΕΑΠ με σκοπό τη συμμετοχή στις διαδικασίες επιλογής φοιτητών του ιδρύματος. Με την χρήση των εργαλείων που αναπτύχθηκαν αλλά και με την χρήση άλλων πακέτων της R θα γίνει προσπάθεια κατανομής των δεδομένων στο γεωγραφικό κάναβο ETRS (θα περιοριστούμε σε αυτήν την εργασία μόνο στις αιτήσεις που έγιναν από φοιτητές που δηλώνουν κατοικία στην Ελλάδα) και στην συνέχεια θα συσχετιστούν με άλλα δεδομένα από άλλες πηγές. Εδώ για λόγους που σχετίζονται με την <em>προστασία των πρόσωπικών δεδόμενων</em> των χρηστών εμφανίζεται και χρησιμοποιείται <em>μόνο o Ταχυδρομικός Κώδικας</em>, η χώρα η οδός και ο νομός. Εξετάζονται τα δεδομένα.</p>
+</div>
+<div id="----" class="section level2">
+<h2>Τα δεδομένα απο το ΕΑΠ</h2>
+<p>Είναι αναμενόμενο, όσες ασφαλιστικές δικλείδες και αν προβλεφθούν κατά την εισαγωγή δεδομένων από τους χρήστες που συμπληρώνουν π.χ αιτήσεις, ότι θα υπάρξουν εγγραφές που δεν μπορούν να χρησιμοποιηθούν χωρίς επεξεργασία. Εν προκειμένω μία “δειγματοληπτική” προεπισκόπιση αποδεικνύει τον ισχυρισμό.</p>
+<pre class="r"><code>data(&quot;candidates_addresses&quot;)
+candidates_addresses &lt;- candidates_addresses[order(candidates_addresses$country), 
+    ]
+kable(head(candidates_addresses, 5))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">country</th>
+<th align="right">num</th>
+<th align="left">pre</th>
+<th align="left">street</th>
+<th align="left">zipCode</th>
+<th align="left">city</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">556</td>
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="left">pre</td>
+<td align="left">street</td>
+<td align="left">zipCode</td>
+<td align="left">city</td>
+</tr>
+<tr class="even">
+<td align="left">789</td>
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="left">pre</td>
+<td align="left">street</td>
+<td align="left">zipCode</td>
+<td align="left">city</td>
+</tr>
+<tr class="odd">
+<td align="left">3627</td>
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="left">pre</td>
+<td align="left">street</td>
+<td align="left">zipCode</td>
+<td align="left">city</td>
+</tr>
+<tr class="even">
+<td align="left">3875</td>
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="left">pre</td>
+<td align="left">street</td>
+<td align="left">zipCode</td>
+<td align="left">city</td>
+</tr>
+<tr class="odd">
+<td align="left">7425</td>
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="left">pre</td>
+<td align="left">street</td>
+<td align="left">zipCode</td>
+<td align="left">city</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(candidates_addresses[round(runif(10, min = 11, max = nrow(candidates_addresses) - 
+    10), 0), ])</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">country</th>
+<th align="right">num</th>
+<th align="left">pre</th>
+<th align="left">street</th>
+<th align="left">zipCode</th>
+<th align="left">city</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">193168</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">DOD</td>
+<td align="left">ΡΩΜΗΣ</td>
+<td align="left">85100.0</td>
+<td align="left">ΡΟΔΟΣ</td>
+</tr>
+<tr class="even">
+<td align="left">634670</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">PEL</td>
+<td align="left">ΗΡΩΩΝ ΠΟΛΥΤΕΧΝΕΙΟΥ</td>
+<td align="left">58200</td>
+<td align="left">ΕΔΕΣΣΑ</td>
+</tr>
+<tr class="odd">
+<td align="left">546324</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">ATT</td>
+<td align="left">ΑΓΙΑΣ ΒΑΡΒΑΡΑΣ</td>
+<td align="left">19004</td>
+<td align="left">ΣΠΑΤΑ</td>
+</tr>
+<tr class="even">
+<td align="left">284276</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">THS</td>
+<td align="left">ΚΑΡΑΪΣΚΑΚΗ</td>
+<td align="left">54641.0</td>
+<td align="left">ΘΕΣΣΑΛΟΝΙΚΗ</td>
+</tr>
+<tr class="odd">
+<td align="left">518256</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">THS</td>
+<td align="left">ΦΙΛΗΝΤΑ ΜΕΝΟΥ</td>
+<td align="left">54454</td>
+<td align="left">ΘΕΣΣΑΛΟΝΙΚΗ</td>
+</tr>
+<tr class="even">
+<td align="left">141003</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">THS</td>
+<td align="left">ΙΩΑΚΕΙΜ Γ</td>
+<td align="left">55132.0</td>
+<td align="left">ΘΕΣΣΑΛΟΝΙΚΗ</td>
+</tr>
+<tr class="odd">
+<td align="left">682610</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">AIT</td>
+<td align="left">ΣΚΙΠΗ</td>
+<td align="left">30100</td>
+<td align="left">ΑΓΡΙΝΙΟ</td>
+</tr>
+<tr class="even">
+<td align="left">146111</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">MAG</td>
+<td align="left">ΑΙΔΙΝΙΟΥ</td>
+<td align="left">38446.0</td>
+<td align="left">ΒΟΛΟΣ</td>
+</tr>
+<tr class="odd">
+<td align="left">188332</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">ATT</td>
+<td align="left">ΑΝΑΚΡΕΟΝΤΟΣ</td>
+<td align="left">11633.0</td>
+<td align="left">ΑΘΗΝΑ</td>
+</tr>
+<tr class="even">
+<td align="left">55634</td>
+<td align="left">Ελλάδα</td>
+<td align="right">0</td>
+<td align="left">ATT</td>
+<td align="left">ΨΑΡΡΩΝ</td>
+<td align="left">16345.0</td>
+<td align="left">ΗΛΙΟΥΠΟΛΗ</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(tail(candidates_addresses, 5))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">country</th>
+<th align="right">num</th>
+<th align="left">pre</th>
+<th align="left">street</th>
+<th align="left">zipCode</th>
+<th align="left">city</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">780455</td>
+<td align="left">Φινλανδία</td>
+<td align="right">0</td>
+<td align="left">NGR</td>
+<td align="left">HAUHONTIE</td>
+<td align="left">00550</td>
+<td align="left">HELSINKI</td>
+</tr>
+<tr class="even">
+<td align="left">518971</td>
+<td align="left">ΧΑΛΑΝΔΡΙ</td>
+<td align="right">0</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">665446</td>
+<td align="left">ΧΑΛΑΝΔΡΙ</td>
+<td align="right">0</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">170904</td>
+<td align="left">Χονγκ-Κόνγκ</td>
+<td align="right">0</td>
+<td align="left">ATT</td>
+<td align="left">ΚΩΝΣΤΑΝΤΟΠΟΥΛΟΥ</td>
+<td align="left">14233.0</td>
+<td align="left">ΑΘΗΝΑ</td>
+</tr>
+<tr class="odd">
+<td align="left">216045</td>
+<td align="left">Χονγκ-Κόνγκ</td>
+<td align="right">0</td>
+<td align="left">ATT</td>
+<td align="left">ΑΝΤΙΓΟΝΗΣ</td>
+<td align="left">104-43</td>
+<td align="left">ΑΘΗΝΑ</td>
+</tr>
+</tbody>
+</table>
+<p>Είναι προφανές ότι τα δεδομένα απαιτούν προετοιμασία για να χρησιμοποιηθούν. Η προετοιμασία των δεδομένων παρατίθεται στο τέλος του κειμένου όπου υπάρχει ο κώδικας και παρουσίαση των βοηθητικών δεδομένων που θα χρησιμοποιηθούν για να πετύχουμε την γεωαναφορά τους. Όπως παρατηρείται τα δεδομένα <em>εχουν διορθωθεί για τις εγγραφές “pre” (~νομός)</em> και τις χώρες προέλευσης (country).Ο νομός ως γεωγραφική αναφορά εμφανίζει λιγότερες λανθασμένες εγγραφές αφού οι χρήστες σε γενικές γραμμές γνωρίζουν τον νόμο που διαμένουν όχι όμως απαραίτητα και τον Ταχυδρομικό Κώδικα της διεύθυνσης που δηλώνουν. Λιγότερο αξιόπιστη είναι αναφορά στην οδό όπου η ονοματοθεσία και η αριθμοδοσία (όταν ή αν) γίνεται από τους οργανισμούς της Τοπικής Αυτοδιοίκησης με χρονική και τοπική διασπορά. Αποτέλεσμα είναι να μην μπορούν να θεωρηθούν αξιόπιστα δεδομένα ακόμη και όταν συμπληρώνονται σωστά από τον χρήστη. Όμως η οπτικοποίηση των δεδομένων με μονάδα απαρίθμησης μόνο το νομό αποκρύπτει απο το χρήστη σημαντικές πληροφορίες η τον παραπλανεί.</p>
+</div>
+<div id="-----." class="section level2">
+<h2>Δασυμετρική Χαρτογράφια στα δεδομένα του ΕΑΠ.</h2>
+<p>Μετά την επεξεργασία των δεδομένων, που όπως προαναφέρθηκε ο τρόπος αναλύεται στο τέλος του κειμένου, ανακτούμε τα δεδομένα που συνοδεύουν το πακέτο και αφορούν τις αιτήσεις στο ΕΑΠ. Οι αιτήσεις έχουν ομαδοποιηθεί ανά χωρική περιοχή αναφοράς. Ας οπτικοποιήσουμε κατά αρχήν τα δεδομένα όπως αρχικά χορηγήθηκαν με ένα απλό χωροπληθή χάρτη 5 τάξεων και μονάδα απαρίθμισης το νομό.</p>
+<div id="to---" class="section level3">
+<h3>To “σφάλμα” της απεικόνισης</h3>
+<p>Αναναπαριστούμε τον αριθμό των αιτήσεων στα όρια του νομού γενικευοντας σε διαστήματα τόσα ώστε οι αποχρώσεις να διακρίνονται απο τον χρήστη. Αυτός ο χάρτης δημιουργεί εσφαλμένη εντύπωση στο χρήστη για 2 κυρίως λόγους. Καταρχήν σε καθε νομό φαίνεται ομοιογενής ο αριθμός των αιτούντων. Έτσι τα Κύθηρα φαίνεται να ανήκουν στην ίδια κατηγορία με την Αθήνα δηλαδή έχοντας αριθμό αιτήσεων μεταξύ 11000 και 350000. Το ίδιο βέβαια μπορεί να προκαλέσει και η επιλογή της διαίρεσης σε 5 διαστήματα τιμών όπου για τις περισσότερες περιοχές της επικράτειας δεν λαμβάνεται καμία πληροφορία (Οι 685 αιτήσεις απο το νομό Ευρυτανίας δίνουν την ίδια εντύπωση ~3500 της Άρτας). Το πρώτο σφάλμα “οφείλεται” στην “επιλογή” της μονάδας απαρίθμησης (περίπου όρια νομού) και αυτό θα επιχειρηθεί να “διορθωθεί” με την χρήση των εργαλείων που αναπτύχθηκαν.</p>
+<pre class="r"><code>par(mar = c(0.8, 0.8, 0.8, 0.8))
+data(&quot;EAP.application.pre_err&quot;)
+dasymapPlot(EAP.application.pre_err, 5)
+title(main = &quot;Οπτικοποιήση των αιτήσεων ανα Νομό&quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/Error_MAP-1.png" width="672" /></p>
+<pre class="r"><code>err_map &lt;- dasymapPlot.leaflet(EAP.application.pre_err, 5)
+saveWidget(widget = err_map, file = &quot;err_map.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="err_map.html">Διαδραστικός Χάρτης</a></p>
+</div>
+<div id="---" class="section level3">
+<h3>“Πραγματικά δεδομένα” και περιορισμοί</h3>
+<p>Με βάση τους διορθωμένους Ταχυδρομικούς Κώδικές είναι δυνατό να δημιουργήσουμε μια “ρεαλιστικότερη” εικόνα για τις περιοχές που έγιναν οι αιτήσεις στο ΕΑΠ. Εδώ με την πληροφορία του Ταχυδρομικού Κώδικα που μας επιτρέπει να έχουμε αναφορά των αιτούντων στα όρια του προ “καποδιστριακού” Δήμου. Αυτή η “ρεαλιστικότερη” απεικόνιση όπου η επιλογή της μονάδα απαρίθμησης (περίπου τώρα τα όρια του π.κ. δήμου) έχει βελτιώσει την απεικόνιση των δεδομένων. θα μπορούσε μάλιστα να συγκριθεί με το αποτέλεσμα της δασυμετρικής χαρτογραφίας που θα εφαρμόζουμε στην συνέχεια.</p>
+<pre class="r"><code>par(mar = c(0.8, 0.8, 0.8, 0.8))
+data(&quot;EAP.application.loc&quot;)
+dasymapPlot(EAP.application.loc, 2)
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ (Κατανομή με T.K.) &quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/PC_MAP-1.png" width="672" /></p>
+<pre class="r"><code>pc_map &lt;- dasymapPlot.leaflet(EAP.application.loc, 2)
+saveWidget(widget = pc_map, file = &quot;pc_map.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="pc_map.html">Διαδραστικός Χάρτης</a></p>
+<p>Ήδη αυτή η εικόνα δίνει άλλη αντίληψη για την διασπορά των υποψηφίων στην επικράτεια απ’ ότι ο προηγούμενος. Για παράδειγμα τα Κύθηρα δεν ανήκουν στις περιοχές με το υψηλότερο αριθμό δηλώσεων. Έχουμε το μεγαλύτερο αριθμό αιτήσεων στους Δήμους με μεγάλα Αστικά κέντρα κ.λ.π. Όμως και εδώ υπάρχουν σφάλματα λόγω των διοικητικών ορίων. Π.χ Μικροί Δήμοι εξυπηρετούνται απο το Ταχυδρομικό γραφείο της περιοχής του μεγαλύτερου Δήμου. Έτσι εμφανίζονται και πάλι με πλασματικό αριθμό αιτούντων λόγω της επιλογής της επιφάνειας απαρίθμησης.<br />
+Αν θέλαμε όμως να απεικονίσουμε την κατανομή σε μεγαλύτερη κλίμακα όπου δεν υπάρχουν δεδομένα απαρίθμησης ή τα στοιχεία έχουν συσσωματωθεί και αποκρύπτεται η εν λόγω πληροφορία τότε θα έπρεπε να χρησιμοποιήσουμε κάποια άλλη μέθοδο. Εδώ προτείνεται η μέθοδος της δασυμετρικής χαρτογραφία και το λογισμικό που αναπτύχθηκε στην R (DasyMapR) για να κάνει αυτή την εργασία.</p>
+<p>Ας δούμε τώρα μία απεικόνιση του φαινομένου ‘αιτήσεις ΕΑΠ’ σε πιο μεγάλη κλίμακα. Επιλέγεται η Αττική και πιο συγκερκιμένα ο Βόρειος (NUTS 301) o Δυτικός (NUTS 302) και Κεντρικός (NUTS 303) και αποδίδεται πλέον με χάρτη κουκίδων.Σε κάθε κουκκίδα αντιστοιχούν 100 αιτήσεις και τοποθετείται τυχαία στο πολύγωνο του τομέα. Ας αντιληφθούμε την διαδικασία σαν προσπάθεια να τοποθετήσουμε την κουκκίδα στην (όσο το δυνατόν) πραγματική της θέση. <em>Αυτό θα γίνει με την προβολή της επιφάνειας πηγής στον κάναβο την χρήση βοηθιτικής επιφάνειας και τέλος την εφαρμογή δασυμετρικών υπολογισμών</em></p>
+<pre class="r"><code># Φορτώνουμε τα όρια NUTS. Χρησιμοποείται η EtrsTransform του Πακέτου
+# DasyMapR για την αλλαγή του συστήματος συντεταγμεων στο επιθυμητό ETRS.
+NUTS_2013_01M_EL_ETRS &lt;- EtrsTransform(NUTS_2013_01M_EL)
+# Μας ενδιαφέρπυν οι περιφεριακές ενότητες(νομοι)
+NUTS_2013_01M_EL_ETRS &lt;- NUTS_2013_01M_EL_ETRS[grep(&quot;^EL\\d{3}&quot;, NUTS_2013_01M_EL_ETRS[[&quot;NUTS_ID&quot;]]), 
+    ]
+count.EAP.applicants &lt;- as.data.frame(table(candidates_addresses_el_cor[&quot;NUTS_313&quot;], 
+    dnn = &quot;NUTS_ID&quot;), stringAsFactor = F)
+EAP.application.NUTS &lt;- merge(x = NUTS_2013_01M_EL_ETRS, y = count.EAP.applicants, 
+    by = &quot;NUTS_ID&quot;)
+# H χρήση της merge ενδεχομένως να προκαλέσει αλλαγή στα rownames του
+# dataframe οπότε έστω και προληπτικά τα διορθώνουμε
+row.names(EAP.application.NUTS@data) &lt;- sapply(slot(EAP.application.NUTS, &quot;polygons&quot;), 
+    function(x) slot(x, &quot;ID&quot;))
+
+# Διαλέγουμε περιοχή
+Attiki &lt;- EAP.application.NUTS[grep(&quot;^EL30[1-6]&quot;, EAP.application.NUTS[[&quot;NUTS_ID&quot;]]), 
+    ]
+EAP.application.NUTS.30 &lt;- EAP.application.NUTS[grep(&quot;^EL30[1-3]&quot;, EAP.application.NUTS[[&quot;NUTS_ID&quot;]]), 
+    ]
+applicants &lt;- EAP.application.NUTS.30@data$Freq/100
+plot(EAP.application.NUTS.30)
+for (i in 1:length(EAP.application.NUTS.30)) {
+    EAP.application.NUTS.30.pl &lt;- SpatialPolygons(EAP.application.NUTS.30@polygons)
+    points(spsample(EAP.application.NUTS.30.pl[i], applicants[i], &quot;random&quot;), 
+        pch = 3, cex = 0.02, col = 2)
+}
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ&quot;, sub = &quot;Περιφέρεια Αττικής (Βορ,Κεντ.,Δυτ. Τομέας&quot;)
+plot(Attiki, add = T, )</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/NUTS_EAP-1.png" width="672" /></p>
+<pre class="r"><code>kable(head(EAP.application.NUTS.30@data[, c(1, 5)]), col.names = c(&quot;NUTS_ID&quot;, 
+    &quot;Αιτήσεις&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NUTS_ID</th>
+<th align="right">Αιτήσεις</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">745</td>
+<td align="left">EL301</td>
+<td align="right">65139</td>
+</tr>
+<tr class="even">
+<td align="left">746</td>
+<td align="left">EL302</td>
+<td align="right">41825</td>
+</tr>
+<tr class="odd">
+<td align="left">747</td>
+<td align="left">EL303</td>
+<td align="right">118679</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="--laea--------eurostat-resolution-1km" class="section level3">
+<h3>Χρήση του LAEA καναβου με δεδομένα απο την απο την Eurostat (resolution 1km)</h3>
+<p>Θα κάνουμε αρχικά χρήση δεδομένων του <a href="http://database.espon.eu/db2/resource;jsessionid=0620e4b1ee3fe4232de4caab35e1?idCat=45">ESPOΝ</a> ως βοηθητικής επιφάνειας δηλαδή το κάναβο LAEA με βοηθητική επιφάνεια με (γεωστατιστική επιφάνεια) του πληθυσμού του 2011 όπως αυτός έχει κατανεμηθεί με αρκετά περίπλοκους αλγορίθμους στον κάναβο ETRS.</p>
+<p>Θα ανάγουμε καταρχήν τις αιτήσεις σε αριθμό αιτήσεων αν 1000 κατοίκους κάνοντας χρήση δεδομένων της EUROSTAT. Αυτό θα γίνει για να χρησιμοποιηθεί στην κατανομή που θα ακολουθήσει αλλά επιπλέον τονίζεται για να δειχθεί ότι η απεικόνιση περισσότερο του ενός φαινομένων είναι ένας τρόπος “εξόρυξης γνώσης”.</p>
+<p>Μεταφορτώνονται τα δεδομένα</p>
+<pre class="r"><code># O παρακάτω κώδικας δεν τρέχει πάντα γιατί εξαρτάται απο την σύνδεση
+# nama_10r_3popgdp &lt;- get_eurostat(id = &#39;nama_10r_3popgdp&#39; ,filters =
+# list(time=2013),time_format = &#39;num&#39;)
+POP_EL &lt;- nama_10r_3popgdp[grep(&quot;^EL\\d{3}&quot;, nama_10r_3popgdp$geo), ]
+kable(head(POP_EL))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">unit</th>
+<th align="left">geo</th>
+<th align="right">time</th>
+<th align="right">values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">670</td>
+<td align="left">THS</td>
+<td align="left">EL301</td>
+<td align="right">2009</td>
+<td align="right">616</td>
+</tr>
+<tr class="even">
+<td align="left">671</td>
+<td align="left">THS</td>
+<td align="left">EL302</td>
+<td align="right">2009</td>
+<td align="right">512</td>
+</tr>
+<tr class="odd">
+<td align="left">672</td>
+<td align="left">THS</td>
+<td align="left">EL303</td>
+<td align="right">2009</td>
+<td align="right">1097</td>
+</tr>
+<tr class="even">
+<td align="left">673</td>
+<td align="left">THS</td>
+<td align="left">EL304</td>
+<td align="right">2009</td>
+<td align="right">555</td>
+</tr>
+<tr class="odd">
+<td align="left">674</td>
+<td align="left">THS</td>
+<td align="left">EL305</td>
+<td align="right">2009</td>
+<td align="right">504</td>
+</tr>
+<tr class="even">
+<td align="left">675</td>
+<td align="left">THS</td>
+<td align="left">EL306</td>
+<td align="right">2009</td>
+<td align="right">167</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>POP_EL.30 &lt;- nama_10r_3popgdp[grep(&quot;^EL30[1-6]&quot;, nama_10r_3popgdp$geo), ]</code></pre>
+<p>και κάνουμε τους υπολογισμούς</p>
+<pre class="r"><code>EAP.application.NUTS@data$POP &lt;- unlist(sapply(EAP.application.NUTS$NUTS_ID, 
+    FUN = function(x) POP_EL$values[match(x, POP_EL$geo)]))
+EAP.application.NUTS[[&quot;appPerhab&quot;]] &lt;- round(EAP.application.NUTS@data$Freq/EAP.application.NUTS@data$POP, 
+    0)
+kable(head(EAP.application.NUTS))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">NUTS_ID</th>
+<th align="right">STAT_LEVL_</th>
+<th align="right">SHAPE_AREA</th>
+<th align="right">SHAPE_LEN</th>
+<th align="right">Freq</th>
+<th align="right">POP</th>
+<th align="right">appPerhab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">667</td>
+<td align="left">EL522</td>
+<td align="right">3</td>
+<td align="right">0.3924027</td>
+<td align="right">4.937318</td>
+<td align="right">93328</td>
+<td align="right">1136</td>
+<td align="right">82</td>
+</tr>
+<tr class="even">
+<td align="left">668</td>
+<td align="left">EL523</td>
+<td align="right">3</td>
+<td align="right">0.2700854</td>
+<td align="right">3.152490</td>
+<td align="right">3252</td>
+<td align="right">81</td>
+<td align="right">40</td>
+</tr>
+<tr class="odd">
+<td align="left">669</td>
+<td align="left">EL524</td>
+<td align="right">3</td>
+<td align="right">0.2679729</td>
+<td align="right">3.318840</td>
+<td align="right">6994</td>
+<td align="right">142</td>
+<td align="right">49</td>
+</tr>
+<tr class="even">
+<td align="left">670</td>
+<td align="left">EL525</td>
+<td align="right">3</td>
+<td align="right">0.1616531</td>
+<td align="right">2.621749</td>
+<td align="right">7195</td>
+<td align="right">127</td>
+<td align="right">57</td>
+</tr>
+<tr class="odd">
+<td align="left">671</td>
+<td align="left">EL631</td>
+<td align="right">3</td>
+<td align="right">0.5604019</td>
+<td align="right">6.666641</td>
+<td align="right">10719</td>
+<td align="right">215</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">672</td>
+<td align="left">EL632</td>
+<td align="right">3</td>
+<td align="right">0.3360470</td>
+<td align="right">3.150293</td>
+<td align="right">33266</td>
+<td align="right">316</td>
+<td align="right">105</td>
+</tr>
+</tbody>
+</table>
+<p>Ας δούμε και πάλι τα αποτελέσματα σε ένα διαδραστικό χάρτη.</p>
+<pre class="r"><code>dasymapPlot(EAP.application.NUTS, 7)
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ&quot;, sub = &quot;αιτήσεις ανα 1000 κατοίκους&quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/rel_apllicants-1.png" width="384" /></p>
+<pre class="r"><code>app_per_ths &lt;- dasymapPlot.leaflet(EAP.application.NUTS, 7)
+saveWidget(widget = app_per_ths, file = &quot;app_per_ths.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="app_per_ths.html">Διαδραστικός Χάρτης</a></p>
+<p>Ένα λοιπόν συμπέρασμα μπορεί να είναι ότι όπου υπάρχει υψηλός αριθμός φοιτητών υπάρχουν και πολλές αιτήσεις στο ΕΑΠ. (Πάτρα,Ιωάννινα,Αθηνά…) Θα μπορούσε λοιπόν κάποιος να συσχετίσει το τόπο κατοικίας φοιτητών στην Αθήνα με π.χ. αιτήσεις σε συγκεκριμένα προγράμματα? Ή να συνδέσει το εισόδημα με τις αιτήσεις. Π.χ. ο βόρειος τομέας έχει μεγαλύτερο αριθμό αιτήσεων ανά κάτοικο απο τον δυτικό τομέα (Αττική). Τα παραπάνω δεν είναι το κύριο αντικείμενο του κειμένου όμως προσπαθούν να κεντρίσουν το ενδιαφέρον για την ενασχόλησή με τα αποτελέσματα της εργασίας.</p>
+</div>
+<div id="---resolution-1000m" class="section level3">
+<h3>Προετοιμάσια επιφάνειας πηγής (resolution 1000m)</h3>
+<p>Θα μετατρέψουμε την στατιστική επιφάνεια “αιτήσεις ανά 1000 κατοίκους” σε κάναβο με την χρήση της <code>etrsSurfacePar</code> που αναπτύχθηκε και περιέχεται στο πακέτο (μέθοδος που κάνει διάχυτο υπολογισμό) που επιταχύνει πολύ τους υπολογισμούς. Ας επιλέξουμε την Αττική για οικονομία χρόνου και χώρου.</p>
+<pre class="r"><code>EAP.application.NUTS.30 &lt;- EAP.application.NUTS[grep(&quot;^EL30[1-6]&quot;, EAP.application.NUTS[[&quot;NUTS_ID&quot;]]), 
+    ]
+EAP.application.NUTS.grid.30 &lt;- etrsSurfacePar(EAP.application.NUTS.30, over.method.type = &quot;MaxArea&quot;, 
+    cell.size = 1000)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~</code></pre>
+<p>Χρησιμοποιούμε την <code>joinMaxAreaSurfaceDataFrames</code>, επίσης μέθοδος του πακέτου, για ενημερώσουμε την επιφάνεια που δημιουργήσαμε με τα atrributes της επιφάνειας πηγής.</p>
+<pre class="r"><code>EAP.application.NUTS.grid.30 &lt;- joinMaxAreaSurfaceDataFrames(the.surface = EAP.application.NUTS.30, 
+    the.EtrsSurface = EAP.application.NUTS.grid.30)</code></pre>
+<p>Και τελικά ας δούμε την επιφάνεια πηγή που παράχθηκε με την βοήθεια της συνάρτησης <code>dasymaplot</code> του πακέτου που παράγει χωροπληθείς χάρτες 5 τάξεων.</p>
+<pre class="r"><code># EAP.application.NUTS.grid.30&lt;-EAP.application.NUTS.grid[grep(&#39;^EL30[1-6]&#39;,EAP.application.NUTS.grid[[&#39;NUTS_ID&#39;]]),]
+dasymapPlot(EAP.application.NUTS.grid.30, 11)
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ&quot;, sub = &quot;Επιφάνεια Πηγή σε τομείς της Αττικής&quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/PLOT_grid-1.png" width="672" /></p>
+<pre class="r"><code>kable(head(EAP.application.NUTS.grid.30))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">FEATURE</th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="left">NUTS_ID</th>
+<th align="right">STAT_LEVL_</th>
+<th align="right">SHAPE_AREA</th>
+<th align="right">SHAPE_LEN</th>
+<th align="right">Freq</th>
+<th align="right">POP</th>
+<th align="right">appPerhab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1kmE5536N1765</td>
+<td align="left">745</td>
+<td align="left">1kmE5536N1765</td>
+<td align="left">5536000</td>
+<td align="left">1765000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5534N1766</td>
+<td align="left">745</td>
+<td align="left">1kmE5534N1766</td>
+<td align="left">5534000</td>
+<td align="left">1766000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5535N1766</td>
+<td align="left">745</td>
+<td align="left">1kmE5535N1766</td>
+<td align="left">5535000</td>
+<td align="left">1766000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5536N1766</td>
+<td align="left">745</td>
+<td align="left">1kmE5536N1766</td>
+<td align="left">5536000</td>
+<td align="left">1766000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+<tr class="odd">
+<td align="left">1kmE5531N1767</td>
+<td align="left">745</td>
+<td align="left">1kmE5531N1767</td>
+<td align="left">5531000</td>
+<td align="left">1767000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+<tr class="even">
+<td align="left">1kmE5533N1767</td>
+<td align="left">745</td>
+<td align="left">1kmE5533N1767</td>
+<td align="left">5533000</td>
+<td align="left">1767000</td>
+<td align="left">EL301</td>
+<td align="right">3</td>
+<td align="right">0.0136015</td>
+<td align="right">0.7073062</td>
+<td align="right">65139</td>
+<td align="right">616</td>
+<td align="right">106</td>
+</tr>
+</tbody>
+</table>
+<p>Ας δούμε τώρα αν μπορούμε να χρησιμοποιήσουμε δεδομένα από τις UMZ200 που ειδικά για το πληθυσμό προσφέρονται δεδομένα στον ETRS-LAEA κάναβο για τα έτη 2006 2011 που έχουν προκύψει με αρκέτα περίπλοκους αλγόριθμους.</p>
+<pre class="r"><code>kable(head(GEOSTAT_grid_POP_1K_2011_V2_0_el))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">TOT_P</th>
+<th align="left">GRD_ID</th>
+<th align="left">CNTR_CODE</th>
+<th align="left">METHD_CL</th>
+<th align="right">YEAR</th>
+<th align="left">DATA_SRC</th>
+<th align="left">TOT_P_CON_DT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1059777</td>
+<td align="right">4</td>
+<td align="left">1kmN1910E5127</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">1059778</td>
+<td align="right">108</td>
+<td align="left">1kmN1911E5127</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1059779</td>
+<td align="right">30</td>
+<td align="left">1kmN1910E5128</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">1059780</td>
+<td align="right">250</td>
+<td align="left">1kmN1911E5128</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1059781</td>
+<td align="right">41</td>
+<td align="left">1kmN1917E5141</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">1059782</td>
+<td align="right">19</td>
+<td align="left">1kmN1918E5141</td>
+<td align="left">EL</td>
+<td align="left">M</td>
+<td align="right">2011</td>
+<td align="left">EL</td>
+<td align="left">0</td>
+</tr>
+</tbody>
+</table>
+<p>Μία πιο προσεκτική ματιά σε αυτά τα δεδομένα δείχνει δεν ακολουθούν την προτεινόμενη κωδικοποίηση των κελιών της INSPIRE Specification on Geographical Grid Systems Θα γίνει χρήση της μέθοδοι etrsReverseCellCode του πακέτου DasyMapR. Τέλος Η απλή συγχώνευση μας δίνει ένα κάναβο με τις δυο τιμές που ενδιαφέρουν δηλαδή του των αριθμό των κατοίκων ανά κελί και τον αριθμό των κατοίκων ανά 1000 κατοίκους.</p>
+<pre class="r"><code>GEO_POP_2011_rev &lt;- etrsReverseCellCode(df = GEOSTAT_grid_POP_1K_2011_V2_0_el, 
+    cell.code.col = 2)
+GEO_POP_2011_rev &lt;- GEO_POP_2011_rev[, c(1, 8)]
+
+EAP.application.NUTS.grid.30 &lt;- merge(EAP.application.NUTS.grid.30, by = 0, 
+    GEO_POP_2011_rev, all = F)
+row.names(EAP.application.NUTS.grid.30@data) &lt;- sapply(slot(EAP.application.NUTS.grid.30, 
+    &quot;polygons&quot;), function(x) slot(x, &quot;ID&quot;))
+
+EAP.application.NUTS.grid.30@data$applicants &lt;- round((EAP.application.NUTS.grid.30@data$appPerhab * 
+    EAP.application.NUTS.grid.30@data$TOT_P)/1000, 0)</code></pre>
+<p>Ας δούμε και πάλι την κατανομή σε ανά χάρτη με <em>τους αιτούντες ανά κελί</em></p>
+<pre class="r"><code>dasymapPlot(EAP.application.NUTS.grid.30, 15)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/Cell_applicants-1.png" width="672" /></p>
+<pre class="r"><code>cell_applicants &lt;- dasymapPlot.leaflet(EAP.application.NUTS.grid.30, 15)
+saveWidget(widget = cell_applicants, file = &quot;cell_applicants.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="cell_applicants.html">Διαδραστικός Χάρτης</a></p>
+<div id="--" class="section level4">
+<h4>Μερικά “εύκολα” συμπεράσματα</h4>
+<p>Ήδη είναι κατανοητό ότι η κατανομή αυτή είναι ήδη πιο κοντά στην πραγματικότητα. Π.χ. Δεν εμφανίζονται πλέον αιτούντες στην Πάρνηθα!</p>
+</div>
+</div>
+<div id="--resolution-500m" class="section level3">
+<h3>Δασυμετρικοί υπολογισμοί (resolution 500m)</h3>
+<p>Οι υπολογισμοί που ακολουθούν θα γίνουν με τις αμιγώς δασυμετρικές μεθόδους που αναπτύχθηκαν δημιουργώντας και την βοηθητική επιφάνεια. Αρχικά θα κάνουμε χρήση των δεδομένων CORINE που αφορούν την κάλυψη. Ξεκινάμε πάλι με την προετοιμασία της επιφάνειας πηγής.</p>
+<!-- Αυτή τη φορά θα εργαστούμε σε μικρότερη περιοχή. Θεωρούμε ο βόρειος τομέας είναι κατάλληλος -->
+</div>
+<div id="--" class="section level3">
+<h3>Η Επιφάνεια Πηγή</h3>
+<p>Ο αριθμός των αιτούντων ανά νομό θα προβληθεί στον ETRS κάναβο δημιουργώντας την επιφάνεια πηγή. Αρχικά θα Θα πρέπει να μετατραπεί από απόλυτη τιμή σε πυκνότητα αιτούντων. Στο πακέτο έχει αναπτυχθεί η μέθοδος <code>:DasyMapR::ActullVal2Density</code> που θα κάνει την μετατροπή</p>
+<pre class="r"><code>EAP.application.NUTS.301 &lt;- EAP.application.NUTS[grep(&quot;^EL30[123]&quot;, EAP.application.NUTS[[&quot;NUTS_ID&quot;]]), 
+    ]
+# Διαιρούμε με το εμβαδό της νεάς μονάδας απαρίθμισης
+EAP.application.NUTS.301 &lt;- ActuallVal2Density(EAP.application.NUTS.301, surface.value.col = 5, 
+    area.unit = 1e+06)
+EAP.source.surface &lt;- etrsSourceSurface(input.surface = EAP.application.NUTS.301, 
+    over.method.type = &quot;PropCal&quot;, surface.value.col = 7, cell.size = 500)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~</code></pre>
+<pre class="r"><code>dasymapPlot(EAP.source.surface, 4)
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ Τομείς Αττικής (Β,Κ,Δ)&quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>kable(head(EAP.source.surface@data))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">CELLCODE</th>
+<th align="left">EASTOFORIGIN</th>
+<th align="left">NORTHOFORIGIN</th>
+<th align="right">CELLVALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">500mE55310N17575</td>
+<td align="left">500mE55310N17575</td>
+<td align="left">5531000</td>
+<td align="left">1757500</td>
+<td align="right">0.2916</td>
+</tr>
+<tr class="even">
+<td align="left">500mE55305N17580</td>
+<td align="left">500mE55305N17580</td>
+<td align="left">5530500</td>
+<td align="left">1758000</td>
+<td align="right">1.6416</td>
+</tr>
+<tr class="odd">
+<td align="left">500mE55310N17580</td>
+<td align="left">500mE55310N17580</td>
+<td align="left">5531000</td>
+<td align="left">1758000</td>
+<td align="right">97.3512</td>
+</tr>
+<tr class="even">
+<td align="left">500mE55315N17580</td>
+<td align="left">500mE55315N17580</td>
+<td align="left">5531500</td>
+<td align="left">1758000</td>
+<td align="right">77.0904</td>
+</tr>
+<tr class="odd">
+<td align="left">500mE55320N17580</td>
+<td align="left">500mE55320N17580</td>
+<td align="left">5532000</td>
+<td align="left">1758000</td>
+<td align="right">51.7752</td>
+</tr>
+<tr class="even">
+<td align="left">500mE55325N17580</td>
+<td align="left">500mE55325N17580</td>
+<td align="left">5532500</td>
+<td align="left">1758000</td>
+<td align="right">26.4492</td>
+</tr>
+</tbody>
+</table>
+<p>Η κατανομή που έγινε στα κελιά του κανάβου περίπου ίσο κατένειμε τον αριθμό των αιτήσεων με εξαίρεση τα οριακά κελιά. Ας το δούμε στο χάρτη που ακολουθεί. Θα χρειαστούμε κάποια βοηθητικά δεδομένα για να επιτύχουμε την ρεαλιστικότερη κατανομή των αιτούντων στο χώρο. Είναι απολύτως λογικό να θεωρήσουμε ότι οι ταχυδρομικοί κώδικες αντιστοιχούν σε κατοικημένες περιοχές. Αυτή είναι και η βοηθητική επιφάνεια που θα χρησιμοποιήσουμε. δηλαδή τις κατοικημένες περιοχές όπως δίνονται απο τα αρχεία το πρόγραμμα <a href="http://www.google.gr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwiI3YS4m_fNAhVC8RQKHbumD6oQFggcMAA&amp;url=http%3A%2F%2Fwww.eea.europa.eu%2Fpublications%2FCOR0-landcover&amp;usg=AFQjCNFxIbyJIGJ8g4NL1FIxUDax4vqMYQ&amp;sig2=Ys9ym8MtbW-DZk7g7GRXUQ">CORINE</a></p>
+</div>
+<div id="--" class="section level3">
+<h3>Η βοηθιτική Επιφάνεια</h3>
+<p>Για να δημιουργήσουμε την βοηθητική επιφάνεια θα χρησιμοποιήσουμε την συνάρτηση <code>etrsAncillarySurface</code> μέθοδο που έχει αναπτυχθεί και περιλαμβάνεται στο πακέτο <code>DasyMapR</code> και θα φορτωθούν τα δεδομένα που περιέχονται στο πακέτο.</p>
+<pre class="r"><code>residential.areas &lt;- clc_v2_code_11x_el[EAP.application.NUTS.301, ]
+# residential.areas&lt;-residential.areas[-10,]
+bound301 = list(EAP.application.NUTS.301, border = 2, lwd = 2)
+bound = list(EAP.application.NUTS)
+spplot(residential.areas, &quot;code_00&quot;, main = &quot;Περιοχές Κατοικίας  CORINE&quot;, 
+    sp.layout = list(bound, bound301), col.regions = rev(terrain.colors(2)))</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/Residential_Areas-1.png" width="672" /></p>
+<p>Θα αποδώσουμε και σχετικές πυκνότητες για τις περιοχές κάνοντας την παραδοχή ότι στις πυκνοδομημένες περιοχές (111 - Συνεχής αστική οικοδόμηση) θα έχουμε περισσότερες κατοικίες απο ότι στις πιο αραιοδομημένες (112 - Διακεκομμένη αστική οικοδόμηση)</p>
+<pre class="r"><code>ReDens111 &lt;- round(3/4, 2)
+ReDens112 &lt;- round(1/4, 2)
+residential.areas@data[which(residential.areas@data[, &quot;code_00&quot;] == 111), &quot;ReDens&quot;] &lt;- ReDens111
+residential.areas@data[which(residential.areas@data[, &quot;code_00&quot;] == 112), &quot;ReDens&quot;] &lt;- ReDens112
+residential.areas.anc &lt;- etrsAncillarySurface(input.surface = residential.areas, 
+    over.method.type = &quot;PropCal&quot;, surface.value.col = 2, cell.size = 500, binary = F)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~</code></pre>
+<pre class="r"><code>spplot(residential.areas.anc, &quot;WCELLWEIGHT&quot;, main = &quot;Περιοχές Κατοικίας  Βοηθητική Επιφάνεια / grided&quot;, 
+    sp.layout = list(bound, bound301), edge.col = &quot;lightgrey&quot;, col.regions = terrain.colors(10), 
+    cuts = 9)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/Ancillarry_Surface-1.png" width="672" /></p>
+</div>
+<div id="--" class="section level3">
+<h3>Οι Δασυμετρικοί Υπολογισμοί</h3>
+<p>H μέθοδος για την εφαρμογή των δασυμετρικών υπολογισμών που θα κλιθεί είναι <code>etsrDasymetricSurface</code> και θα έχει ως ορίσματα την επιφάνεια πηγή και την βοηθητική επιφάνεια.</p>
+<pre class="r"><code>EAP.dasymetric.surface &lt;- EtrsDasymetricSurface(input.surface.grided = EAP.source.surface, 
+    ancillary.grided = residential.areas.anc)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~</code></pre>
+<pre class="r"><code>EAP.dasymetric.surface[[&quot;DASYCELL&quot;]] &lt;- round(EAP.dasymetric.surface[[&quot;DASYCELL&quot;]], 
+    0)</code></pre>
+<p>Ας εξετάσουμε τα αποτελέσματα των υπολογισμών μας και την νέα μας κατανομή για τις αιτήσεις των υποψηφίων στο ΕΑΠ.</p>
+<pre class="r"><code>dasymapPlot(EAP.dasymetric.surface, 6)
+title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ&quot;, sub = &quot;Δασυμeτρική επιφάνεια&quot;)
+plot(pc_regions[EAP.application.NUTS, ], border = &quot;1&quot;, add = T, lty = 3)
+kable(head(EAP.dasymetric.surface@data[, c(1, 6)]), col.names = c(&quot;Κωδικός Κελλιου&quot;, 
+    &quot;Αιτήσεις&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Κωδικός Κελλιου</th>
+<th align="right">Αιτήσεις</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">429</td>
+<td align="left">500mE55310N17575</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">396</td>
+<td align="left">500mE55305N17580</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">430</td>
+<td align="left">500mE55310N17580</td>
+<td align="right">95</td>
+</tr>
+<tr class="even">
+<td align="left">465</td>
+<td align="left">500mE55315N17580</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td align="left">504</td>
+<td align="left">500mE55320N17580</td>
+<td align="right">49</td>
+</tr>
+<tr class="even">
+<td align="left">544</td>
+<td align="left">500mE55325N17580</td>
+<td align="right">3</td>
+</tr>
+</tbody>
+</table>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Είναι αναμενόμενο τα αστικά κέντρα να έχουν μεγαλύτερο αριθμό αιτήσεων απο τους οικισμούς οι τις αγροτικές περιοχές και αυτό αποτυπώνεται στο χάρτη. Ως δούμε τώρα σε ένα διαδραστικό χάρτη πως διαμορφώθηκε η κατανομή</p>
+<pre class="r"><code>par(mar = c(0.8, 0.8, 0.8, 0.8))
+dasymapPlot(EAP.dasymetric.surface, 6)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/Dasymetric_leaflet-1.png" width="672" /></p>
+<pre class="r"><code>Dasymetric_leaflet &lt;- dasymapPlot.leaflet(EAP.dasymetric.surface, 6)
+saveWidget(widget = Dasymetric_leaflet, file = &quot;Dasymetric_leaflet.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="Dasymetric_leaflet">Διαδραστικός χάρτης</a></p>
+<p>Με μια σύντομη περιήγηση διαπιστώνεται ότι αυτή η κατανομή των αιτήσεων δεν είναι ακριβέστερη της προηγούμενης όμως είναι δυνατόν με κατάλληλη επιλογή συντελεστών να παράγει καλυτερα αποτελέσματα. Για αυτό θα μπορούσε να χρησιμοποιηθεί η μέθοδος ‘etrsProWeightedValue’ που συνοδεύει το πακέτο εφόσον είναι διαθέσιμοι (Μπορεί κάποιος να αντρέξει στο άλλο Vignettte του πακέτου-GDP). Θα μπορούσαμε π.χ. να “να βελτιώσουμε” την πληροφορία “Διακεκομμένη αστική Δόμηση” προσδιορίζοντας τις περιοχές που αυτή διακόπτεται. Ακολουθεί μία τέτοια διαδικασία με τα εργαλεία που έχουν αναπτυχθεί με διαφορετική όμως μέθοδο.</p>
+</div>
+<div id="raster-" class="section level3">
+<h3>RASTER Δεδομένα</h3>
+<p>Τα δεδομένα raster είναι δημοφιλή για την αποθήκευση γεωγραφικών δεδομένων οπότε και μπορούν να βρεθούν σε αυτή τη μορφή βοηθητικές-επιφάνειες (δορυφορικές εικόνες, αεροφωτογραφίες, αναλογικοί χάρτες, σαρώσεις radar κ.λ.π). Έχουν αναπτυχθεί κάποια εργαλεία για την αξιοποίηση πληροφοριών απο τέτοια δεδομένα. Εδώ Θα χρησιμοποιήσουμε ένα raster αρχείο όπου αποτυπώνονται οι σκληρές επιφάνειες σε ανάλυση ανά 100 m που διατίθενται απο την <a href="http://goo.gl/VgvXvR">EEA</a> Θεωρώντας ότι η “εμφάνιση” μίας κατοικίας απαιτεί δομημένο (κτίσμα) περιβάλλον φορτώνουμε τις “σκληρες επιφάνειες” για τις περιοχές του B,Κ,Δ Τομέα της Περιφέρειας Αττικής και θα βελτιώσουμε την κατανομή των αιτούντων του προηγούμενου παραδείγματος.</p>
+<pre class="r"><code>EAP.application.NUTS.301 &lt;- EAP.application.NUTS[grep(&quot;EL30[1-3]&quot;, EAP.application.NUTS[[&quot;NUTS_ID&quot;]]), 
+    ]
+aRaster &lt;- crop(mosaic_100m_sealing_el, EAP.application.NUTS.301)
+plot(aRaster, col = terrain.colors(10))
+plot(EAP.application.NUTS.301, border = 2, lwd = 2, add = T)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/mosaic_sealing-1.png" width="672" /></p>
+<p>Με την χρήση της μεθόδου <code>raster2Ancillary</code> θα παράγουμε βοηθητική επιφάνεια απο τις σκληρές επιφάνειες</p>
+<pre class="r"><code>mosaic_100m_sealing_301.anc &lt;- raster2Ancillary(aRaster = aRaster, cell.size = 500, 
+    attr_divisor = 100)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~
+## ~~~ ETRS validity ~~~</code></pre>
+<pre class="r"><code>spplot(mosaic_100m_sealing_301.anc, &quot;WCELLWEIGHT&quot;, main = &quot;Σκληρές επιφάνειες  sealing surfaces&quot;, 
+    sp.layout = list(bound, bound301), col.regions = terrain.colors(10), cuts = 9)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Θα χρησιμοποιήσουμε την προηγούμενη δασυμετρική επιφάνεια που έγινε χρήση των καλύψεων γης CORINE για να βελτιώσουμε την κατανομή.</p>
+<pre class="r"><code>EAP.dasymetic.surface2source &lt;- etrsDasymetric2Source(d = EAP.dasymetric.surface)
+EAP.dasymetic.surface.mosaic &lt;- EtrsDasymetricSurface(input.surface.grided = EAP.dasymetic.surface2source, 
+    ancillary.grided = mosaic_100m_sealing_301.anc)</code></pre>
+<pre><code>## ~~~ ETRS validity ~~~</code></pre>
+<pre class="r"><code>EAP.dasymetic.surface.mosaic[[&quot;DASYCELL&quot;]] &lt;- round(EAP.dasymetic.surface.mosaic[[&quot;DASYCELL&quot;]], 
+    0)
+dasymapPlot(EAP.dasymetic.surface.mosaic, col.value = 6)
+title(main = &quot;Βελτίωση της επιφάνειας&quot;)</code></pre>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/mosaic_dasy-1.png" width="672" /></p>
+<pre class="r"><code>mosaic_dasy &lt;- dasymapPlot.leaflet(EAP.dasymetic.surface.mosaic, col.value = 6)
+saveWidget(widget = mosaic_dasy, file = &quot;mosaic_dasy.html&quot;, selfcontained = FALSE)</code></pre>
+<p><a href="mosaic_dasy.html">Διαδραστικός χάρτης</a></p>
+<p>Με μία πρώτη ματιά φαίνεται ότι δεν έχουν μεταβληθεί και πολύ οι τιμές. Όμως ακόμη και η απλή παρατήρηση του υπομνήματος δίχνει ότι έχει διαφοροποιηθεί η κατανομή των αιτούντων.</p>
+</div>
+</div>
+<div id="---" class="section level2">
+<h2>Η προετοιμασία των Δεδομένων</h2>
+<p>Αναζητούνται οι αιτήσεις που έχουν γίνει απο την Ελλάδα</p>
+<pre class="r"><code>candidates_addresses_el &lt;- candidates_addresses[candidates_addresses$country %in% 
+    &quot;Ελλάδα&quot;, ]
+kable(head(candidates_addresses_el, 10))</code></pre>
+<p>Χει γίνει ήδη αντιληπτό ότι οι ταχυδρομικοί κώδικες είτε δεν έχουν συμπληρωθεί απο τους χρήστες σωστά είτε δεν έχουν το σωστό φόρμά ή τύπο. “Διορθώνουμε” τους ταχυδρομικούς κώδικες με το παρακάτω κώδικα. Δεν αναφέρονται λεπτομερείς για το τι κάνει ο κώδικας γιατί ο των δεδομένων δεν είναι το κυρίως αντικείμενο που παρουσιάζεται στο κείμενο.</p>
+<pre class="r"><code>candidates_addresses_el$zipCode &lt;- as.character(candidates_addresses_el$zipCode)
+# αφαιρούνται σημεία στίξης αλλά και κενά απο ΤΚ
+candidates_addresses_el$zipCode &lt;- gsub(&quot;[[:space:]]&quot;, &quot;&quot;, candidates_addresses_el$zipCode)
+candidates_addresses_el$zipCode &lt;- gsub(&quot;[[:punct:]]&quot;, &quot;&quot;, candidates_addresses_el$zipCode)
+# γράφουμε τοκ κωδικό σε μορφή Τ.Κ.
+candidates_addresses_el$POSTCODE &lt;- paste0(substring(candidates_addresses_el$zipCode, 
+    1, 3), &quot; &quot;, substring(candidates_addresses_el$zipCode, 4, 5))
+# Και αναζητούμε όσους δεν εχουν τιμή η έχουν τιμή που δεν είναι Τ.Κ
+check_pc &lt;- !(grepl(&quot;[[:digit:]]{3}[[:space:]][[:digit:]]{2}$&quot;, candidates_addresses_el$POSTCODE, 
+    perl = T))
+# Τι δεδομένα είναι αυτά? εξηγείται παρακάτω
+data(&quot;pc_regions&quot;)
+# απόδοση τιμών ΤΚ από τον πίνακα pc_regions με βάση την πολή
+candidates_addresses_el_np &lt;- subset(candidates_addresses_el, check_pc)
+candidates_addresses_el_wp &lt;- subset(candidates_addresses_el, !check_pc)
+candidates_addresses_el_np$POSTCODE &lt;- unlist(sapply(candidates_addresses_el_np$city, 
+    FUN = function(x) as.character(pc_regions@data$POSTCODE[match(x, pc_regions$EDRA)])))
+candidates_addresses_el &lt;- rbind(candidates_addresses_el_wp, candidates_addresses_el_np)
+# Και αναζητούμε όσους δεν εχουν τιμή η έχουν τιμή που δεν είναι Τ.Κ
+check_pc &lt;- (grepl(&quot;[[:digit:]]{3}[[:space:]][[:digit:]]{2}$&quot;, candidates_addresses_el$POSTCODE, 
+    perl = T))
+candidates_addresses_el &lt;- subset(candidates_addresses_el, check_pc)
+# Υπάρχουν Τ.Κ. θυρήδων Αθήνων οπότε αποδίδονται στην Αθήνα
+check_pc &lt;- grepl(&quot;[1]{1}[0]{1}[0-4]{1}[[:space:]][0-3]{1}[0]{1}&quot;, candidates_addresses_el$POSTCODE, 
+    perl = T)
+candidates_addresses_el[check_pc, &quot;POSTCODE&quot;] &lt;- &quot;104 31&quot;
+# Υπάρχουν Κωδικοί εξωτερικού ή που δεν μπορούν να συσχετιστουν
+check_pc &lt;- grepl(&quot;^[8-9]{1}[6-9]{1}[0-4]{1}[[:space:]][0-9]{1}[0-9]{1}&quot;, candidates_addresses_el$POSTCODE, 
+    perl = T)
+candidates_addresses_el_np &lt;- subset(candidates_addresses_el, check_pc)
+candidates_addresses_el_wp &lt;- subset(candidates_addresses_el, !check_pc)
+candidates_addresses_el_np$POSTCODE &lt;- unlist(sapply(candidates_addresses_el_np$city, 
+    FUN = function(x) as.character(pc_regions@data$POSTCODE[match(x, pc_regions$EDRA)])))
+candidates_addresses_el &lt;- rbind(candidates_addresses_el_wp, candidates_addresses_el_np)
+check_pc &lt;- grepl(&quot;^[8-9]{1}[6-9]{1}[0-4]{1}[[:space:]][0-9]{1}[0-9]{1}&quot;, candidates_addresses_el$POSTCODE, 
+    perl = T)
+candidates_addresses_el &lt;- subset(candidates_addresses_el, !check_pc)
+# Υπαρχουν κωδικοί που εμφανίζονται λίγες φορές με έλεγχο κρίθηκε ότι δεν
+# αντιστοιχούνσε ΤΚ και αποδίδονται στα 3 πρώτα ψηφία
+cnt_py &lt;- count(candidates_addresses_el, vars = c(&quot;POSTCODE&quot;))
+cnt_py_lf &lt;- subset(cnt_py, cnt_py$freq &lt;= 20L)
+cnt_py_hf &lt;- subset(cnt_py, cnt_py$freq &gt; 20L)
+check_pc &lt;- !is.na(match(candidates_addresses_el$POSTCODE, cnt_py_lf$POSTCODE))
+candidates_addresses_el_wp &lt;- subset(candidates_addresses_el, !check_pc)
+candidates_addresses_el_np &lt;- subset(candidates_addresses_el, check_pc)
+candidates_addresses_el_np$POSTCODE &lt;- unlist(sapply(candidates_addresses_el_np$POSTCODE, 
+    FUN = function(x) as.character(pc_regions@data$POSTCODE[match(substring(x, 
+        first = 1, last = 3), substring(pc_regions$POSTCODE, first = 1, last = 3))])))
+
+candidates_addresses_el_cor &lt;- rbind(na.exclude(candidates_addresses_el_np), 
+    candidates_addresses_el_wp)
+
+# Προσθέτω τυχαίες χρονιές αιτήσεων για χρήση ως παράδειγμα
+year &lt;- round(runif(nrow(candidates_addresses_el_cor), min = 1998, max = 2016), 
+    0)
+candidates_addresses_el_cor[&quot;YEAR&quot;] &lt;- year
+
+kable(head(candidates_addresses_el, 10))</code></pre>
+<p>Επίσης δεν θα γίνει ανάλυση στο συγκεκριμένο κείμενο για τους ταχυδρομικούς κώδικές και πως σχετίζονται με τον γεωγραφικό χώρο. Εδώ χρησιμοποιούνται παρεμπιπτόντως ως στοιχείο που διατίθεται για την των αιτήσεων. Απλώς αναφέρεται ότι Οι ταχυδρομικοί κωδικοί είναι διαχωρισμένοι σε :</p>
+<ul>
+<li>πόλεις Α΄ ζώνης (αφορά πόλεις με περισσότερους από έναν ταχυδρομικούς κώδικες)</li>
+<li>πόλεις Β΄ ζώνης (αφορά πόλεις που εξυπηρετούνται με έναν ταχυδρομικό κώδικα)</li>
+</ul>
+<p>Πληροφορίες μπορούν εύκολα να βρεθούν στο διαδίκτυο π.χ. <a href="https://goo.gl/75IiYc">Κατάλογος ταχυδρομικών κωδικών της Ελλάδας</a>.</p>
+<p>Με βάση δεδομένα που μπορούν να βρεθούν στο διαδίκτυο αποδόθηκαν, στα πολύγωνα των προ <a href="http://goo.gl/mzxu3N">“Καποδιστρικών Δήμων”</a> μια σειρά κωδικών που εμφανίζονται σε πίνακες με στατιστικά δεδομένα και μπορούν να βοηθήσουν στην συσχέτιση των κανάβου με περιγραφικά δεδομένα. Τα δεδομένα αυτά περιλαμβάνονται στο πακέτο και ήδη έγινε χρήση τους για να συμπληρωθούν τιμές απο εγγραφές που δεν υπήρχαν στα αρχικά δεδομένα. Λεπτομέρειες για την απόδοση τιμών στα πολύγωνα αναφέρονται στο τέλος του κειμένου όπου εξηγείται και η μέθοδος <code>DasyMapR::pntsattr2surface</code> που για να αποδίδει κατηγορικές τιμές από σημειακά δεδομένα σε επιφάνειες</p>
+<p>Εδώ εμφανίζονται ένα απόσπασμα των περιγραφικών δεδομένων</p>
+<pre class="r"><code>kable(head(pc_regions[, 1:12]))
+kable(head(pc_regions[, 13:24]))</code></pre>
+<p>Αυτοί οι κωδικοί μπορούν να αποδοθούν στα για συσχέτισης με δεδομένα απο πλήθος πηγών (ΕΣΥΕ,EUROSTAT κ.λ.π) Ας δούμε τώρα τα πολύγωνα με τα όρια των ΟΤΑ (πριν τη διοικητική μεταρρύθμιση “Καποδίστριας”)</p>
+<pre class="r"><code>plot(pc_regions)</code></pre>
+<p>Γυρίζοντας στις αιτήσεις των υποψήφιων του ΕΑΠ και για να τις απεικονίσουμε στις γεωγραφικές θέσεις που αντιστοιχούν θα συσχετίσουμε την συχνότητα εμφάνισης με το πολύγωνο του ταχυδρομικού κώδικα που αντιστοιχεί</p>
+<pre class="r"><code>kable(head(candidates_addresses_el, 10))</code></pre>
+<p>Τα δεδομένα που περιέχονται <code>pc_regions</code> δεν μπορούν να χρησιμοποιηθούν όπως είναι, γιατί σε αρκετές περιέχονται “διπλοεγγραφές”. Π.Χ. είναι δυνατόν δύό περισσότερες περιοχές να τον ίδιο Τ.Κ. Ή ένας νομός να έχει περισσοτέρους του ενός κωδικούς NUTS. (παλιό και καινούργιο)</p>
+<pre class="r"><code>data(&quot;pc_regions&quot;, FALSE)
+
+#&#39;ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ&#39;
+# #Διόρθωοη των &#39;νομών&#39;
+cnt_py_pre_err &lt;- as.data.frame(table(candidates_addresses[&quot;pre&quot;]))
+colnames(cnt_py_pre) &lt;- c(&quot;POSTCODE&quot;, &quot;Freq&quot;)
+# Αφαίρεση εγγραφών και απόδοση κωδικών
+cnt_py_pre_err &lt;- read.csv(&quot;cnt_py_pre_err.csv&quot;, sep = &quot;,&quot;)
+# Συσωμάτωση με το νομό ΙΙ
+pc_regions_data &lt;- pc_regions@data
+pc_regions_data &lt;- pc_regions_data[, c(&quot;PREF_ID&quot;, &quot;PREFECTURE&quot;)]
+pc_regions_data &lt;- unique(pc_regions_data)
+rownames(pc_regions_data) &lt;- pc_regions_data$PREF_ID
+pc_regions_sp &lt;- unionSpatialPolygons(pc_regions, pc_regions@data$PREF_ID)
+pc_regions_pref &lt;- SpatialPolygonsDataFrame(pc_regions_sp, pc_regions_data)
+# #Γεωαναφορά
+EAP.application.pre_err &lt;- merge(x = pc_regions_pref, y = cnt_py_pre_err, by = &quot;PREF_ID&quot;)
+EAP.application.pre_err@data[is.na(EAP.application.pre_err$Freq), &quot;Freq&quot;] &lt;- 0L
+
+
+# Συσσωμάτωση με βάση το ΤΚ
+pc_regions_data &lt;- pc_regions@data
+pc_regions_data &lt;- unique(pc_regions_data[&quot;POSTCODE&quot;])
+rownames(pc_regions_data) &lt;- pc_regions_data$POSTCODE
+pc_regions_sp &lt;- unionSpatialPolygons(pc_regions, pc_regions@data$POSTCODE)
+pc_regions_ag &lt;- SpatialPolygonsDataFrame(pc_regions_sp, pc_regions_data)
+# Γεωαναφορά
+cnt_py_loc &lt;- as.data.frame(table(candidates_addresses_el_cor[&quot;POSTCODE&quot;]))
+EAP.application.loc &lt;- merge(x = pc_regions_ag, y = cnt_py_loc, by = &quot;POSTCODE&quot;)
+EAP.application.loc@data[is.na(EAP.application.loc$freq), &quot;freq&quot;] &lt;- 0L
+
+# Συσωμάτωση με το νομό ΙΙ
+pc_regions_data &lt;- pc_regions@data
+pc_regions_data &lt;- pc_regions_data[, c(&quot;PREF_ID&quot;, &quot;PREFECTURE&quot;)]
+pc_regions_data &lt;- unique(pc_regions_data)
+rownames(pc_regions_data) &lt;- pc_regions_data$PREF_ID
+pc_regions_sp &lt;- unionSpatialPolygons(pc_regions, pc_regions@data$PREF_ID)
+pc_regions_pref &lt;- SpatialPolygonsDataFrame(pc_regions_sp, pc_regions_data)
+# Γεωναφορά
+EAP.application.pre &lt;- merge(x = pc_regions_pref, y = cnt_py_pre_err, by = &quot;PREF_ID&quot;)
+EAP.application.pre@data[is.na(EAP.application.pre_err$Freq), &quot;Freq&quot;] &lt;- 0L
+
+#&#39;ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ&#39; NUTS
+EAP_NUTS_V9 &lt;- read.csv(&quot;EAP_NUTS_V9.csv&quot;)
+# Γεωαναφορά
+GR &lt;- NUTSV9_LEAC[which(!is.na(match(NUTSV9_LEAC[[&quot;N0CD&quot;]], &quot;GR&quot;))), ]
+EAP.NUTS &lt;- merge(x = NUTSV9_LEAC, y = EAP_NUTS_V9, by.x = &quot;N3CD&quot;, by.y = &quot;NUTS_V9&quot;, 
+    all.y = TRUE)
+EAP.NUTS &lt;- EAP.NUTS[which(!is.na(EAP.NUTS@data$PREF_ID)), ]
+
+plot(perf)
+applicants &lt;- perf@data$freq
+points(spsample(x = perf, n = applicants, type = &quot;random&quot;), pch = 1, cex = 0.5, 
+    col = 2)</code></pre>
+<pre class="r"><code># Χρήση των pc_el_NUTS20xx
+candidates_addresses_el_cor$NUTS_310 &lt;- unlist(sapply(candidates_addresses_el_cor$POSTCODE, 
+    FUN = function(x) as.character(pc_el_NUTS2010$NUTS_3[match(x, pc_el_NUTS2010$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_313 &lt;- unlist(sapply(candidates_addresses_el_cor$POSTCODE, 
+    FUN = function(x) as.character(pc_el_NUTS2013$NUTS_3[match(x, pc_el_NUTS2013$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_309 &lt;- unlist(sapply(candidates_addresses_el_cor$pre, 
+    FUN = function(x) as.character(EAP_NUTS_V9$NUTS_V9[match(x, EAP_NUTS_V9$pre)])))
+
+candidates_addresses_el_cor$PREF_ID &lt;- unlist(sapply(candidates_addresses_el_cor$POSTCODE, 
+    FUN = function(x) as.character(pc_regions$PREF_ID[match(x, pc_regions$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_DESCRIPTION &lt;- unlist(sapply(candidates_addresses_el_cor$NUTS_313, 
+    FUN = function(x) as.character(pc_regions$PREF_ID[match(x, pc_regions$POSTCODE)])))</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
