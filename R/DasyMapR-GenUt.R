@@ -208,11 +208,11 @@ if (!isGeneric("dasymapPlot.leaflet")) {
 #' @param col.value numeric.
 #'
 #' @return a leaflet plot
-#' @import leaflet
-#' @export
+#' @import leaflet classInt RColorBrewer sp
+#' @export dasymapPlot.leaflet
 #' @examples
 setMethod(
-  f = "dasymapPlot",
+  f = "dasymapPlot.leaflet",
   signature = signature(aEtrsSurface = "EtrsSurface", col.value = "numeric"),
 
   definition =  function(aEtrsSurface, col.value) {
@@ -265,6 +265,7 @@ if (!isGeneric("raster2Ancillary")) {
 #' @param attr_divisor numeric.
 #'
 #' @return EtrsAncillarySurface
+#' @import raster
 #' @export raster2Ancillary
 #' @examples
 setMethod(
