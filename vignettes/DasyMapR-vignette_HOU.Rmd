@@ -2,7 +2,8 @@
 title: "DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ"
 author: "Τσακλάνος Βαγγέλης"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_document
+
 
 vignette: >
   %\VignetteIndexEntry{DasyMapR}
@@ -290,7 +291,7 @@ dasymapPlot.leaflet(EAP.application.NUTS.grid.30,15)
 ```{r, echo=TRUE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
 EAP.application.NUTS.301<-EAP.application.NUTS[grep("^EL30[123]",EAP.application.NUTS[["NUTS_ID"]]),]
 # Διαιρούμε με το εμβαδό της νεάς μονάδας απαρίθμισης
-EAP.application.NUTS.301<-ActuallVal2Density(EAP.application.NUTS.301,surface.value.col = 5,area.unit = 1e+06)
+EAP.application.NUTS.301<-ActuallVal2Density(EAP.application.NUTS.301,surface.value.col = 5,area.unit = .25e+06)
 EAP.source.surface<-etrsSourceSurface(input.surface =EAP.application.NUTS.301,over.method.type = "PropCal",surface.value.col = 7,cell.size = 500)
 dasymapPlot(EAP.source.surface,4)
 title(main = "Χάρτης αιτήσεων στο ΕΑΠ Τομείς Αττικής (Β,Κ,Δ)")

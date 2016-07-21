@@ -208,7 +208,7 @@ if (!isGeneric("dasymapPlot.leaflet")) {
 #' @param col.value numeric.
 #'
 #' @return a leaflet plot
-#' @import leaflet classInt RColorBrewer sp
+#' @import leaflet classInt RColorBrewer sp GISTools
 #' @export dasymapPlot.leaflet
 #' @examples
 setMethod(

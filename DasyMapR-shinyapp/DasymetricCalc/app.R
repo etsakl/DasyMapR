@@ -17,17 +17,18 @@ ui <- function(input, output) {
       tabPanel(
         "Εκτέλεση Δασυμετρικών Υπολογισμών",
         p(
-          "Έχετε μεταφορτωσει την επιφάνεια πηγή και την βοηθητική επιφάνεια και τώρα μποείτε να εκτελέσετε του δασυμετρικούς υπολογισμούς"
+          "Αν έχετε μεταφορτωσει την επιφάνεια πηγή και την βοηθητική επιφάνεια και τώρα μπορείτε να εκτελέσετε του δασυμετρικούς υπολογισμούς"
         ),
         br(),
         actionButton('dasy_con', label = "Συνέχεια", icon = icon("fa-calculator")),
         mainPanel(
-          plotOutput('dasymetric.surface'),
+          plotOutput('dasymetricplot'),
           br(),
           tableOutput(outputId = 'DasymetricSurfaceTable')
         )
       )
     )
+
 
   )
 }
@@ -38,38 +39,37 @@ server <- function(input, output, session) {
   # input surface -----------------------------------------------------------
 
 
-  if (dir.exists("Public")){
-    load("Public/source.surface.RData")
-    load("Public/ancillary.surface.RData")
-  }
 
 
-  wd <- getwd()
-  setwd("Public")
+
+
+
   dasymetric.surface <- eventReactive(input$dasy_con, {
 
-    withProgress(message = "working", value = 0, {
+    if (dir.exists("Public")){
+      load("Public/source.surface.RData")
+      load("Public/ancillary.surface.RData")
+    }
+
+     withProgress(message = "working", value = 0, {
       ds <<- do.call(
         EtrsDasymetricSurface,
         list(
           input.surface.grided = ss,
-          ancillary.grided = anc,
-          actuall.value = FALSE
-        )
+          ancillary.grided = anc
+                )
       )
     })
-    save(ds, file = "source.surface.RData")
+    save(ds, file = "Public/dasymetric.surface.RData")
 
     ds
   })
 
- ds.raster<-reactive({etrsDasymetric2Raster(dasymetric.surface())})
 
 
-  setwd(wd)
-
-  output$dasymetric.surface <- renderPlot({
-    plot(dasymetric.surface())})
+  output$dasymetricplot <- renderPlot({
+    plot(dasymetric.surface())
+    })
 
   output$DasymetricSurfaceTable <-
     renderTable(head(dasymetric.surface()@data, 5))

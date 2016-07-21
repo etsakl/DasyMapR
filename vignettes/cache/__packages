@@ -1,0 +1,16 @@
+base
+sp
+raster
+knitr
+rgdal
+rgeos
+foreach
+iterators
+doParallel
+eurostat
+deldir
+DasyMapR
+classInt
+RColorBrewer
+leaflet
+htmlwidgets

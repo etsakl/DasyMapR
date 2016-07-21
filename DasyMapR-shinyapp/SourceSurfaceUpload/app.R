@@ -5,12 +5,17 @@ require(devtools)
 require(shiny)
 require(DasyMapR)
 
+# Source Surface -------------------------------------------------------
+
 ui <- function(input, output) {
   fixedPage(
     includeCSS("bootstrap.min.css"),
-    # Vertical Layout ---------------------------------------------------------
+
+       # Vertical Layout ---------------------------------------------------------
+
+
     navbarPage(
-      "Επιφάνεια Πηγή",
+         "Επιφάνεια Πηγή",
       # Μεταφόρτωσε επιφάνεια πηγή ----------------------------------------------
       tabPanel(
         "Φόρτωση Επιφάνειας Πηγής",
@@ -27,6 +32,10 @@ ui <- function(input, output) {
               multiple = TRUE,
               width = "100%"
             ),
+            br(),
+            p("χρειάζεστε κάποια δεδομένα για την δοκιμή?"),
+            downloadLink('downloadData','Download')
+            ,
             textOutput(outputId = "Oksource"),
             tags$header(
               tags$style("#Oksource{color: red;font-size: 20px;font-style: italic}")
@@ -52,13 +61,13 @@ ui <- function(input, output) {
             numericInput(
               inputId = "surface.value.col",
               label = "Αριθμός στήλης χαρ/κού",
-              value = 4
+              value = 5
             ),
             selectInput(
               inputId = "over.method.type",
               label = "Μέθοδος Απονομής Τιμής στο κελί",
               choices = c("MaxArea", "PropCal"),
-              selected = "MaxArea",
+              selected = "PropCal",
               multiple = FALSE,
               width = "100%"
             ),
@@ -89,6 +98,8 @@ ui <- function(input, output) {
 
             ),
             br(),
+            checkboxInput("actual",label = "Αναγωγή της τιμής εισόδου στην επιφάνεια",value = TRUE),
+            br(),
             actionButton('surface_con', label = "Συνέχεια")
           ),
 
@@ -110,6 +121,13 @@ ui <- function(input, output) {
 # SERVER ------------------------------------------------------------------
 
 server <- function(input, output, session) {
+
+output$downloadData<-downloadHandler(
+  filename = function(){paste("source_data","zip",sep = ".")},
+  content = function(file){file.copy(system.file("extdata","source.zip",package = "DasyMapR"),file)},
+  contentType = "application/zip"
+)
+
   # input surface -----------------------------------------------------------
   userFile <- reactive({
     validate(need(input$shp_file, message = FALSE))
@@ -167,17 +185,31 @@ server <- function(input, output, session) {
       })
   })
 
+  # Source Surface
+
 wd<-getwd()
 setwd("Public")
   source.surface <- eventReactive(input$surface_con, {
     insrf <- input.surface()
     withProgress(message = "working", value = 0, {
-      ss <<- do.call(
-        etrsSourceSurface,
+
+
+
+       if(input$actual==TRUE) {
+         cell.area<-as.numeric(input$cell.size)
+         cell.area<-cell.area^2
+         insrf.act <- ActuallVal2Density(insrf,as.numeric(input$surface.value.col),cell.area)
+         surface.value.col<-input$surface.value.col+2
+       }else{insrf.act<-insrf
+       surface.value.col<-input$surface.value.col
+       }
+
+       ss <<- do.call(
+          etrsSourceSurface,
         list(
-          input.surface = insrf,
+          input.surface = insrf.act,
           over.method.type = input$over.method.type,
-          surface.value.col = as.numeric(input$surface.value.col),
+          surface.value.col = as.numeric(surface.value.col),
           cell.size = as.numeric(input$cell.size)
         )
       )
