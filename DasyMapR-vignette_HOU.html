@@ -11,7 +11,7 @@
 
 <meta name="author" content="Τσακλάνος Βαγγέλης" />
 
-<meta name="date" content="2016-07-18" />
+<meta name="date" content="2016-07-21" />
 
 <title>DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ</title>
 
@@ -313,7 +313,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ</h1>
 <h4 class="author"><em>Τσακλάνος Βαγγέλης</em></h4>
-<h4 class="date"><em>2016-07-18</em></h4>
+<h4 class="date"><em>2016-07-21</em></h4>
 
 </div>
 
@@ -819,9 +819,10 @@ kable(head(EAP.application.NUTS))</code></pre>
 </tbody>
 </table>
 <p>Ας δούμε και πάλι τα αποτελέσματα σε ένα διαδραστικό χάρτη.</p>
-<pre class="r"><code>dasymapPlot(EAP.application.NUTS, 7)
+<pre class="r"><code>par(mar = c(0.8, 0.8, 0.8, 0.8))
+dasymapPlot(EAP.application.NUTS, 7)
 title(main = &quot;Χάρτης αιτήσεων στο ΕΑΠ&quot;, sub = &quot;αιτήσεις ανα 1000 κατοίκους&quot;)</code></pre>
-<p><img src="DasyMapR-vignette_HOU_files/figure-html/rel_apllicants-1.png" width="384" /></p>
+<p><img src="DasyMapR-vignette_HOU_files/figure-html/rel_apllicants-1.png" width="672" /></p>
 <pre class="r"><code>app_per_ths &lt;- dasymapPlot.leaflet(EAP.application.NUTS, 7)
 saveWidget(widget = app_per_ths, file = &quot;app_per_ths.html&quot;, selfcontained = FALSE)</code></pre>
 <p><a href="app_per_ths.html">Διαδραστικός Χάρτης</a></p>
@@ -1061,7 +1062,7 @@ saveWidget(widget = cell_applicants, file = &quot;cell_applicants.html&quot;, se
     ]
 # Διαιρούμε με το εμβαδό της νεάς μονάδας απαρίθμισης
 EAP.application.NUTS.301 &lt;- ActuallVal2Density(EAP.application.NUTS.301, surface.value.col = 5, 
-    area.unit = 1e+06)
+    area.unit = 250000)
 EAP.source.surface &lt;- etrsSourceSurface(input.surface = EAP.application.NUTS.301, 
     over.method.type = &quot;PropCal&quot;, surface.value.col = 7, cell.size = 500)</code></pre>
 <pre><code>## ~~~ ETRS validity ~~~
