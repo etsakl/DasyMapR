@@ -2,13 +2,10 @@
 title: "DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ"
 author: "Τσακλάνος Βαγγέλης"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
-
-
-vignette: >
-  %\VignetteIndexEntry{DasyMapR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  pdf_document: 
+    keep_tex: yes
+    toc: yes
 ---
 ```{r,echo=FALSE,message=FALSE,results='hide'}
 library(knitr)
