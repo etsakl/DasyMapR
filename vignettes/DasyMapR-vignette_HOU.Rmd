@@ -1,22 +1,24 @@
 ---
-title: "DasyMapR - Περίπτωση χρήσης - Οι αιτήσεις στο ΕΑΠ"
+title: "DasyMapR - Ένας οδηγός για την χρήση του πακέτου"
 author: "Τσακλάνος Βαγγέλης"
 date: "`r Sys.Date()`"
-output: 
-  pdf_document: 
-    keep_tex: yes
-    toc: yes
+output: rmarkdown::html_vignette
+
+
+vignette: >
+  %\VignetteIndexEntry{DasyMapR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 ```{r,echo=FALSE,message=FALSE,results='hide'}
 library(knitr)
 library(DasyMapR)
-library(plyr)
-library(maptools)
 library(eurostat)
 library(classInt)
 library(RColorBrewer)
-library(GISTools)
 library(leaflet)
+library(htmlwidgets)
+library(GISTools)
 opts_chunk$set(
 tidy = TRUE,
 cache = TRUE,
@@ -55,7 +57,7 @@ value.popup<-paste0("<strong>Value: </strong>",srf[[col.value]])
 map <- leaflet(srf) %>% addTiles() %>% addProviderTiles("Stamen.Toner")
 map  %>%
   addPolygons(stroke = FALSE ,smoothFactor = 0.2 ,color= ~qpal(srf[[col.value]]),fillOpacity = .9,popup=value.popup
-              ) %>% 
+              ) %>%
   addLegend("bottomright", pal=qpal,values =~srf[[col.value]],title = "HOU Applicants", opacity = .9)
 
 }
@@ -142,9 +144,15 @@ kable(tail(candidates_addresses,5))
 Αναναπαριστούμε τον αριθμό των αιτήσεων στα όρια του νομού γενικευοντας σε διαστήματα τόσα ώστε οι αποχρώσεις να διακρίνονται απο τον χρήστη.  Αυτός ο χάρτης  δημιουργεί εσφαλμένη εντύπωση στο χρήστη για 2 κυρίως λόγους. Καταρχήν σε καθε νομό φαίνεται ομοιογενής ο αριθμός των αιτούντων. Έτσι τα Κύθηρα φαίνεται να ανήκουν στην ίδια κατηγορία με την Αθήνα δηλαδή έχοντας αριθμό αιτήσεων μεταξύ 11000 και 350000. Το ίδιο βέβαια μπορεί να προκαλέσει και η επιλογή της διαίρεσης σε 5 διαστήματα τιμών όπου για τις περισσότερες περιοχές της επικράτειας δεν λαμβάνεται καμία πληροφορία (Οι 685 αιτήσεις απο το νομό Ευρυτανίας δίνουν την ίδια εντύπωση ~3500 της Άρτας). Το πρώτο σφάλμα "οφείλεται" στην "επιλογή" της μονάδας απαρίθμησης (περίπου όρια νομού) και αυτό θα επιχειρηθεί να "διορθωθεί" με την χρήση των εργαλείων που αναπτύχθηκαν.   
 
 ```{r Error_MAP, echo=TRUE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, tidy=TRUE}
+par("mar" = c(.8,.8,.8,.8))
 data("EAP.application.pre_err")
-dasymapPlot.leaflet(EAP.application.pre_err,5)
+dasymapPlot(EAP.application.pre_err,5)
+title(main = "Οπτικοποιήση των αιτήσεων ανα Νομό")
+err_map<-dasymapPlot.leaflet(EAP.application.pre_err,5)
+saveWidget(widget = err_map, file="err_map.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός Χάρτης](err_map.html)
 
 ### "Πραγματικά δεδομένα" και περιορισμοί
 
@@ -155,7 +163,11 @@ par("mar"=c(.8,.8,.8,.8))
 data("EAP.application.loc")
 dasymapPlot(EAP.application.loc,2)
 title(main = "Χάρτης αιτήσεων στο ΕΑΠ (Κατανομή με T.K.) ")
+pc_map<-dasymapPlot.leaflet(EAP.application.loc,2)
+saveWidget(widget = pc_map, file="pc_map.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός Χάρτης](pc_map.html)
 
 Ήδη αυτή η εικόνα δίνει άλλη αντίληψη για την διασπορά των υποψηφίων στην επικράτεια απ' ότι ο προηγούμενος. Για παράδειγμα τα Κύθηρα δεν ανήκουν στις περιοχές με το υψηλότερο αριθμό δηλώσεων. Έχουμε το μεγαλύτερο αριθμό αιτήσεων στους Δήμους με μεγάλα Αστικά κέντρα κ.λ.π. Όμως και εδώ υπάρχουν σφάλματα λόγω των διοικητικών ορίων. Π.χ Μικροί Δήμοι εξυπηρετούνται απο το Ταχυδρομικό γραφείο της περιοχής του μεγαλύτερου Δήμου. Έτσι εμφανίζονται και πάλι με πλασματικό αριθμό αιτούντων λόγω της επιλογής της επιφάνειας απαρίθμησης.     
 Αν θέλαμε όμως να απεικονίσουμε την κατανομή σε μεγαλύτερη κλίμακα όπου δεν υπάρχουν δεδομένα απαρίθμησης ή τα στοιχεία  έχουν συσσωματωθεί και αποκρύπτεται η εν λόγω πληροφορία τότε θα έπρεπε να χρησιμοποιήσουμε κάποια άλλη μέθοδο. Εδώ προτείνεται η μέθοδος της δασυμετρικής χαρτογραφία και το λογισμικό που αναπτύχθηκε στην R (DasyMapR) για να κάνει αυτή την εργασία. 
@@ -213,9 +225,15 @@ kable(head(EAP.application.NUTS))
 
 Ας δούμε και πάλι τα αποτελέσματα σε ένα διαδραστικό χάρτη.
 
-```{r, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
-dasymapPlot.leaflet(EAP.application.NUTS,7)
+```{r rel_apllicants, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
+par("mar" = c(.8,.8,.8,.8))
+dasymapPlot(EAP.application.NUTS,7)
+title(main = "Χάρτης αιτήσεων στο ΕΑΠ",sub = "αιτήσεις ανα 1000 κατοίκους")
+app_per_ths<-dasymapPlot.leaflet(EAP.application.NUTS,7)
+saveWidget(widget = app_per_ths, file="app_per_ths.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός Χάρτης](app_per_ths.html)
 
 Ένα λοιπόν συμπέρασμα μπορεί να είναι ότι όπου υπάρχει υψηλός αριθμός  φοιτητών υπάρχουν και πολλές αιτήσεις στο ΕΑΠ. (Πάτρα,Ιωάννινα,Αθηνά...) Θα μπορούσε λοιπόν κάποιος να συσχετίσει το τόπο κατοικίας φοιτητών στην Αθήνα με π.χ. αιτήσεις σε συγκεκριμένα προγράμματα? Ή να συνδέσει το εισόδημα με τις αιτήσεις. Π.χ. ο βόρειος τομέας έχει  μεγαλύτερο αριθμό αιτήσεων ανά κάτοικο απο τον δυτικό τομέα (Αττική).
 Τα παραπάνω δεν είναι το κύριο αντικείμενο του κειμένου όμως προσπαθούν να κεντρίσουν το ενδιαφέρον για την ενασχόλησή με τα αποτελέσματα της εργασίας. 
@@ -267,9 +285,13 @@ EAP.application.NUTS.grid.30@data$applicants<-round((EAP.application.NUTS.grid.3
 Ας δούμε και πάλι την κατανομή σε ανά χάρτη με *τους αιτούντες ανά κελί*
 
 ```{r Cell_applicants, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
-dasymapPlot.leaflet(EAP.application.NUTS.grid.30,15)
-#EAP.application.NUTS.grid.30[['appPerhab']]<-EAP.application.NUTS.grid.30[['CELLVALUE']]/EAP.application.NUTS.grid.30[['POP']]
+dasymapPlot(EAP.application.NUTS.grid.30,15)
+
+cell_applicants<-dasymapPlot.leaflet(EAP.application.NUTS.grid.30,15)
+saveWidget(widget = cell_applicants, file="cell_applicants.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός Χάρτης](cell_applicants.html)
 
 #### Μερικά "εύκολα" συμπεράσματα
 
@@ -288,7 +310,7 @@ dasymapPlot.leaflet(EAP.application.NUTS.grid.30,15)
 ```{r, echo=TRUE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
 EAP.application.NUTS.301<-EAP.application.NUTS[grep("^EL30[123]",EAP.application.NUTS[["NUTS_ID"]]),]
 # Διαιρούμε με το εμβαδό της νεάς μονάδας απαρίθμισης
-EAP.application.NUTS.301<-ActuallVal2Density(EAP.application.NUTS.301,surface.value.col = 5,area.unit = .25e+06)
+EAP.application.NUTS.301<-ActuallVal2Density(EAP.application.NUTS.301,surface.value.col = 5,area.unit = 0.25e+06)
 EAP.source.surface<-etrsSourceSurface(input.surface =EAP.application.NUTS.301,over.method.type = "PropCal",surface.value.col = 7,cell.size = 500)
 dasymapPlot(EAP.source.surface,4)
 title(main = "Χάρτης αιτήσεων στο ΕΑΠ Τομείς Αττικής (Β,Κ,Δ)")
@@ -346,8 +368,13 @@ kable(head(EAP.dasymetric.surface@data[,c(1,6)]),col.names = c("Κωδικός �
 Ως δούμε τώρα σε ένα διαδραστικό χάρτη πως διαμορφώθηκε η κατανομή
 
 ```{r Dasymetric_leaflet, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
-dasymapPlot.leaflet(EAP.dasymetric.surface,6)
+par("mar"=c(.8,.8,.8,.8))
+dasymapPlot(EAP.dasymetric.surface,6)
+Dasymetric_leaflet<-dasymapPlot.leaflet(EAP.dasymetric.surface,6)
+saveWidget(widget = Dasymetric_leaflet, file="Dasymetric_leaflet.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός χάρτης](Dasymetric_leaflet)
 
 Με μια σύντομη περιήγηση διαπιστώνεται ότι αυτή η κατανομή των αιτήσεων δεν είναι ακριβέστερη της προηγούμενης όμως είναι δυνατόν με κατάλληλη επιλογή συντελεστών  να παράγει καλυτερα αποτελέσματα. Για αυτό θα μπορούσε να χρησιμοποιηθεί η μέθοδος 'etrsProWeightedValue' που συνοδεύει το πακέτο εφόσον είναι διαθέσιμοι (Μπορεί κάποιος να αντρέξει στο άλλο Vignettte του πακέτου-GDP). Θα μπορούσαμε π.χ. να "να βελτιώσουμε" την πληροφορία "Διακεκομμένη αστική Δόμηση" προσδιορίζοντας τις περιοχές που αυτή διακόπτεται. Ακολουθεί μία τέτοια διαδικασία με τα εργαλεία που έχουν αναπτυχθεί με διαφορετική όμως μέθοδο.
 
@@ -369,18 +396,35 @@ mosaic_100m_sealing_301.anc<-raster2Ancillary(aRaster = aRaster ,cell.size = 500
 spplot(mosaic_100m_sealing_301.anc,'WCELLWEIGHT',main="Σκληρές επιφάνειες  sealing surfaces" ,sp.layout=list(bound,bound301),col.regions=terrain.colors(10),cuts=9)
 ```
 
-Θα χρησιμοποιήσουμε την προηγούμενη δασυμετρική επιφάνεια που έγινε χρήση των καλύψεων γης CORINE για να βελτιώσουμε την κατανομή. Με την χρήση της μεθόδου 
+Θα χρησιμοποιήσουμε την προηγούμενη δασυμετρική επιφάνεια που έγινε χρήση των καλύψεων γης CORINE για να βελτιώσουμε την κατανομή.  
 
 ```{r mosaic_dasy, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
 EAP.dasymetic.surface2source<-etrsDasymetric2Source(d = EAP.dasymetric.surface)
 EAP.dasymetic.surface.mosaic<-EtrsDasymetricSurface(input.surface.grided = EAP.dasymetic.surface2source,ancillary.grided = mosaic_100m_sealing_301.anc)
 EAP.dasymetic.surface.mosaic[['DASYCELL']]<-round(EAP.dasymetic.surface.mosaic[['DASYCELL']],0)
-dasymapPlot.leaflet(EAP.dasymetic.surface.mosaic,col.value = 6)
+dasymapPlot(EAP.dasymetic.surface.mosaic,col.value = 6)
+title(main="Βελτίωση της επιφάνειας")
+mosaic_dasy<-dasymapPlot.leaflet(EAP.dasymetic.surface.mosaic,col.value = 6)
+saveWidget(widget = mosaic_dasy, file="mosaic_dasy.html", selfcontained = FALSE)
 ```
+
+[Διαδραστικός χάρτης](mosaic_dasy.html)
 
 Με μία πρώτη ματιά φαίνεται ότι δεν έχουν μεταβληθεί και πολύ οι τιμές. Όμως ακόμη και η απλή παρατήρηση του υπομνήματος δίχνει ότι έχει διαφοροποιηθεί η κατανομή των αιτούντων.
 
-# Η προετοιμασία των Δεδομένων 
+```{r, echo=FALSE,message=FALSE, warning=FALSE,eval=F}
+pnts_mosaic<-EAP.dasymetic.surface.mosaic@data
+pnts_mosaic$EASTOFORIGIN<-as.numeric(as.character(pnts_mosaic$EASTOFORIGIN))
+pnts_mosaic$NORTHOFORIGIN<-as.numeric(as.character(pnts_mosaic$NORTHOFORIGIN))
+coordinates(pnts_mosaic)<-c("EASTOFORIGIN","NORTHOFORIGIN")
+proj4string(pnts_mosaic)<-CRS("+init=epsg:3035")
+pnts_mosaic<-wgsTransaform(pnts_mosaic)
+leaflet(pnts_mosaic) %>% addTiles() %>% addCircleMarkers()
+
+```
+
+
+## Η προετοιμασία των Δεδομένων 
 Αναζητούνται οι αιτήσεις που έχουν γίνει απο την Ελλάδα
 
 ```{r,eval=FALSE}
@@ -473,10 +517,10 @@ kable(head(candidates_addresses_el,10))
 
 Τα δεδομένα που περιέχονται `pc_regions` δεν μπορούν να χρησιμοποιηθούν όπως είναι, γιατί σε αρκετές  περιέχονται "διπλοεγγραφές". Π.Χ. είναι δυνατόν δύό περισσότερες περιοχές να  τον ίδιο Τ.Κ. Ή ένας νομός να έχει περισσοτέρους του ενός κωδικούς NUTS. (παλιό και καινούργιο)
 
-```{r,eval=FALSE}
- data("pc_regions")
+```{r,eval=F}
+ data("pc_regions",FALSE)
 
- #"ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ"
+#"ΝΟΜΟΙ ΑΠΟ ΤΟ raw ΑΡΧΕΙΟ"
 # #Διόρθωοη των "νομών"
  cnt_py_pre_err <- as.data.frame(table(candidates_addresses['pre']))
  colnames(cnt_py_pre)<-c('POSTCODE','Freq')
@@ -526,8 +570,9 @@ kable(head(candidates_addresses_el,10))
  plot(perf)
  applicants<-perf@data$freq
  points(spsample(x = perf,n=applicants ,type= "random"),pch = 1,cex=.5,col=2)
- ```
+```
 
+ 
 ```{r,eval=FALSE}
 #Χρήση των pc_el_NUTS20xx
 candidates_addresses_el_cor$NUTS_310 <- unlist(sapply(candidates_addresses_el_cor$POSTCODE , FUN = function(x) as.character(pc_el_NUTS2010$NUTS_3[match(x,pc_el_NUTS2010$POSTCODE)])))
@@ -537,5 +582,7 @@ candidates_addresses_el_cor$NUTS_313 <- unlist(sapply(candidates_addresses_el_co
 candidates_addresses_el_cor$NUTS_309 <- unlist(sapply(candidates_addresses_el_cor$pre , FUN = function(x) as.character(EAP_NUTS_V9$NUTS_V9[match(x,EAP_NUTS_V9$pre)])))
 
 candidates_addresses_el_cor$PREF_ID <- unlist(sapply(candidates_addresses_el_cor$POSTCODE , FUN = function(x) as.character(pc_regions$PREF_ID[match(x,pc_regions$POSTCODE)])))
+
+candidates_addresses_el_cor$NUTS_DESCRIPTION <- unlist(sapply(candidates_addresses_el_cor$NUTS_313 , FUN = function(x) as.character(pc_regions$PREF_ID[match(x,pc_regions$POSTCODE)])))
 
 ```
